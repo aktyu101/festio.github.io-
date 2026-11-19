@@ -14,25 +14,9 @@
       return Math.round(a + (b - a) * t);
     }
 
-    // FinTech Emerald-Teal Gradient: #2dd4bf (Teal 400) -> #0d9488 (Teal 600) -> #0f766e (Teal 700)
+    // Clean Monochrome Slate Navy: single solid tone to eliminate rainbow distraction
     function getCompletedColor(index, count) {
-      const t = index / Math.max(1, count - 1);
-      const cStart = [45, 212, 191];   // #2dd4bf
-      const cMid = [13, 148, 136];     // #0d9488
-      const cEnd = [15, 118, 110];     // #0f766e
-      let r, g, b;
-      if (t <= 0.6) {
-        const localT = t / 0.6;
-        r = lerp(cStart[0], cMid[0], localT);
-        g = lerp(cStart[1], cMid[1], localT);
-        b = lerp(cStart[2], cMid[2], localT);
-      } else {
-        const localT = (t - 0.6) / 0.4;
-        r = lerp(cMid[0], cEnd[0], localT);
-        g = lerp(cMid[1], cEnd[1], localT);
-        b = lerp(cMid[2], cEnd[2], localT);
-      }
-      return `rgb(${r}, ${g}, ${b})`;
+      return '#1e293b';
     }
 
     const fragment = document.createDocumentFragment();
@@ -75,8 +59,10 @@
 
   if (repaymentCard && repaymentToggleBtn) {
     try {
-      const savedCollapsed = window.localStorage.getItem(REPAYMENT_COLLAPSED_KEY) === '1';
-      applyRepaymentCollapsedState(savedCollapsed);
+      const savedVal = window.localStorage.getItem(REPAYMENT_COLLAPSED_KEY);
+      // Default to collapsed (true) unless user explicitly opened it ('0')
+      const isCollapsed = savedVal === null ? true : savedVal === '1';
+      applyRepaymentCollapsedState(isCollapsed);
     } catch (_) {
       // Ignore storage access errors
     }

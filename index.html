@@ -7,7 +7,7 @@
   <title>festio · 선정산 정산 상세</title>
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20261119-nolegend" />
 </head>
 
 <body>
@@ -370,7 +370,7 @@
           </section>
 
           <!-- 선정산 약정 및 상환 현황 (14:541) -->
-          <section class="repayment-card" id="repaymentCard" data-node-id="14:541" data-name="대출 및 상환 현황">
+          <section class="repayment-card is-collapsed" id="repaymentCard" data-node-id="14:541" data-name="대출 및 상환 현황">
             <div class="repayment-title-row" data-node-id="14:607" data-name="진행률 제목">
               <h2 class="section-h3" data-node-id="14:608">상환 진행률</h2>
               <span class="fee-rate-tag" data-node-id="37:262">수수료율 0.90%</span>
@@ -387,9 +387,9 @@
               </div>
               <div class="flex-spacer" data-node-id="37:264"></div>
               <p class="total-repayment-label" data-node-id="42:337">총 약정 상환금 <strong>₩36,900,000</strong></p>
-              <button type="button" class="repayment-toggle-btn" id="repaymentToggleBtn" aria-expanded="true"
+              <button type="button" class="repayment-toggle-btn" id="repaymentToggleBtn" aria-expanded="false"
                 aria-controls="repaymentCollapsibleBody" title="상환 진행률 영역 접기/펼치기">
-                <span class="repayment-toggle-text" id="repaymentToggleText">접기</span>
+                <span class="repayment-toggle-text" id="repaymentToggleText">펼치기</span>
                 <svg class="repayment-toggle-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"
                   xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M4 10L8 6L12 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
@@ -410,12 +410,6 @@
 
               <div class="repayment-dates-row" data-node-id="39:249" data-name="정산 시작일 · 종료일">
                 <p data-node-id="39:250">약정 시작일 · 2026-09-27</p>
-                <div class="repayment-progress-legend" aria-label="상환 진행 상태 범례">
-                  <span class="legend-item"><i class="legend-dot legend-dot--done"></i>상환 완료 62일</span>
-                  <span class="legend-item legend-item--overdue"><i class="legend-dot legend-dot--overdue"></i>미납 1일
-                    (₩410,000)</span>
-                  <span class="legend-item"><i class="legend-dot legend-dot--pending"></i>상환 예정 27일</span>
-                </div>
                 <p data-node-id="39:251">약정 종료일 · 2026-12-25 (90일)</p>
               </div>
 
@@ -1169,7 +1163,7 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20261119-def"></script>
 </body>
 
 </html>
