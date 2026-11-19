@@ -14,9 +14,9 @@
       return Math.round(a + (b - a) * t);
     }
 
-    // Clean Monochrome Slate Navy: single solid tone to eliminate rainbow distraction
+    // Central Care Brand Navy (#2a3461) for completed repayment segments
     function getCompletedColor(index, count) {
-      return '#1e293b';
+      return '#2a3461';
     }
 
     const fragment = document.createDocumentFragment();
