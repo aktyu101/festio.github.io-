@@ -5,9 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>festio · 선정산 정산 상세</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="styles.css?v=20261119-centralblue" />
+  <link rel="stylesheet" href="styles.css?v=20261119-tds2" />
 </head>
 
 <body>
@@ -355,17 +358,41 @@
                 </div>
               </div>
 
-              <span class="header-v-divider" aria-hidden="true"></span>
-
-              <div class="connected-action-group" role="group" aria-label="약정 조건 변경">
-                <button type="button" class="btn btn--md btn--grouped" data-node-id="24:1237">계약 수정</button>
-                <button type="button" class="btn btn--md btn--grouped" data-node-id="24:1238">한도 증액</button>
-                <button type="button" class="btn btn--md btn--grouped" data-node-id="24:1240">계약 연장</button>
+              <!-- 계약 관리 통합 드롭다운 (계약 수정 / 한도 증액 / 계약 연장 / 계약 종료) -->
+              <div class="repayment-select-wrap" id="contractSelectWrap">
+                <button type="button" class="btn btn--md btn--secondary repayment-select-btn" id="contractSelectBtn"
+                  aria-expanded="false" aria-haspopup="menu">
+                  <span>계약 관리</span>
+                  <svg class="repayment-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <div class="repayment-select-menu" id="contractSelectMenu" role="menu" aria-label="계약 관리 메뉴" hidden>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-contract-action="계약 수정"
+                    data-node-id="24:1237">
+                    <span class="repay-item-title">계약 수정</span>
+                    <span class="repay-item-desc">약정 조건·상환일정 변경</span>
+                  </button>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-contract-action="한도 증액"
+                    data-node-id="24:1238">
+                    <span class="repay-item-title">한도 증액</span>
+                    <span class="repay-item-desc">선정산 약정 한도 상향 심사</span>
+                  </button>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-contract-action="계약 연장"
+                    data-node-id="24:1240">
+                    <span class="repay-item-title">계약 연장</span>
+                    <span class="repay-item-desc">만기일 연장 및 재약정</span>
+                  </button>
+                  <div class="select-menu-divider" role="separator"></div>
+                  <button type="button" class="repayment-select-item repayment-select-item--danger" role="menuitem"
+                    data-contract-action="계약 종료" data-node-id="24:1241">
+                    <span class="repay-item-title">계약 종료</span>
+                    <span class="repay-item-desc">중도 해지 및 약정 종료 처리</span>
+                  </button>
+                </div>
               </div>
-
-              <span class="header-v-divider" aria-hidden="true"></span>
-
-              <button type="button" class="btn btn--md btn--danger-outline" data-node-id="24:1241">계약 종료</button>
             </div>
           </section>
 
@@ -374,10 +401,11 @@
             <div class="repayment-title-row" data-node-id="14:607" data-name="진행률 제목">
               <h2 class="section-h3" data-node-id="14:608">상환 진행률</h2>
               <span class="fee-rate-tag" data-node-id="37:262">수수료율 0.90%</span>
-              <span class="overdue-status-tag" title="2026-11-13 정산분 일 상환금 미납">
+              <button type="button" class="overdue-status-tag" id="topOverdueStatusTag"
+                title="클릭 시 오늘 정산 계산에 기존 미납 1일(₩410,000) 상환을 즉시 반영합니다">
                 <span class="overdue-dot" aria-hidden="true"></span>
                 미납 1일 · ₩410,000
-              </span>
+              </button>
               <div class="repayment-collapsed-summary" aria-hidden="true">
                 <span>63일차 (완료 62일 · 미납 1일)</span>
                 <span class="collapsed-sep">·</span>
@@ -566,9 +594,19 @@
                 </div>
               </div>
 
+              <div class="control-group" data-name="미납 상환">
+                <span class="control-label">미납 상환 <small class="control-label-sub">(미납 1일)</small></span>
+                <div class="btn-group" data-group="overdue">
+                  <button type="button" class="btn btn--seg btn--seg-active" style="width: 58px;"
+                    data-value="미납 상환 안 함" data-overdue-days="0">안 함</button>
+                  <button type="button" class="btn btn--seg" style="width: 68px;"
+                    data-value="미납 상환 1일" data-overdue-days="1">1일 완납</button>
+                </div>
+              </div>
+
               <div class="control-group" data-node-id="14:1037" data-name="채권수수료 (원)">
                 <label class="control-label" data-node-id="14:1038">채권수수료 (원)</label>
-                <div class="field-box" style="width: 144px;" data-node-id="14:1039">
+                <div class="field-box" style="width: 132px;" data-node-id="14:1039">
                   <input type="text" class="field-box-text" id="bondFeeInput" value="0" aria-label="채권수수료 (원)" />
                 </div>
               </div>
@@ -578,7 +616,7 @@
                 <span class="balance-value" data-node-id="14:1043">₩0</span>
               </div>
 
-              <button type="button" class="btn btn--lg btn--primary" style="width: 152px;" id="calcRunBtn"
+              <button type="button" class="btn btn--lg btn--van-gradient" style="width: 136px;" id="calcRunBtn"
                 data-node-id="14:1044">계산 / 재계산</button>
             </div>
 
@@ -604,6 +642,11 @@
                   </div>
                   <span class="formula-op">−</span>
                   <div class="formula-term">
+                    <span class="term-label">기존미납</span>
+                    <strong class="term-val" id="previewOverdueVal">₩0</strong>
+                  </div>
+                  <span class="formula-op">−</span>
+                  <div class="formula-term">
                     <span class="term-label">채권수수료</span>
                     <strong class="term-val" id="previewBondVal">₩0</strong>
                   </div>
@@ -615,7 +658,7 @@
                 </div>
               </div>
               <div class="formula-right">
-                <button type="button" class="btn btn--sm btn--secondary" id="applyToTodayRowBtn">오늘 내역에 적용</button>
+                <button type="button" class="btn btn--md btn--primary" id="applyToTodayRowBtn">오늘 내역에 적용</button>
               </div>
             </div>
           </div>
@@ -1163,7 +1206,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20261119-centralcare"></script>
+  <script src="app.js?v=20261119-tds2"></script>
 </body>
 
 </html>

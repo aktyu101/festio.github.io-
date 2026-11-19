@@ -14,9 +14,9 @@
       return Math.round(a + (b - a) * t);
     }
 
-    // Central Care Brand Navy (#2a3461) for completed repayment segments
+    // Toss Design System (TDS) Primary Blue (#3182f6) for completed repayment segments
     function getCompletedColor(index, count) {
-      return '#2a3461';
+      return '#3182f6';
     }
 
     const fragment = document.createDocumentFragment();
@@ -326,8 +326,10 @@
     method: '개별 정산',
     prepay: '미리 상환 안 함',
     advance: '선반영 안 함',
+    overdue: '미납 상환 안 함',
     baseDays: 1,
     extraDays: 0,
+    overdueDays: 0,
   };
 
   const selectionSummaryText = document.getElementById('selectionSummaryText');
@@ -335,11 +337,13 @@
   const previewFeeVal = document.getElementById('previewFeeVal');
   const previewRepayLabel = document.getElementById('previewRepayLabel');
   const previewRepayVal = document.getElementById('previewRepayVal');
+  const previewOverdueVal = document.getElementById('previewOverdueVal');
   const previewBondVal = document.getElementById('previewBondVal');
   const previewPayoutVal = document.getElementById('previewPayoutVal');
   const bondFeeInput = document.getElementById('bondFeeInput');
   const applyToTodayRowBtn = document.getElementById('applyToTodayRowBtn');
   const calcRunBtn = document.getElementById('calcRunBtn');
+  const topOverdueStatusTag = document.getElementById('topOverdueStatusTag');
   const tableBody = document.getElementById('settlementTableBody');
 
   function computePreviewNumbers() {
@@ -347,22 +351,31 @@
     const fee = Math.floor(baseDeposit * 0.009);
     const totalRepayDays = selectionState.baseDays + selectionState.extraDays;
     const repayAmount = totalRepayDays * 410000;
+    const overdueAmount = selectionState.overdueDays * 410000;
     const bondFee = parseInt(String(bondFeeInput ? bondFeeInput.value : '0').replace(/[^0-9]/g, ''), 10) || 0;
-    const payout = Math.max(0, baseDeposit - fee - repayAmount - bondFee);
+    const payout = Math.max(0, baseDeposit - fee - repayAmount - overdueAmount - bondFee);
 
     if (previewDepositVal) previewDepositVal.textContent = formatKRW(baseDeposit);
     if (previewFeeVal) previewFeeVal.textContent = formatKRW(fee);
     if (previewRepayLabel) previewRepayLabel.textContent = `일 상환금(${totalRepayDays}일)`;
     if (previewRepayVal) previewRepayVal.textContent = formatKRW(repayAmount);
+    if (previewOverdueVal) {
+      previewOverdueVal.textContent = formatKRW(overdueAmount);
+      previewOverdueVal.classList.toggle('term-val--danger', overdueAmount > 0);
+    }
     if (previewBondVal) previewBondVal.textContent = formatKRW(bondFee);
     if (previewPayoutVal) previewPayoutVal.textContent = formatKRW(payout);
 
-    return { baseDeposit, fee, totalRepayDays, repayAmount, bondFee, payout };
+    return { baseDeposit, fee, totalRepayDays, repayAmount, overdueAmount, bondFee, payout };
   }
 
   function updateSelectionBanner() {
     if (selectionSummaryText) {
-      selectionSummaryText.textContent = `${selectionState.method} · ${selectionState.prepay} · ${selectionState.advance}`;
+      const parts = [selectionState.method, selectionState.prepay, selectionState.advance];
+      if (selectionState.overdueDays > 0) {
+        parts.push(selectionState.overdue);
+      }
+      selectionSummaryText.textContent = parts.join(' · ');
     }
     computePreviewNumbers();
   }
@@ -394,10 +407,23 @@
           if (advanceCustomInput) advanceCustomInput.value = '';
           if (advanceCustomBox) advanceCustomBox.classList.remove('is-active');
         }
+        if (btn.hasAttribute('data-overdue-days')) {
+          selectionState.overdueDays = Number(btn.getAttribute('data-overdue-days')) || 0;
+        }
         updateSelectionBanner();
       });
     });
   });
+
+  if (topOverdueStatusTag) {
+    topOverdueStatusTag.addEventListener('click', () => {
+      const targetDays = selectionState.overdueDays > 0 ? '0' : '1';
+      const targetBtn = document.querySelector(`.btn-group[data-group="overdue"] button[data-overdue-days="${targetDays}"]`);
+      if (targetBtn) {
+        targetBtn.click();
+      }
+    });
+  }
 
   if (prepayCustomInput) {
     const applyCustomPrepayDays = () => {
@@ -489,18 +515,22 @@
     if (!tableBody) return;
     const firstRow = tableBody.querySelector('.tr-row');
     if (!firstRow) return;
-    const { baseDeposit, fee, repayAmount, bondFee, payout } = computePreviewNumbers();
+    const { baseDeposit, fee, repayAmount, overdueAmount, bondFee, payout } = computePreviewNumbers();
     const cells = firstRow.querySelectorAll('.td-cell');
-    // Column indices:
-    // 0: 정산일/유형, 1: 매출일, 2: 카드매출, 3: (+)실입금, 4: (-)정산수수료, 5: (-)일상환금, 6: (-)채권수수료, 7: (-)기존미납, 8: 지급액(미리계산), 9: 신규미납, 10: (=)지급액(보낼돈)
-    if (cells.length >= 11) {
+    // 12-Column indices:
+    // 0: 정산일/유형, 1: 매출일, 2: 카드매출, 3: (+)실입금, 4: (-)정산수수료, 5: (-)일상환금, 6: (-)채권수수료, 7: (-)기존미납, 8: 신규미납, 9: (=)지급액(보낼돈), 10: 상태, 11: 정산 삭제
+    if (cells.length >= 10) {
       const depEl = cells[3].querySelector('.deposit-amount');
       if (depEl) depEl.textContent = formatKRW(baseDeposit);
       cells[4].textContent = `-${formatKRW(fee)}`;
       cells[5].textContent = `-${formatKRW(repayAmount)}`;
       cells[6].textContent = bondFee > 0 ? `-${formatKRW(bondFee)}` : '—';
-      cells[8].textContent = formatKRW(payout);
-      cells[10].textContent = formatKRW(payout);
+      cells[6].classList.toggle('td-cell--muted', bondFee <= 0);
+      cells[6].classList.toggle('td-cell--deduct', bondFee > 0);
+      cells[7].textContent = overdueAmount > 0 ? `-${formatKRW(overdueAmount)}` : '—';
+      cells[7].classList.toggle('td-cell--muted', overdueAmount <= 0);
+      cells[7].classList.toggle('td-cell--deduct', overdueAmount > 0);
+      cells[9].textContent = formatKRW(payout);
       firstRow.setAttribute('data-deposit', String(baseDeposit));
       firstRow.setAttribute('data-payout', String(payout));
       recalculateSubtotals();
@@ -1098,7 +1128,7 @@
     });
   }
 
-  // 8. Merchant Header Select Dropdowns (카드수수료율 / 상환)
+  // 8. Merchant Header Select Dropdowns (카드수수료율 / 상환 / 계약 관리)
   const cardFeeSelectWrap = document.getElementById('cardFeeSelectWrap');
   const cardFeeSelectBtn = document.getElementById('cardFeeSelectBtn');
   const cardFeeSelectMenu = document.getElementById('cardFeeSelectMenu');
@@ -1106,6 +1136,10 @@
   const repaymentSelectWrap = document.getElementById('repaymentSelectWrap');
   const repaymentSelectBtn = document.getElementById('repaymentSelectBtn');
   const repaymentSelectMenu = document.getElementById('repaymentSelectMenu');
+
+  const contractSelectWrap = document.getElementById('contractSelectWrap');
+  const contractSelectBtn = document.getElementById('contractSelectBtn');
+  const contractSelectMenu = document.getElementById('contractSelectMenu');
 
   function closeCardFeeSelect() {
     if (cardFeeSelectMenu && cardFeeSelectBtn) {
@@ -1121,10 +1155,18 @@
     }
   }
 
+  function closeContractSelect() {
+    if (contractSelectMenu && contractSelectBtn) {
+      contractSelectMenu.hidden = true;
+      contractSelectBtn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
   if (cardFeeSelectBtn && cardFeeSelectMenu) {
     cardFeeSelectBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       closeRepaymentSelect();
+      closeContractSelect();
       const willOpen = cardFeeSelectMenu.hidden;
       cardFeeSelectMenu.hidden = !willOpen;
       cardFeeSelectBtn.setAttribute('aria-expanded', String(willOpen));
@@ -1142,6 +1184,7 @@
     repaymentSelectBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       closeCardFeeSelect();
+      closeContractSelect();
       const willOpen = repaymentSelectMenu.hidden;
       repaymentSelectMenu.hidden = !willOpen;
       repaymentSelectBtn.setAttribute('aria-expanded', String(willOpen));
@@ -1153,21 +1196,43 @@
       closeRepaymentSelect();
       window.alert('준비중입니다.');
     });
+  }
 
-    document.addEventListener('click', (e) => {
-      if (cardFeeSelectWrap && !cardFeeSelectWrap.contains(e.target)) {
-        closeCardFeeSelect();
-      }
-      if (repaymentSelectWrap && !repaymentSelectWrap.contains(e.target)) {
-        closeRepaymentSelect();
-      }
+  if (contractSelectBtn && contractSelectMenu) {
+    contractSelectBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeCardFeeSelect();
+      closeRepaymentSelect();
+      const willOpen = contractSelectMenu.hidden;
+      contractSelectMenu.hidden = !willOpen;
+      contractSelectBtn.setAttribute('aria-expanded', String(willOpen));
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeCardFeeSelect();
-        closeRepaymentSelect();
-      }
+    contractSelectMenu.addEventListener('click', (e) => {
+      const item = e.target.closest('.repayment-select-item[data-contract-action]');
+      if (!item) return;
+      closeContractSelect();
+      window.alert('준비중입니다.');
     });
   }
+
+  document.addEventListener('click', (e) => {
+    if (cardFeeSelectWrap && !cardFeeSelectWrap.contains(e.target)) {
+      closeCardFeeSelect();
+    }
+    if (repaymentSelectWrap && !repaymentSelectWrap.contains(e.target)) {
+      closeRepaymentSelect();
+    }
+    if (contractSelectWrap && !contractSelectWrap.contains(e.target)) {
+      closeContractSelect();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeCardFeeSelect();
+      closeRepaymentSelect();
+      closeContractSelect();
+    }
+  });
 })();
