@@ -127,9 +127,9 @@ button {
 /* ==================== SIDEBAR (Deep Navy-Slate) ==================== */
 .sidebar {
   width: 216px;
-  height: 100vh;
-  position: sticky;
-  top: 0;
+  min-height: 100vh;
+  height: auto;
+  align-self: stretch;
   background-color: var(--slate-950);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   padding: 20px 12px 16px 12px;
