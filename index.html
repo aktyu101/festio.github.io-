@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>festio · 선정산 정산 상세</title>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-layout" data-node-id="14:487" data-name="festio · 대출 정산 상세">
+    <!-- ==================== 사이드 내비게이션 (14:488) ==================== -->
+    <aside class="sidebar" id="appSidebar" data-node-id="14:488" data-name="사이드 내비게이션">
+      <div class="sidebar-brand" data-node-id="18:826" data-name="브랜드 및 워크스페이스">
+        <div class="sidebar-brand-top">
+          <div class="brand-logo" data-node-id="14:489" data-name="festio/Logo/Horizontal inverse">
+            <img src="assets/logo-horizontal-inverse.svg" alt="festio" />
+          </div>
+          <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="사이드바 접기/펼치기"
+            title="사이드바 접기/펼치기">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.3" />
+              <line x1="6" y1="2.5" x2="6" y2="13.5" stroke="currentColor" stroke-width="1.3" />
+              <path class="collapse-arrow-path" d="M10.5 6.5L8.5 8L10.5 9.5" stroke="currentColor" stroke-width="1.3"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <p class="brand-subtitle" data-node-id="14:497">festio · 선정산 관리자 포털</p>
+      </div>
+
+      <div class="sidebar-search" data-node-id="18:827" data-name="메뉴 검색">
+        <div class="sidebar-search-icon" data-node-id="I18:827;2:602">
+          <img src="assets/search.svg" alt="" />
+        </div>
+        <input type="text" class="sidebar-search-input" id="sidebarSearchInput" placeholder="메뉴 검색" aria-label="메뉴 검색"
+          data-node-id="I18:827;2:605" />
+        <kbd class="search-kbd">Ctrl K</kbd>
+      </div>
+
+      <nav class="nav-section" id="primaryNavSection" data-node-id="18:832" data-name="업무 내비게이션 · 2depth">
+        <div class="nav-section-header" data-node-id="18:833" data-name="업무 영역 구분">
+          <p class="nav-section-title" data-node-id="18:834">업무 메뉴</p>
+        </div>
+
+        <button type="button" class="nav-item" data-menu-id="menu-dashboard" data-menu-title="대시보드"
+          data-node-id="14:498" data-name="CRM/Nav item">
+          <span class="nav-item-icon" data-node-id="I14:498;2:2024">
+            <img src="assets/dashboard-icon.svg" alt="" />
+          </span>
+          <span class="nav-item-label" data-node-id="I14:498;2:2023">대시보드</span>
+        </button>
+
+        <div class="nav-group" id="loanNavGroup" data-node-id="18:835" data-name="대출 관리 · 확장됨">
+          <div class="nav-item-row" data-node-id="18:836" data-name="대출 관리 · 펼침">
+            <button type="button" class="nav-item nav-item--expanded" id="loanNavToggle" aria-expanded="true"
+              data-menu-title="선정산 관리" data-node-id="14:505">
+              <span class="nav-item-icon" data-node-id="I14:505;2:776">
+                <img src="assets/loan-icon.svg" alt="" />
+              </span>
+              <span class="nav-item-label" data-node-id="I14:505;2:780">선정산 관리</span>
+            </button>
+            <div class="nav-chevron-down" id="loanNavChevron" data-node-id="27:236" data-name="하위 메뉴 접기">
+              <img src="assets/nav-chevron-down.svg" alt="" />
+            </div>
+          </div>
+
+          <div class="nav-sublist" id="loanSubMenu" data-node-id="18:843" data-name="대출 관리 하위 메뉴">
+            <div class="flyout-submenu-title">선정산 관리</div>
+            <button type="button" class="nav-subitem nav-subitem--active" data-menu-id="settlement-status"
+              data-menu-title="정산·상환 현황" data-node-id="18:844" data-name="대출 현황 · 현재 메뉴">
+              <span class="nav-subitem-text" data-node-id="18:845">정산·상환 현황</span>
+            </button>
+            <button type="button" class="nav-subitem" data-menu-id="menu-limit" data-menu-title="한도·심사 관리"
+              data-node-id="18:846" data-name="신청·심사 관리">
+              <span class="nav-subitem-text" data-node-id="18:847">한도·심사 관리</span>
+              <span class="nav-badge nav-badge--brand">3</span>
+            </button>
+            <button type="button" class="nav-subitem" data-menu-id="menu-execution" data-menu-title="선지급 실행 관리"
+              data-node-id="18:848" data-name="대출 실행 관리">
+              <span class="nav-subitem-text" data-node-id="18:849">선지급 실행 관리</span>
+              <span class="nav-badge">12</span>
+            </button>
+            <button type="button" class="nav-subitem" data-menu-id="menu-overdue" data-menu-title="회수·미납 관리"
+              data-node-id="18:850" data-name="상환·연체 관리">
+              <span class="nav-subitem-text" data-node-id="18:851">회수·미납 관리</span>
+              <span class="nav-badge nav-badge--warn">2</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="nav-item-row" data-node-id="18:852" data-name="영업 파이프라인 · 접힘">
+          <button type="button" class="nav-item" data-menu-id="menu-pipeline" data-menu-title="가맹점 파이프라인"
+            data-node-id="14:511">
+            <span class="nav-item-icon" data-node-id="I14:511;2:2068">
+              <img src="assets/pipeline-icon.svg" alt="" />
+            </span>
+            <span class="nav-item-label" data-node-id="I14:511;2:2067">가맹점 파이프라인</span>
+          </button>
+          <div class="nav-chevron-right" data-node-id="27:238" data-name="하위 메뉴 펼치기">
+            <div class="nav-chevron-right-inner">
+              <img src="assets/nav-chevron-right.svg" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-row" data-node-id="18:854" data-name="활동 및 일정 · 접힘">
+          <button type="button" class="nav-item" data-menu-id="menu-calendar" data-menu-title="정산 캘린더 · 일정"
+            data-node-id="14:515">
+            <span class="nav-item-icon" data-node-id="I14:515;2:2100">
+              <img src="assets/calendar-icon.svg" alt="" />
+            </span>
+            <span class="nav-item-label" data-node-id="I14:515;2:2099">정산 캘린더 · 일정</span>
+          </button>
+          <div class="nav-chevron-right" data-node-id="27:240" data-name="하위 메뉴 펼치기">
+            <div class="nav-chevron-right-inner">
+              <img src="assets/nav-chevron-right.svg" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-row" data-node-id="18:856" data-name="리포트 · 접힘">
+          <button type="button" class="nav-item" data-menu-id="menu-report" data-menu-title="정산 리포트"
+            data-node-id="14:520">
+            <span class="nav-item-icon" data-node-id="I14:520;2:2172">
+              <img src="assets/reports-icon.svg" alt="" />
+            </span>
+            <span class="nav-item-label" data-node-id="I14:520;2:2171">정산 리포트</span>
+          </button>
+          <div class="nav-chevron-right" data-node-id="18:857" data-name="하위 메뉴 펼치기">
+            <div class="nav-chevron-right-inner">
+              <img src="assets/nav-chevron-right.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-section nav-section--bottom" data-node-id="18:858" data-name="관리 및 지원">
+        <div class="nav-divider" data-node-id="18:859" data-name="업무·관리 구분선"></div>
+        <div class="nav-section-header" data-node-id="18:860" data-name="관리 영역 구분">
+          <p class="nav-section-title" data-node-id="18:861">시스템 관리</p>
+        </div>
+        <button type="button" class="nav-item" data-menu-id="menu-settings" data-menu-title="환경 설정"
+          data-node-id="14:525">
+          <span class="nav-item-icon" data-node-id="I14:525;2:2204">
+            <img src="assets/settings-icon.svg" alt="" />
+          </span>
+          <span class="nav-item-label" data-node-id="I14:525;2:2203">환경 설정</span>
+        </button>
+        <button type="button" class="nav-item" data-menu-id="menu-help" data-menu-title="도움말" data-node-id="14:530">
+          <span class="nav-item-icon" data-node-id="I14:530;2:2240">
+            <img src="assets/help-icon.svg" alt="" />
+          </span>
+          <span class="nav-item-label" data-node-id="I14:530;2:2239">도움말</span>
+        </button>
+
+        <div class="sidebar-status-card" role="status">
+          <div class="status-card-top">
+            <span class="status-pulse-dot"></span>
+            <span class="status-card-title">VAN · 펌뱅킹 정상</span>
+          </div>
+          <p class="status-card-sub">최근 동기화 오늘 09:00</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================== 선정산 작업 화면 (14:535) ==================== -->
+    <div class="workspace-main" data-node-id="14:535" data-name="대출 정산 작업 화면">
+      <!-- 최상단 브라우저형 메뉴 탭 스트립 (헤더 위 배치) -->
+      <div class="menu-tab-strip">
+        <div class="workspace-tabs" id="workspaceTabBar" role="tablist" aria-label="열린 메뉴 탭">
+          <div class="ws-tab ws-tab--active" role="tab" aria-selected="true" tabindex="0"
+            data-tab-id="settlement-status" title="정산·상환 현황">
+            <span class="ws-tab-title">정산·상환 현황</span>
+            <button type="button" class="ws-tab-close" aria-label="탭 닫기" data-close-tab="settlement-status">×</button>
+          </div>
+          <div class="ws-tab" role="tab" aria-selected="false" tabindex="0" data-tab-id="menu-limit" title="한도·심사 관리">
+            <span class="ws-tab-title">한도·심사 관리</span>
+            <button type="button" class="ws-tab-close" aria-label="탭 닫기" data-close-tab="menu-limit">×</button>
+          </div>
+        </div>
+        <div class="tab-strip-meta">
+          <span class="tab-count-label" id="tabCountBadge" title="최대 10개 탭까지 열 수 있습니다">2 / 10</span>
+          <button type="button" class="tab-clear-btn" id="closeOtherTabsBtn" title="현재 탭 외 모두 닫기">다른 탭 닫기</button>
+        </div>
+      </div>
+
+      <!-- 상단 워크스페이스 헤더 바 (탭 하단부와 자연스럽게 연결) -->
+      <header class="workspace-bar" data-node-id="14:536" data-name="워크스페이스 바">
+        <div class="workspace-bar-left" data-node-id="21:718" data-name="현재 경로">
+          <nav class="breadcrumb-nav" aria-label="현재 경로" data-node-id="14:537">
+            <span class="bc-item">워크스페이스</span>
+            <span class="bc-sep">/</span>
+            <span class="bc-item" id="bcSectionText">선정산 관리</span>
+            <span class="bc-sep">/</span>
+            <span class="bc-current" id="bcMenuText">정산·상환 현황</span>
+          </nav>
+        </div>
+
+        <div class="workspace-bar-right" data-node-id="22:719" data-name="계정주 프로필 및 로그아웃">
+          <div class="user-profile-dropdown-wrap" id="userProfileDropdownWrap">
+            <button type="button" class="cutoff-status-pill cutoff-status-pill--btn" id="userProfileTrigger"
+              aria-expanded="false" aria-haspopup="menu" data-node-id="22:720" data-name="계정주 프로필">
+              <span class="cutoff-dot"></span>
+              <span class="cutoff-label" data-node-id="14:538"><strong id="topUserNameText">김서연</strong> 님</span>
+              <span class="cutoff-sep">·</span>
+              <span class="cutoff-time" data-node-id="22:726">담당 <strong>12</strong></span>
+              <svg class="cutoff-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+
+            <!-- 프로필 드롭다운 메뉴 -->
+            <div class="user-dropdown-menu" id="userProfileMenu" role="menu" aria-label="내 계정 메뉴" hidden>
+              <div class="user-dropdown-header">
+                <div class="user-dropdown-title-row">
+                  <strong class="user-dropdown-name" id="dropdownUserNameText">김서연</strong>
+                  <span class="user-dropdown-role">선임 매니저</span>
+                </div>
+                <p class="user-dropdown-meta" id="dropdownUserMetaText">정산운영팀 · sy.kim@festio.co.kr</p>
+              </div>
+              <div class="user-dropdown-divider"></div>
+              <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="account">
+                <span>내 계정 수정</span>
+                <span class="user-dropdown-hint">정보·알림</span>
+              </button>
+              <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="password">
+                <span>비밀번호 변경</span>
+                <span class="user-dropdown-hint">보안</span>
+              </button>
+              <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="merchants">
+                <span>담당 가맹점 목록</span>
+                <span class="user-dropdown-count">12</span>
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="topbar-icon-btn" aria-label="알림 2건" title="입금 대사 및 심사 알림">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 5.33333C12 4.27247 11.5786 3.25505 10.8284 2.50491C10.0783 1.75476 9.06087 1.33333 8 1.33333C6.93913 1.33333 5.92172 1.75476 5.17157 2.50491C4.42143 3.25505 4 4.27247 4 5.33333C4 10 2 11.3333 2 11.3333H14C14 11.3333 12 10 12 5.33333Z"
+                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M9.15335 14C9.03614 14.2021 8.86791 14.3698 8.6655 14.4864C8.46309 14.6029 8.2336 14.6643 8.00001 14.6643C7.76643 14.6643 7.53694 14.6029 7.33453 14.4864C7.13212 14.3698 6.96389 14.2021 6.84668 14"
+                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="notif-dot"></span>
+          </button>
+
+          <button type="button" class="btn btn--sm btn--secondary" style="height: 30px; padding: 0 10px;"
+            data-node-id="22:728">로그아웃</button>
+        </div>
+      </header>
+
+      <!-- 정산 상세 본문 (14:539) -->
+      <main class="content-body" id="settlementDetailView" data-node-id="14:539" data-name="정산 상세 본문">
+        <!-- Section 1 & 2 통합: 가맹점 약정 헤더 + 상환 진행률 통합 카드 -->
+        <div class="merchant-contract-unified-card">
+          <section class="merchant-header" data-node-id="14:540" data-name="가맹점과 계약">
+            <div class="merchant-header-left" data-node-id="14:555" data-name="가맹점명과 상태">
+              <div class="branch-identity" data-node-id="26:303" data-name="CRM/Field/BranchSelect/Filled">
+                <div class="home-icon-box" data-node-id="26:307" data-name="홈 아이콘">
+                  <img src="assets/home.svg" alt="" />
+                </div>
+                <button type="button" class="branch-switcher-btn" title="다른 가맹점으로 전환">
+                  <h1 class="branch-select-name" data-node-id="26:304">우후죽순 신사점</h1>
+                  <span class="branch-switcher-chevron" data-node-id="26:305">
+                    <img src="assets/branch-chevron.svg" alt="" />
+                  </span>
+                </button>
+              </div>
+
+              <span class="status-badge status-badge--brand" style="height: 26px; padding: 0 10px;"
+                data-node-id="14:557">2026-09-16 약정 집행</span>
+
+              <span class="header-v-divider" aria-hidden="true"></span>
+
+              <div class="merchant-meta-list" data-node-id="14:559">
+                <span class="meta-kv"><span class="meta-k">대표</span><strong class="meta-v">한동훈</strong></span>
+                <span class="meta-dot">·</span>
+                <span class="meta-kv"><span class="meta-k">담당</span><strong class="meta-v">김지수</strong></span>
+                <span class="meta-dot">·</span>
+                <span class="meta-kv"><span class="meta-k">채널</span><strong class="meta-v">신탁영업 DB</strong></span>
+                <span class="meta-dot">·</span>
+                <div class="van-account-group">
+                  <a href="#easyshop" class="external-link" data-node-id="32:348">
+                    <span>easyshop ↗</span>
+                    <span class="van-account-status">계정 등록됨</span>
+                  </a>
+                  <button type="button" class="van-account-edit-btn" title="easyshop 연동 계정 수정" data-node-id="29:279">
+                    <img src="assets/edit-icon.svg" alt="" />
+                    <span>계정 수정</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="merchant-header-actions" data-node-id="24:1236">
+              <!-- 카드수수료율 셀렉트 드롭다운 버튼 (상환 버튼과 동일 디자인) -->
+              <div class="repayment-select-wrap" id="cardFeeSelectWrap">
+                <button type="button" class="btn btn--md btn--secondary repayment-select-btn" id="cardFeeSelectBtn"
+                  aria-expanded="false" aria-haspopup="menu" data-node-id="24:1239">
+                  <span>카드수수료율</span>
+                  <svg class="repayment-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <div class="repayment-select-menu" id="cardFeeSelectMenu" role="menu" aria-label="카드수수료율 관리" hidden>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-fee-action="카드사별 수수료율 조회">
+                    <span class="repay-item-title">카드사별 수수료율 조회</span>
+                    <span class="repay-item-desc">신용 0.80%~1.50% · 체크 0.50%</span>
+                  </button>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-fee-action="수수료율 직접 수정">
+                    <span class="repay-item-title">수수료율 직접 수정</span>
+                    <span class="repay-item-desc">가맹점 우대 구간·적용률 변경</span>
+                  </button>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-fee-action="VAN 수수료율 동기화">
+                    <span class="repay-item-title">VAN 수수료율 동기화</span>
+                    <span class="repay-item-desc">easyshop 최신 수수료율 불러오기</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 상환 셀렉트 드롭다운 버튼 (선납부 등록 / 조기상환 / 직접 상환등록) -->
+              <div class="repayment-select-wrap" id="repaymentSelectWrap">
+                <button type="button" class="btn btn--md btn--secondary repayment-select-btn" id="repaymentSelectBtn"
+                  aria-expanded="false" aria-haspopup="menu">
+                  <span>상환</span>
+                  <svg class="repayment-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <div class="repayment-select-menu" id="repaymentSelectMenu" role="menu" aria-label="상환 방식 선택" hidden>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-repay-type="선납부 등록">
+                    <span class="repay-item-title">선납부 등록</span>
+                    <span class="repay-item-desc">예정 상환금 미리 납부</span>
+                  </button>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-repay-type="조기상환">
+                    <span class="repay-item-title">조기상환</span>
+                    <span class="repay-item-desc">잔여 약정금 일괄·중도 상환</span>
+                  </button>
+                  <button type="button" class="repayment-select-item" role="menuitem" data-repay-type="직접 상환등록">
+                    <span class="repay-item-title">직접 상환등록</span>
+                    <span class="repay-item-desc">계좌 입금분 수동 상환 반영</span>
+                  </button>
+                </div>
+              </div>
+
+              <span class="header-v-divider" aria-hidden="true"></span>
+
+              <div class="connected-action-group" role="group" aria-label="약정 조건 변경">
+                <button type="button" class="btn btn--md btn--grouped" data-node-id="24:1237">계약 수정</button>
+                <button type="button" class="btn btn--md btn--grouped" data-node-id="24:1238">한도 증액</button>
+                <button type="button" class="btn btn--md btn--grouped" data-node-id="24:1240">계약 연장</button>
+              </div>
+
+              <span class="header-v-divider" aria-hidden="true"></span>
+
+              <button type="button" class="btn btn--md btn--danger-outline" data-node-id="24:1241">계약 종료</button>
+            </div>
+          </section>
+
+          <!-- 선정산 약정 및 상환 현황 (14:541) -->
+          <section class="repayment-card" id="repaymentCard" data-node-id="14:541" data-name="대출 및 상환 현황">
+            <div class="repayment-title-row" data-node-id="14:607" data-name="진행률 제목">
+              <h2 class="section-h3" data-node-id="14:608">상환 진행률</h2>
+              <span class="fee-rate-tag" data-node-id="37:262">수수료율 0.90%</span>
+              <span class="overdue-status-tag" title="2026-11-13 정산분 일 상환금 미납">
+                <span class="overdue-dot" aria-hidden="true"></span>
+                미납 1일 · ₩410,000
+              </span>
+              <div class="repayment-collapsed-summary" aria-hidden="true">
+                <span>63일차 (완료 62일 · 미납 1일)</span>
+                <span class="collapsed-sep">·</span>
+                <span>회수 <strong>₩25,420,000</strong></span>
+                <span class="collapsed-sep">·</span>
+                <span>잔여 <strong>₩11,480,000</strong></span>
+              </div>
+              <div class="flex-spacer" data-node-id="37:264"></div>
+              <p class="total-repayment-label" data-node-id="42:337">총 약정 상환금 <strong>₩36,900,000</strong></p>
+              <button type="button" class="repayment-toggle-btn" id="repaymentToggleBtn" aria-expanded="true"
+                aria-controls="repaymentCollapsibleBody" title="상환 진행률 영역 접기/펼치기">
+                <span class="repayment-toggle-text" id="repaymentToggleText">접기</span>
+                <svg class="repayment-toggle-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4 10L8 6L12 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="repayment-collapsible-body" id="repaymentCollapsibleBody">
+              <div class="repayment-progress-wrap">
+                <div class="progress-pin-marker" style="left: 69.44%;" aria-hidden="true">
+                  <span class="progress-pin-badge">오늘 · 63일차 <em>69%</em></span>
+                  <span class="progress-pin-arrow"></span>
+                </div>
+                <div class="repayment-progress-segments" id="repaymentProgressSegments" data-node-id="42:329"
+                  data-name="90일 · 상환 완료 62일 · 미납 1일"></div>
+              </div>
+
+              <div class="repayment-dates-row" data-node-id="39:249" data-name="정산 시작일 · 종료일">
+                <p data-node-id="39:250">약정 시작일 · 2026-09-27</p>
+                <div class="repayment-progress-legend" aria-label="상환 진행 상태 범례">
+                  <span class="legend-item"><i class="legend-dot legend-dot--done"></i>상환 완료 62일</span>
+                  <span class="legend-item legend-item--overdue"><i class="legend-dot legend-dot--overdue"></i>미납 1일
+                    (₩410,000)</span>
+                  <span class="legend-item"><i class="legend-dot legend-dot--pending"></i>상환 예정 27일</span>
+                </div>
+                <p data-node-id="39:251">약정 종료일 · 2026-12-25 (90일)</p>
+              </div>
+
+              <div class="repayment-summary-grid" data-node-id="40:239" data-name="대출금 · 일 상환금 · 회수금 · 잔여금 카드">
+                <div class="summary-box" data-node-id="40:243">
+                  <span class="summary-box-label" data-node-id="40:244">회수한 상환금</span>
+                  <span class="summary-box-value summary-box-value--brand" data-node-id="40:245">₩25,420,000</span>
+                </div>
+                <div class="summary-box" data-node-id="40:246">
+                  <span class="summary-box-label" data-node-id="40:247">잔여 상환금</span>
+                  <span class="summary-box-value" data-node-id="40:248">₩11,480,000</span>
+                </div>
+                <div class="summary-box summary-box--overdue" data-node-id="36:556">
+                  <div class="summary-box-top">
+                    <span class="summary-box-label" data-node-id="36:557">총 미납금</span>
+                    <span class="summary-overdue-pill">1일 미납</span>
+                  </div>
+                  <span class="summary-box-value summary-box-value--overdue" data-node-id="36:558">₩410,000</span>
+                </div>
+                <div class="summary-box" data-node-id="40:240">
+                  <span class="summary-box-label" data-node-id="40:241">대출금 (원금)</span>
+                  <span class="summary-box-value" data-node-id="40:242">₩30,000,000</span>
+                </div>
+                <div class="summary-box" data-node-id="42:333">
+                  <span class="summary-box-label" data-node-id="42:334">일 상환금</span>
+                  <span class="summary-box-value" data-node-id="42:335">₩410,000</span>
+                </div>
+                <div class="summary-box">
+                  <span class="summary-box-label">남은 약정일</span>
+                  <span class="summary-box-value">27일 <small class="summary-unit">/ 90일</small></span>
+                </div>
+              </div>
+
+              <div class="repayment-footnotes" data-node-id="36:539" data-name="기존 회수 내역 · 잔여일 · 누적 수수료">
+                <p data-node-id="36:542"><span class="fn-label">채권 회수</span> <strong>₩660,000</strong></p>
+                <p data-node-id="36:544"><span class="fn-label">유보금</span> <strong>₩0</strong></p>
+                <p data-node-id="36:545"><span class="fn-label">VAN 수수료</span> <strong>₩1,368,111</strong></p>
+                <p data-node-id="36:546"><span class="fn-label">선정산수수료</span> <strong>₩1,178,567</strong></p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Section 3: 정산 계산 (14:542) -->
+        <section class="calc-card" id="calcCard" data-node-id="14:542" data-name="정산 계산 작업">
+          <div class="calc-header-row" data-node-id="14:997" data-name="정산 계산 제목">
+            <h2 class="section-h3" data-node-id="14:998">정산 계산</h2>
+            <p class="calc-header-desc" data-node-id="14:999">매출 데이터를 수집한 뒤 정산일과 반영 조건을 확인하고 계산하세요.</p>
+            <button type="button" class="repayment-toggle-btn" id="calcToggleBtn" aria-expanded="true"
+              aria-controls="calcCollapsibleBody" title="정산 계산 영역 접기/펼치기">
+              <span class="repayment-toggle-text" id="calcToggleText">접기</span>
+              <svg class="repayment-toggle-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4 10L8 6L12 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="calc-collapsible-body" id="calcCollapsibleBody">
+            <!-- 매출 데이터 수집 -->
+            <div class="calc-tools-row" data-node-id="14:1050" data-name="매출 수집 및 데이터 재설정">
+              <div class="sales-collect-panel" data-node-id="14:1051" data-name="매출 수집 도구">
+                <span class="sales-collect-title" data-node-id="14:1052">매출 데이터</span>
+                <span class="collect-sync-meta">전일 카드매출 1건(₩617,700) · 실입금 예정 ₩965,206</span>
+                <button type="button" class="btn btn--md btn--van-gradient" style="width: 100px;"
+                  data-node-id="14:1053">VAN
+                  수집</button>
+                <button type="button" class="btn btn--md btn--secondary" style="width: 116px;" data-node-id="14:1055">기간
+                  재수집 ▾</button>
+                <button type="button" class="btn btn--md btn--secondary" style="width: 96px;" data-node-id="14:1057">전체
+                  수집</button>
+                <button type="button" class="btn btn--md btn--secondary" style="width: 136px;" data-node-id="14:1059">수동
+                  매출 입력 ▾</button>
+                <span class="header-v-divider" aria-hidden="true"></span>
+                <button type="button" class="safe-reset-icon-btn" id="safeResetTriggerBtn" aria-label="매출 데이터 초기화"
+                  title="매출 데이터 초기화">
+                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <path d="M2.5 3.5V7H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M3.05 10C3.48281 11.2269 4.32494 12.2669 5.43423 12.9445C6.54353 13.622 7.85483 13.8965 9.14699 13.7219C10.4391 13.5473 11.6352 12.934 12.5335 11.9857C13.4317 11.0373 13.9809 9.8112 14.0882 8.51412C14.1955 7.21704 13.8546 5.9225 13.1232 4.84915C12.3917 3.7758 11.3133 2.98457 10.0697 2.6089C8.82602 2.23322 7.49034 2.29502 6.28801 2.7839C5.08568 3.27278 4.08675 4.16047 3.46 5.298L2.5 7"
+                      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 정산 조건 설정 및 산출 -->
+            <div class="calc-controls-row" data-node-id="14:1003" data-name="정산 계산 조건">
+              <div class="control-group" data-node-id="14:1004" data-name="정산일">
+                <label class="control-label" data-node-id="14:1005">정산일</label>
+                <div class="field-box" style="width: 184px;" data-node-id="14:1006">
+                  <input type="text" class="field-box-text" id="settlementDateInput" value="2026. 11. 18."
+                    aria-label="정산일" />
+                  <div class="chevron-16">
+                    <img src="assets/date-chevron.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group" data-node-id="14:1010" data-name="정산 방식">
+                <span class="control-label" data-node-id="14:1011">정산 방식</span>
+                <div class="btn-group" data-group="method" data-node-id="14:1012">
+                  <button type="button" class="btn btn--seg btn--seg-active" style="width: 64px;" data-value="개별 정산"
+                    data-days="1" data-node-id="14:1013">개별</button>
+                  <button type="button" class="btn btn--seg" style="width: 64px;" data-value="묶음 정산" data-days="3"
+                    data-node-id="14:1015">묶음</button>
+                </div>
+              </div>
+
+              <div class="control-group" data-node-id="14:1017" data-name="미리 상환">
+                <span class="control-label" data-node-id="14:1018">미리 상환 <small class="control-label-sub">(남은 27일
+                    내)</small></span>
+                <div class="prepay-control-wrap">
+                  <div class="btn-group" data-group="prepay" data-node-id="14:1019">
+                    <button type="button" class="btn btn--seg btn--seg-active" style="width: 58px;"
+                      data-value="미리 상환 안 함" data-extra-days="0" data-node-id="14:1020">안 함</button>
+                    <button type="button" class="btn btn--seg" style="width: 54px;" data-value="미리 상환 +1일"
+                      data-extra-days="1" data-node-id="14:1022">+1일</button>
+                    <button type="button" class="btn btn--seg" style="width: 54px;" data-value="미리 상환 +2일"
+                      data-extra-days="2" data-node-id="14:1024">+2일</button>
+                    <button type="button" class="btn btn--seg" style="width: 54px;" data-value="미리 상환 +3일"
+                      data-extra-days="3" data-node-id="14:1026">+3일</button>
+                  </div>
+                  <label class="prepay-custom-box" id="prepayCustomBox" title="남은 약정일(최대 27일) 내 미리 상환할 일수 직접 입력">
+                    <span class="prepay-custom-prefix">+</span>
+                    <input type="number" class="prepay-custom-input" id="prepayCustomInput" min="1" max="27"
+                      placeholder="직접입력" aria-label="미리 상환 일수 직접 입력 (1~27일)" />
+                    <span class="prepay-custom-suffix">일</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="control-group" data-node-id="14:1028" data-name="선반영">
+                <span class="control-label" data-node-id="14:1029">선반영 <small class="control-label-sub">(남은 27일
+                    내)</small></span>
+                <div class="prepay-control-wrap">
+                  <div class="btn-group" data-group="advance" data-node-id="14:1030">
+                    <button type="button" class="btn btn--seg btn--seg-active" style="width: 58px;" data-value="선반영 안 함"
+                      data-advance-days="0" data-node-id="14:1031">안 함</button>
+                    <button type="button" class="btn btn--seg" style="width: 54px;" data-value="선반영 +1일"
+                      data-advance-days="1" data-node-id="14:1033">+1일</button>
+                    <button type="button" class="btn btn--seg" style="width: 54px;" data-value="선반영 +2일"
+                      data-advance-days="2" data-node-id="14:1035">+2일</button>
+                  </div>
+                  <label class="prepay-custom-box" id="advanceCustomBox" title="남은 약정일(최대 27일) 내 선반영할 일수 직접 입력">
+                    <span class="prepay-custom-prefix">+</span>
+                    <input type="number" class="prepay-custom-input" id="advanceCustomInput" min="1" max="27"
+                      placeholder="직접입력" aria-label="선반영 일수 직접 입력 (1~27일)" />
+                    <span class="prepay-custom-suffix">일</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="control-group" data-node-id="14:1037" data-name="채권수수료 (원)">
+                <label class="control-label" data-node-id="14:1038">채권수수료 (원)</label>
+                <div class="field-box" style="width: 144px;" data-node-id="14:1039">
+                  <input type="text" class="field-box-text" id="bondFeeInput" value="0" aria-label="채권수수료 (원)" />
+                </div>
+              </div>
+
+              <div class="control-group control-group--flex" data-node-id="14:1041" data-name="잔액">
+                <span class="control-label" data-node-id="14:1042">잔액</span>
+                <span class="balance-value" data-node-id="14:1043">₩0</span>
+              </div>
+
+              <button type="button" class="btn btn--lg btn--primary" style="width: 152px;" id="calcRunBtn"
+                data-node-id="14:1044">계산 / 재계산</button>
+            </div>
+
+            <!-- 정산 산출 내역 요약 바 -->
+            <div class="formula-preview-bar" id="formulaPreviewBar">
+              <div class="formula-left">
+                <span class="formula-bar-title" id="selectionSummaryText">개별 정산 · 미리 상환 안 함 · 선반영 안 함</span>
+                <span class="header-v-divider" aria-hidden="true"></span>
+                <div class="formula-equation">
+                  <div class="formula-term">
+                    <span class="term-label">실입금</span>
+                    <strong class="term-val term-val--inflow" id="previewDepositVal">₩965,206</strong>
+                  </div>
+                  <span class="formula-op">−</span>
+                  <div class="formula-term">
+                    <span class="term-label">정산수수료</span>
+                    <strong class="term-val" id="previewFeeVal">₩8,686</strong>
+                  </div>
+                  <span class="formula-op">−</span>
+                  <div class="formula-term">
+                    <span class="term-label" id="previewRepayLabel">일 상환금(1일)</span>
+                    <strong class="term-val" id="previewRepayVal">₩410,000</strong>
+                  </div>
+                  <span class="formula-op">−</span>
+                  <div class="formula-term">
+                    <span class="term-label">채권수수료</span>
+                    <strong class="term-val" id="previewBondVal">₩0</strong>
+                  </div>
+                  <span class="formula-op">=</span>
+                  <div class="formula-term">
+                    <span class="term-label">지급 예정액</span>
+                    <strong class="term-val term-val--payout" id="previewPayoutVal">₩546,520</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="formula-right">
+                <button type="button" class="btn btn--sm btn--secondary" id="applyToTodayRowBtn">오늘 내역에 적용</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4: 정산 내역 (14:543) -->
+        <section class="history-card" data-node-id="14:543" data-name="정산 내역">
+          <div class="history-title-row" data-node-id="14:703" data-name="정산 내역 제목">
+            <div class="history-title-left" data-node-id="14:704" data-name="정산 내역 안내">
+              <h2 class="section-h3" data-node-id="14:705">정산 내역</h2>
+            </div>
+
+            <div class="history-cumulative-summary" data-node-id="14:692" data-name="입금 및 지급 총액">
+              <span class="cum-text-item" data-node-id="14:693" title="약정 시작일 이후 확정 입금 총액">
+                <span class="cum-text-label">누적 실입금(63건)</span>
+                <strong class="cum-text-val cum-text-val--inflow">₩130,954,057</strong>
+              </span>
+              <span class="cum-text-sep" aria-hidden="true">·</span>
+              <span class="cum-text-item" data-node-id="14:698" title="약정 시작일 이후 가맹점 지급 총액">
+                <span class="cum-text-label">누적 지급액(63건)</span>
+                <strong class="cum-text-val cum-text-val--payout">₩103,274,072</strong>
+              </span>
+            </div>
+          </div>
+
+          <!-- 정산 내역 전용 필터·기간·검색 툴바 (34px 균일 높이) -->
+          <div class="history-toolbar" role="search" aria-label="정산 내역 기간 및 검색 필터">
+            <div class="history-toolbar-left">
+              <div class="period-tabs" aria-label="조회 기간 빠른 선택">
+                <button type="button" class="period-tab period-tab--active" data-period="7" data-start="2026-11-10"
+                  data-end="2026-11-18">최근 7건</button>
+                <button type="button" class="period-tab" data-period="month" data-start="2026-11-01"
+                  data-end="2026-11-18">이번 달</button>
+                <button type="button" class="period-tab" data-period="all" data-start="2026-09-27"
+                  data-end="2026-11-18">전체 (63건)</button>
+              </div>
+
+              <div class="history-date-range" id="historyDateRangeBox" aria-label="조회 기간 직접 선택">
+                <svg class="date-range-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="2" y="3" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.4" />
+                  <path d="M2 6.5H14" stroke="currentColor" stroke-width="1.4" />
+                  <path d="M5.5 1.8V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                  <path d="M10.5 1.8V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                </svg>
+                <input type="date" class="history-date-input" id="historyStartDate" value="2026-11-10" min="2026-09-27"
+                  max="2026-12-25" aria-label="조회 시작일" />
+                <span class="date-range-sep">~</span>
+                <input type="date" class="history-date-input" id="historyEndDate" value="2026-11-18" min="2026-09-27"
+                  max="2026-12-25" aria-label="조회 종료일" />
+              </div>
+
+              <div class="history-meta-status">
+                <span class="status-badge status-badge--neutral" style="height: 26px; padding: 0 9px;"
+                  id="confirmedCountBadge" data-node-id="14:707">7건 확정</span>
+                <span class="meta-dot" aria-hidden="true">·</span>
+                <span class="history-sort-label" id="historySortStatusText" data-node-id="14:709">정산일 내림차순</span>
+              </div>
+            </div>
+
+            <div class="history-toolbar-right">
+              <div class="history-select-wrap">
+                <select class="history-filter-select" id="historyTypeFilter" aria-label="정산 유형 필터">
+                  <option value="all">전체 유형</option>
+                  <option value="single">개별 정산</option>
+                  <option value="bundle">묶음 정산</option>
+                </select>
+                <svg class="history-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <div class="history-search-box">
+                <svg class="history-search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle cx="7.2" cy="7.2" r="4.8" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M10.8 10.8L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                <input type="text" class="history-search-input" id="historySearchInput" placeholder="정산일·매출일·금액 검색"
+                  aria-label="정산일, 매출일, 금액 검색" />
+                <button type="button" class="history-search-clear" id="historySearchClearBtn" aria-label="검색어 지우기"
+                  hidden>×</button>
+              </div>
+
+              <button type="button" class="history-reset-btn" id="historyFilterResetBtn" title="기간 및 검색 필터 초기화">
+                초기화
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll-container">
+            <!-- 열 그룹 -->
+            <div class="table-colgroup-row" data-node-id="14:1067" data-name="정산 내역 열 그룹">
+              <div class="table-colgroup-cell" style="width: 440px;">정산 기준 · 매출</div>
+              <div class="table-colgroup-cell table-colgroup-cell--inflow" style="width: 180px;">실입금</div>
+              <div class="table-colgroup-cell" style="width: 512px;">공제 및 상환</div>
+              <div class="table-colgroup-cell table-colgroup-cell--payout" style="width: 180px;">차감 후 지급액</div>
+              <div class="table-colgroup-cell" style="width: 228px;">상태 · 관리</div>
+            </div>
+
+            <!-- 열 제목 (클릭 정렬 지원 · 1줄 수평 정렬) -->
+            <div class="table-header-row" id="settlementTableHeader" data-node-id="14:1078" data-name="정산 내역 열 제목">
+              <div class="th-cell th-cell--sortable is-sorted" style="width: 140px;" role="button" tabindex="0"
+                data-sort-col="0" data-sort-type="date" data-sort-label="정산일" data-sort-dir="desc">
+                <span>정산일 / 유형</span>
+                <span class="th-sort-icon" aria-hidden="true">↓</span>
+              </div>
+              <div class="th-cell th-cell--sortable" style="width: 168px;" role="button" tabindex="0" data-sort-col="1"
+                data-sort-type="date" data-sort-label="매출일">
+                <span>매출일 (범위)</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--sortable col-divider" style="width: 132px;" role="button"
+                tabindex="0" data-sort-col="2" data-sort-type="currency" data-sort-label="카드매출">
+                <span>카드매출</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--inflow th-cell--sortable col-divider" style="width: 180px;"
+                role="button" tabindex="0" data-sort-col="3" data-sort-type="currency" data-sort-label="실입금">
+                <span>실입금 <small class="th-sub">(받은 돈)</small></span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--sortable" style="width: 116px;" role="button" tabindex="0"
+                data-sort-col="4" data-sort-type="currency" data-sort-label="정산수수료">
+                <span>정산수수료</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--sortable" style="width: 120px;" role="button" tabindex="0"
+                data-sort-col="5" data-sort-type="currency" data-sort-label="일 상환금">
+                <span>일 상환금</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--sortable" style="width: 100px;" role="button" tabindex="0"
+                data-sort-col="6" data-sort-type="currency" data-sort-label="채권수수료">
+                <span>채권수수료</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--sortable" style="width: 88px;" role="button" tabindex="0"
+                data-sort-col="7" data-sort-type="currency" data-sort-label="기존미납">
+                <span>기존미납</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--sortable col-divider" style="width: 88px;" role="button"
+                tabindex="0" data-sort-col="8" data-sort-type="currency" data-sort-label="신규미납">
+                <span>신규미납</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--right th-cell--payout th-cell--sortable col-divider" style="width: 180px;"
+                role="button" tabindex="0" data-sort-col="9" data-sort-type="currency" data-sort-label="지급액">
+                <span>지급액 <small class="th-sub">(보낼 돈)</small></span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--center th-cell--sortable" style="width: 88px;" role="button" tabindex="0"
+                data-sort-col="10" data-sort-type="text" data-sort-label="상태">
+                <span>상태</span>
+                <span class="th-sort-icon" aria-hidden="true">↕</span>
+              </div>
+              <div class="th-cell th-cell--center" style="width: 140px;">정산 삭제</div>
+            </div>
+
+            <!-- 정산 내역 행 목록 (7건) -->
+            <div id="settlementTableBody">
+              <!-- Row 1: 2026-11-18 (오늘 정산분) -->
+              <div class="tr-row tr-row--today" data-node-id="14:1118" data-deposit="965206" data-payout="546520">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span class="date-strong">2026-11-18</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;"><span>2026-11-17</span></div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩617,700</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩965,206</span>
+                  <span class="deposit-date">2026-11-18 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩8,686</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩410,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩546,520</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+
+              <!-- Row 2: 2026-11-17 -->
+              <div class="tr-row tr-row--alt" data-node-id="14:1156" data-deposit="6654849" data-payout="6184956"
+                data-locked="true">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span>2026-11-17</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;"><span>2026-11-16</span></div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩957,700</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩6,654,849</span>
+                  <span class="deposit-date">2026-11-17 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩59,893</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩410,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩6,184,956</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <div class="lock-guard">
+                    <button type="button" class="unlock-btn" data-action="unlock">해제</button>
+                  </div>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+
+              <!-- Row 3: 2026-11-16 -->
+              <div class="tr-row" data-node-id="14:1194" data-deposit="2647898" data-payout="1394067"
+                data-locked="true">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span>2026-11-16</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;">
+                  <span>2026-11-13 ~</span>
+                  <span class="range-subtext">2026-11-15 · 3일 묶음</span>
+                </div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩7,500,900</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩2,647,898</span>
+                  <span class="deposit-date">2026-11-16 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩23,831</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩1,230,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩1,394,067</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <div class="lock-guard">
+                    <button type="button" class="unlock-btn" data-action="unlock">해제</button>
+                  </div>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+
+              <!-- Row 4: 2026-11-13 -->
+              <div class="tr-row tr-row--alt" data-node-id="14:1233" data-deposit="748687" data-payout="331949"
+                data-locked="true">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span>2026-11-13</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;"><span>2026-11-12</span></div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩1,837,100</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩748,687</span>
+                  <span class="deposit-date">2026-11-13 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩6,738</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩410,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩331,949</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <div class="lock-guard">
+                    <button type="button" class="unlock-btn" data-action="unlock">해제</button>
+                  </div>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+
+              <!-- Row 5: 2026-11-12 -->
+              <div class="tr-row" data-node-id="14:1271" data-deposit="976163" data-payout="557378" data-locked="true">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span>2026-11-12</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;"><span>2026-11-11</span></div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩898,700</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩976,163</span>
+                  <span class="deposit-date">2026-11-12 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩8,785</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩410,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩557,378</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <div class="lock-guard">
+                    <button type="button" class="unlock-btn" data-action="unlock">해제</button>
+                  </div>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+
+              <!-- Row 6: 2026-11-11 -->
+              <div class="tr-row tr-row--alt" data-node-id="14:1309" data-deposit="908305" data-payout="490131"
+                data-locked="true">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span>2026-11-11</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;"><span>2026-11-10</span></div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩990,600</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩908,305</span>
+                  <span class="deposit-date">2026-11-11 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩8,174</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩410,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩490,131</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <div class="lock-guard">
+                    <button type="button" class="unlock-btn" data-action="unlock">해제</button>
+                  </div>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+
+              <!-- Row 7: 2026-11-10 -->
+              <div class="tr-row" data-node-id="14:1347" data-deposit="7634123" data-payout="7155416"
+                data-locked="true">
+                <div class="td-cell td-cell--col" style="width: 140px;">
+                  <span>2026-11-10</span>
+                  <div class="row-type-select"><span>매출</span><img src="assets/select-chevron.svg" alt="" /></div>
+                </div>
+                <div class="td-cell td-cell--col" style="width: 168px;"><span>2026-11-09</span></div>
+                <div class="td-cell td-cell--right col-divider" style="width: 132px;">₩918,600</div>
+                <div class="td-cell td-cell--inflow col-divider" style="width: 180px;">
+                  <span class="deposit-amount">₩7,634,123</span>
+                  <span class="deposit-date">2026-11-10 입금</span>
+                </div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 116px;">-₩68,707</div>
+                <div class="td-cell td-cell--right td-cell--deduct" style="width: 120px;">-₩410,000</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 100px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--right td-cell--muted col-divider" style="width: 88px;">—</div>
+                <div class="td-cell td-cell--payout col-divider" style="width: 180px;">₩7,155,416</div>
+                <div class="td-cell td-cell--status" style="width: 88px;">
+                  <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
+                </div>
+                <div class="td-cell td-cell--actions" style="width: 140px;">
+                  <div class="lock-guard">
+                    <button type="button" class="unlock-btn" data-action="unlock">해제</button>
+                  </div>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 표시된 7건 소계 (14:1385) -->
+          <div class="subtotal-row" data-node-id="14:1385" data-name="표시된 7건 소계">
+            <p class="subtotal-title" id="subtotalRowLabel" data-node-id="14:1386">표시된 7건 소계</p>
+            <p class="subtotal-inflow" id="subtotalDeposit" data-node-id="14:1387">실입금 ₩20,535,231</p>
+            <p class="subtotal-payout" id="subtotalPayout" data-node-id="14:1388">지급액 ₩16,660,417</p>
+          </div>
+
+          <!-- 합계 범위 및 관리 안내 (14:1389) -->
+          <div class="history-footer-notice" data-node-id="14:1389" data-name="합계 범위 및 관리 안내">
+            <p class="footer-notice-line1" data-node-id="14:1390">상단 누적 합계는 전체 약정 기간(63건) 기준이며, 하단 소계는 현재 필터링된 목록(최근 7건)
+              기준입니다.</p>
+            <p class="footer-notice-line2" data-node-id="14:1391">정산 삭제: 해당 정산 내역 삭제 · —: 해당 일자에
+              발생하지 않은 항목</p>
+          </div>
+        </section>
+      </main>
+
+      <!-- 다른 메뉴 클릭 시 표시되는 준비중입니다 화면 -->
+      <section class="coming-soon-view" id="comingSoonView" hidden>
+        <div class="coming-soon-card">
+          <div class="coming-soon-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
+            </svg>
+          </div>
+          <h2 class="coming-soon-title" id="comingSoonTitle">화면 준비중입니다</h2>
+          <p class="coming-soon-desc" id="comingSoonDesc">해당 메뉴 화면은 현재 준비중입니다. 정산·상환 현황 화면에서 가맹점별 정산 내역을 확인하실 수 있습니다.
+          </p>
+          <button type="button" class="btn btn--md btn--primary" id="backToSettlementBtn">정산·상환 현황으로 돌아가기</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ==================== 담당자 계정 수정 / 비밀번호 / 담당 가맹점 모달 ==================== -->
+  <div class="modal-backdrop" id="accountModalBackdrop" hidden>
+    <div class="account-modal" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle">
+      <div class="account-modal-header">
+        <div>
+          <h2 class="account-modal-title" id="accountModalTitle">담당자 계정 설정</h2>
+          <p class="account-modal-sub">사번 FS-2024-018 · 최근 로그인 2026-11-18 08:52</p>
+        </div>
+        <button type="button" class="account-modal-close" id="accountModalCloseBtn" aria-label="닫기">×</button>
+      </div>
+
+      <!-- 모달 내부 탭 -->
+      <div class="account-modal-tabs" role="tablist">
+        <button type="button" class="account-modal-tab is-active" role="tab" aria-selected="true"
+          data-modal-tab="account">내 계정 수정</button>
+        <button type="button" class="account-modal-tab" role="tab" aria-selected="false" data-modal-tab="password">비밀번호
+          변경</button>
+        <button type="button" class="account-modal-tab" role="tab" aria-selected="false" data-modal-tab="merchants">담당
+          가맹점 (12)</button>
+      </div>
+
+      <!-- 탭 1: 내 계정 수정 -->
+      <form class="account-modal-body" id="modalPanelAccount">
+        <div class="modal-form-grid">
+          <div class="modal-field">
+            <label class="modal-label" for="accNameInput">담당자 이름</label>
+            <input type="text" class="modal-input" id="accNameInput" value="김서연" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="accRoleInput">소속 부서 / 직책</label>
+            <input type="text" class="modal-input" id="accRoleInput" value="정산운영팀 · 선임 매니저" />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="accEmailInput">업무용 이메일</label>
+            <input type="email" class="modal-input" id="accEmailInput" value="sy.kim@festio.co.kr" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="accPhoneInput">연락처 (휴대폰)</label>
+            <input type="text" class="modal-input" id="accPhoneInput" value="010-4821-9034" />
+          </div>
+        </div>
+
+        <div class="modal-notify-box">
+          <span class="modal-notify-title">담당 가맹점 알림 설정</span>
+          <label class="modal-check-row">
+            <input type="checkbox" checked />
+            <span>일 상환금 미납·입금 차액 발생 시 즉시 알림 수신</span>
+          </label>
+          <label class="modal-check-row">
+            <input type="checkbox" checked />
+            <span>매일 오전 09:00 VAN 매출 수집 완료 요약 수신</span>
+          </label>
+        </div>
+
+        <div class="account-modal-footer">
+          <button type="button" class="btn btn--md btn--secondary" data-modal-cancel>취소</button>
+          <button type="submit" class="btn btn--md btn--primary">변경사항 저장</button>
+        </div>
+      </form>
+
+      <!-- 탭 2: 비밀번호 변경 -->
+      <form class="account-modal-body" id="modalPanelPassword" hidden>
+        <div class="modal-field">
+          <label class="modal-label" for="currPwInput">현재 비밀번호</label>
+          <input type="password" class="modal-input" id="currPwInput" placeholder="현재 비밀번호 입력" />
+        </div>
+        <div class="modal-form-grid">
+          <div class="modal-field">
+            <label class="modal-label" for="newPwInput">새 비밀번호</label>
+            <input type="password" class="modal-input" id="newPwInput" placeholder="영문·숫자·특수문자 10자 이상" />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="newPwConfirmInput">새 비밀번호 확인</label>
+            <input type="password" class="modal-input" id="newPwConfirmInput" placeholder="새 비밀번호 재입력" />
+          </div>
+        </div>
+        <p class="modal-pw-hint">금융 보안 정책에 따라 90일 주기로 비밀번호 변경이 권장됩니다. (최근 변경일: 2026-09-10)</p>
+
+        <div class="account-modal-footer">
+          <button type="button" class="btn btn--md btn--secondary" data-modal-cancel>취소</button>
+          <button type="submit" class="btn btn--md btn--primary">비밀번호 변경</button>
+        </div>
+      </form>
+
+      <!-- 탭 3: 담당 가맹점 (12) -->
+      <div class="account-modal-body" id="modalPanelMerchants" hidden>
+        <div class="assigned-merchant-summary">
+          <span>전체 담당 <strong>12개점</strong></span>
+          <span class="collapsed-sep">·</span>
+          <span>정상 상환 <strong>11개점</strong></span>
+          <span class="collapsed-sep">·</span>
+          <span class="assigned-overdue-text">미납 관리 <strong>1개점</strong></span>
+        </div>
+        <div class="assigned-merchant-list">
+          <div class="assigned-merchant-row is-current">
+            <div class="am-info">
+              <strong class="am-name">우후죽순 신사점</strong>
+              <span class="am-meta">211-88-90123 · 63일차 / 90일</span>
+            </div>
+            <span class="overdue-status-tag">미납 1일 · ₩410,000</span>
+          </div>
+          <div class="assigned-merchant-row">
+            <div class="am-info">
+              <strong class="am-name">우후죽순 강남본점</strong>
+              <span class="am-meta">211-88-44120 · 45일차 / 90일</span>
+            </div>
+            <span class="status-badge status-badge--success">정상 상환</span>
+          </div>
+          <div class="assigned-merchant-row">
+            <div class="am-info">
+              <strong class="am-name">브런치랩 성수점</strong>
+              <span class="am-meta">105-87-31922 · 78일차 / 90일</span>
+            </div>
+            <span class="status-badge status-badge--success">정상 상환</span>
+          </div>
+          <div class="assigned-merchant-row">
+            <div class="am-info">
+              <strong class="am-name">카페아르코 합정점</strong>
+              <span class="am-meta">312-86-19402 · 21일차 / 60일</span>
+            </div>
+            <span class="status-badge status-badge--success">정상 상환</span>
+          </div>
+          <div class="assigned-merchant-row">
+            <div class="am-info">
+              <strong class="am-name">더메종 한남점 외 7개 가맹점</strong>
+              <span class="am-meta">일괄 정상 상환 진행 중</span>
+            </div>
+            <span class="status-badge status-badge--neutral">정상 8건</span>
+          </div>
+        </div>
+        <div class="account-modal-footer">
+          <button type="button" class="btn btn--md btn--secondary" data-modal-cancel>닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
