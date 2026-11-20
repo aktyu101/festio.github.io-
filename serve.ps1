@@ -28,17 +28,24 @@ try {
     }
     $filePath = Join-Path $root ($relPath -replace '/', '\')
 
-    if (Test-Path $filePath -PathType Leaf) {
-      $ext = [System.IO.Path]::GetExtension($filePath).ToLowerInvariant()
-      $res.ContentType = if ($mimeTypes.ContainsKey($ext)) { $mimeTypes[$ext] } else { "application/octet-stream" }
-      $bytes = [System.IO.File]::ReadAllBytes($filePath)
-      $res.ContentLength64 = $bytes.Length
-      $res.StatusCode = 200
-      $res.OutputStream.Write($bytes, 0, $bytes.Length)
-    } else {
-      $res.StatusCode = 404
+    try {
+      if (Test-Path $filePath -PathType Leaf) {
+        $ext = [System.IO.Path]::GetExtension($filePath).ToLowerInvariant()
+        $res.ContentType = if ($mimeTypes.ContainsKey($ext)) { $mimeTypes[$ext] } else { "application/octet-stream" }
+        $bytes = [System.IO.File]::ReadAllBytes($filePath)
+        $res.ContentLength64 = $bytes.Length
+        $res.StatusCode = 200
+        if ($req.HttpMethod -ne 'HEAD') {
+          $res.OutputStream.Write($bytes, 0, $bytes.Length)
+        }
+      } else {
+        $res.StatusCode = 404
+      }
+    } catch {
+      Write-Output "Request error: $_"
+    } finally {
+      try { $res.OutputStream.Close() } catch {}
     }
-    $res.OutputStream.Close()
   }
 } finally {
   $listener.Stop()

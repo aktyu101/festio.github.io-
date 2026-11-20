@@ -5,48 +5,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>festio · 선정산 정산 상세</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="styles.css?v=20261119-tds2" />
+  <link rel="stylesheet" href="tokens/tokens.css?v=7.0.0" />
+  <link rel="stylesheet" href="styles.css?v=20261121-noborder1" />
 </head>
 
 <body>
+  <!-- ==================== 글로벌 상단 헤더 바 (로고 컴팩트 + 유저 프로필) ==================== -->
+  <header class="global-top-header" id="globalTopHeader">
+    <div class="global-header-left">
+      <button type="button" class="topbar-sidebar-toggle-btn" id="sidebarCollapseBtn" aria-label="사이드바 접기/펼치기"
+        title="사이드바 접기/펼치기">
+        <svg class="sidebar-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <a href="#" class="global-logo-link" aria-label="festio 홈">
+        <img src="assets/logo-horizontal-inverse.svg" alt="festio" class="global-logo-img" />
+      </a>
+    </div>
+
+    <div class="global-header-right">
+      <!-- 헤더 메뉴 검색창 -->
+      <div class="header-search-wrap" id="headerSearchWrap">
+        <svg class="header-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="header-search-input" id="headerSearchInput" placeholder="메뉴 검색" aria-label="메뉴 검색"
+          autocomplete="off" />
+        <kbd class="header-search-kbd">Ctrl K</kbd>
+        <div class="header-search-dropdown" id="headerSearchDropdown" hidden>
+          <div class="header-search-results" id="headerSearchResults"></div>
+        </div>
+      </div>
+
+      <!-- 사용자 프로필 드롭다운 (민아연) -->
+      <div class="user-profile-dropdown-wrap" id="userProfileDropdownWrap">
+        <button type="button" class="topbar-user-btn" id="userProfileTrigger" aria-expanded="false" aria-haspopup="menu"
+          aria-label="사용자 프로필 메뉴 열기">
+          <span class="topbar-user-avatar">민</span>
+          <span class="topbar-user-name" id="topUserNameText">민아연</span>
+          <svg class="topbar-user-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <!-- 프로필 드롭다운 메뉴 -->
+        <div class="user-dropdown-menu" id="userProfileMenu" role="menu" aria-label="내 계정 메뉴" hidden>
+          <div class="user-dropdown-header">
+            <div class="user-dropdown-title-row">
+              <strong class="user-dropdown-name" id="dropdownUserNameText">민아연</strong>
+              <span class="user-dropdown-role">선임 매니저</span>
+            </div>
+            <p class="user-dropdown-meta" id="dropdownUserMetaText">정산운영팀 · ayeon.min@festio.co.kr</p>
+          </div>
+          <div class="user-dropdown-divider"></div>
+          <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="account">
+            <span>내 계정 수정</span>
+            <span class="user-dropdown-hint">정보·알림</span>
+          </button>
+          <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="password">
+            <span>비밀번호 변경</span>
+            <span class="user-dropdown-hint">보안</span>
+          </button>
+          <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="merchants">
+            <span>담당 가맹점 목록</span>
+            <span class="user-dropdown-count">12</span>
+          </button>
+          <div class="user-dropdown-divider"></div>
+          <button type="button" class="user-dropdown-item" role="menuitem" id="userMenuOperatorsBtn">
+            <span>운영자 계정 관리</span>
+            <span class="user-dropdown-hint">조직·계정</span>
+          </button>
+          <button type="button" class="user-dropdown-item" role="menuitem" id="userMenuPermissionsBtn">
+            <span>권한 및 접근 범위</span>
+            <span class="user-dropdown-hint">RBAC</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 로그아웃 버튼 -->
+      <button type="button" class="topbar-logout-btn" id="topbarLogoutBtn" aria-label="로그아웃">
+        로그아웃
+      </button>
+    </div>
+  </header>
+
   <div class="app-layout" data-node-id="14:487" data-name="festio · 대출 정산 상세">
     <!-- ==================== 사이드 내비게이션 (14:488) ==================== -->
     <aside class="sidebar" id="appSidebar" data-node-id="14:488" data-name="사이드 내비게이션">
-      <div class="sidebar-brand" data-node-id="18:826" data-name="브랜드 및 워크스페이스">
-        <div class="sidebar-brand-top">
-          <div class="brand-logo" data-node-id="14:489" data-name="festio/Logo/Horizontal inverse">
-            <img src="assets/logo-horizontal-inverse.svg" alt="festio" />
-          </div>
-          <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="사이드바 접기/펼치기"
-            title="사이드바 접기/펼치기">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.3" />
-              <line x1="6" y1="2.5" x2="6" y2="13.5" stroke="currentColor" stroke-width="1.3" />
-              <path class="collapse-arrow-path" d="M10.5 6.5L8.5 8L10.5 9.5" stroke="currentColor" stroke-width="1.3"
-                stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-        <p class="brand-subtitle" data-node-id="14:497">festio · 선정산 관리자 포털</p>
-      </div>
-
-      <div class="sidebar-search" data-node-id="18:827" data-name="메뉴 검색">
-        <div class="sidebar-search-icon" data-node-id="I18:827;2:602">
-          <img src="assets/search.svg" alt="" />
-        </div>
-        <input type="text" class="sidebar-search-input" id="sidebarSearchInput" placeholder="메뉴 검색" aria-label="메뉴 검색"
-          data-node-id="I18:827;2:605" />
-        <kbd class="search-kbd">Ctrl K</kbd>
-      </div>
-
       <nav class="nav-section" id="primaryNavSection" data-node-id="18:832" data-name="업무 내비게이션 · 2depth">
         <div class="nav-section-header" data-node-id="18:833" data-name="업무 영역 구분">
-          <p class="nav-section-title" data-node-id="18:834">업무 메뉴</p>
+          <span class="nav-section-title" data-node-id="18:834">업무 메뉴</span>
+          <span class="nav-section-line"></span>
         </div>
 
         <button type="button" class="nav-item" data-menu-id="menu-dashboard" data-menu-title="대시보드"
@@ -59,12 +115,13 @@
 
         <div class="nav-group" id="loanNavGroup" data-node-id="18:835" data-name="대출 관리 · 확장됨">
           <div class="nav-item-row" data-node-id="18:836" data-name="대출 관리 · 펼침">
-            <button type="button" class="nav-item nav-item--expanded" id="loanNavToggle" aria-expanded="true"
-              data-menu-title="선정산 관리" data-node-id="14:505">
+            <button type="button" class="nav-item nav-item--expanded nav-item--has-active" id="loanNavToggle"
+              aria-expanded="true" data-menu-title="선정산 관리" data-node-id="14:505">
               <span class="nav-item-icon" data-node-id="I14:505;2:776">
                 <img src="assets/loan-icon.svg" alt="" />
               </span>
               <span class="nav-item-label" data-node-id="I14:505;2:780">선정산 관리</span>
+              <span class="nav-count">(17)</span>
             </button>
             <div class="nav-chevron-down" id="loanNavChevron" data-node-id="27:236" data-name="하위 메뉴 접기">
               <img src="assets/nav-chevron-down.svg" alt="" />
@@ -75,22 +132,27 @@
             <div class="flyout-submenu-title">선정산 관리</div>
             <button type="button" class="nav-subitem nav-subitem--active" data-menu-id="settlement-status"
               data-menu-title="정산·상환 현황" data-node-id="18:844" data-name="대출 현황 · 현재 메뉴">
+              <span class="nav-tree-prefix">↳</span>
               <span class="nav-subitem-text" data-node-id="18:845">정산·상환 현황</span>
+              <span class="nav-subitem-count">(63)</span>
             </button>
             <button type="button" class="nav-subitem" data-menu-id="menu-limit" data-menu-title="한도·심사 관리"
               data-node-id="18:846" data-name="신청·심사 관리">
+              <span class="nav-tree-prefix">↳</span>
               <span class="nav-subitem-text" data-node-id="18:847">한도·심사 관리</span>
-              <span class="nav-badge nav-badge--brand">3</span>
+              <span class="nav-subitem-count">(3)</span>
             </button>
             <button type="button" class="nav-subitem" data-menu-id="menu-execution" data-menu-title="선지급 실행 관리"
               data-node-id="18:848" data-name="대출 실행 관리">
+              <span class="nav-tree-prefix">↳</span>
               <span class="nav-subitem-text" data-node-id="18:849">선지급 실행 관리</span>
-              <span class="nav-badge">12</span>
+              <span class="nav-subitem-count">(12)</span>
             </button>
             <button type="button" class="nav-subitem" data-menu-id="menu-overdue" data-menu-title="회수·미납 관리"
               data-node-id="18:850" data-name="상환·연체 관리">
+              <span class="nav-tree-prefix">↳</span>
               <span class="nav-subitem-text" data-node-id="18:851">회수·미납 관리</span>
-              <span class="nav-badge nav-badge--warn">2</span>
+              <span class="nav-subitem-count">(2)</span>
             </button>
           </div>
         </div>
@@ -142,10 +204,34 @@
       </nav>
 
       <div class="nav-section nav-section--bottom" data-node-id="18:858" data-name="관리 및 지원">
-        <div class="nav-divider" data-node-id="18:859" data-name="업무·관리 구분선"></div>
         <div class="nav-section-header" data-node-id="18:860" data-name="관리 영역 구분">
-          <p class="nav-section-title" data-node-id="18:861">시스템 관리</p>
+          <span class="nav-section-title" data-node-id="18:861">시스템 관리</span>
+          <span class="nav-section-line"></span>
         </div>
+        <button type="button" class="nav-item" data-menu-id="menu-operators" data-menu-title="운영자 관리">
+          <span class="nav-item-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z"
+                stroke="currentColor" stroke-width="1.3" />
+              <path d="M2.5 14C2.5 11.5147 4.96243 9.5 8 9.5C11.0376 9.5 13.5 11.5147 13.5 14" stroke="currentColor"
+                stroke-width="1.3" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="nav-item-label">운영자 관리</span>
+          <span class="nav-count">(24)</span>
+        </button>
+        <button type="button" class="nav-item" data-menu-id="menu-permissions" data-menu-title="권한 관리">
+          <span class="nav-item-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="6.5" width="10" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+              <path d="M5.5 6.5V4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5V6.5" stroke="currentColor"
+                stroke-width="1.3" stroke-linecap="round" />
+              <circle cx="8" cy="10" r="1" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="nav-item-label">권한 관리</span>
+        </button>
         <button type="button" class="nav-item" data-menu-id="menu-settings" data-menu-title="환경 설정"
           data-node-id="14:525">
           <span class="nav-item-icon" data-node-id="I14:525;2:2204">
@@ -191,99 +277,210 @@
         </div>
       </div>
 
-      <!-- 상단 워크스페이스 헤더 바 (탭 하단부와 자연스럽게 연결) -->
-      <header class="workspace-bar" data-node-id="14:536" data-name="워크스페이스 바">
-        <div class="workspace-bar-left" data-node-id="21:718" data-name="현재 경로">
-          <nav class="breadcrumb-nav" aria-label="현재 경로" data-node-id="14:537">
-            <span class="bc-item">워크스페이스</span>
-            <span class="bc-sep">/</span>
-            <span class="bc-item" id="bcSectionText">선정산 관리</span>
-            <span class="bc-sep">/</span>
-            <span class="bc-current" id="bcMenuText">정산·상환 현황</span>
-          </nav>
-        </div>
-
-        <div class="workspace-bar-right" data-node-id="22:719" data-name="계정주 프로필 및 로그아웃">
-          <div class="user-profile-dropdown-wrap" id="userProfileDropdownWrap">
-            <button type="button" class="cutoff-status-pill cutoff-status-pill--btn" id="userProfileTrigger"
-              aria-expanded="false" aria-haspopup="menu" data-node-id="22:720" data-name="계정주 프로필">
-              <span class="cutoff-dot"></span>
-              <span class="cutoff-label" data-node-id="14:538"><strong id="topUserNameText">김서연</strong> 님</span>
-              <span class="cutoff-sep">·</span>
-              <span class="cutoff-time" data-node-id="22:726">담당 <strong>12</strong></span>
-              <svg class="cutoff-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </button>
-
-            <!-- 프로필 드롭다운 메뉴 -->
-            <div class="user-dropdown-menu" id="userProfileMenu" role="menu" aria-label="내 계정 메뉴" hidden>
-              <div class="user-dropdown-header">
-                <div class="user-dropdown-title-row">
-                  <strong class="user-dropdown-name" id="dropdownUserNameText">김서연</strong>
-                  <span class="user-dropdown-role">선임 매니저</span>
-                </div>
-                <p class="user-dropdown-meta" id="dropdownUserMetaText">정산운영팀 · sy.kim@festio.co.kr</p>
+      <!-- 정산 상세 본문 (좌 3 : 우 7 마스터-디테일 분할) -->
+      <main class="content-body content-body--split" id="settlementDetailView" data-node-id="14:539" data-name="정산 상세 본문">
+        <!-- 좌측 30%: 담당 기관(가맹점) 목록 패널 -->
+        <aside class="org-master-pane" id="orgMasterPane" aria-label="담당 기관 목록">
+          <div class="org-pane-header">
+            <div class="org-pane-title-row">
+              <div class="org-pane-title-left">
+                <h2 class="org-pane-title">정산1팀 담당 기관</h2>
+                <span class="org-pane-count" id="orgPaneCount">(8)</span>
               </div>
-              <div class="user-dropdown-divider"></div>
-              <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="account">
-                <span>내 계정 수정</span>
-                <span class="user-dropdown-hint">정보·알림</span>
-              </button>
-              <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="password">
-                <span>비밀번호 변경</span>
-                <span class="user-dropdown-hint">보안</span>
-              </button>
-              <button type="button" class="user-dropdown-item" role="menuitem" data-profile-tab="merchants">
-                <span>담당 가맹점 목록</span>
-                <span class="user-dropdown-count">12</span>
-              </button>
+              <div class="org-manager-select-wrap">
+                <select class="org-manager-select" id="orgManagerFilter" aria-label="담당자 필터">
+                  <option value="all">담당자 전체</option>
+                  <option value="김지수">김지수</option>
+                  <option value="정우성">정우성</option>
+                </select>
+                <svg class="org-manager-chevron" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="org-search-wrap">
+              <svg class="org-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" class="org-search-input" id="orgSearchInput" placeholder="기관명, 대표자 검색..."
+                autocomplete="off" />
+            </div>
+            <div class="org-filter-tabs" id="orgFilterTabs" role="tablist" aria-label="상태 필터">
+              <button type="button" class="org-filter-tab is-active" data-org-filter="all">전체</button>
+              <button type="button" class="org-filter-tab" data-org-filter="normal">정상</button>
+              <button type="button" class="org-filter-tab" data-org-filter="overdue">미납</button>
+              <button type="button" class="org-filter-tab" data-org-filter="done">완납</button>
             </div>
           </div>
 
-          <button type="button" class="topbar-icon-btn" aria-label="알림 2건" title="입금 대사 및 심사 알림">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 5.33333C12 4.27247 11.5786 3.25505 10.8284 2.50491C10.0783 1.75476 9.06087 1.33333 8 1.33333C6.93913 1.33333 5.92172 1.75476 5.17157 2.50491C4.42143 3.25505 4 4.27247 4 5.33333C4 10 2 11.3333 2 11.3333H14C14 11.3333 12 10 12 5.33333Z"
-                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-              <path
-                d="M9.15335 14C9.03614 14.2021 8.86791 14.3698 8.6655 14.4864C8.46309 14.6029 8.2336 14.6643 8.00001 14.6643C7.76643 14.6643 7.53694 14.6029 7.33453 14.4864C7.13212 14.3698 6.96389 14.2021 6.84668 14"
-                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span class="notif-dot"></span>
-          </button>
+          <div class="org-list" id="orgList" role="listbox" aria-label="담당 가맹점 목록">
+            <button type="button" class="org-item is-active" role="option" aria-selected="true"
+              data-org-status="overdue" data-org-name="우후죽순 신사점" data-org-ceo="한동훈" data-org-manager="김지수"
+              data-org-channel="신탁영업 DB" data-org-date="2026-09-16 약정 집행" data-org-fee="0.90%"
+              data-org-overdue="미납 · ₩410,000" data-org-days="63일차 (완료 62일 · 미납 1일)"
+              data-org-collected="₩25,420,000" data-org-remaining="₩11,480,000">
+              <div class="org-item-top">
+                <span class="org-item-name">우후죽순 신사점</span>
+                <span class="org-status-pill org-status-pill--danger">미납</span>
+              </div>
+              <div class="org-item-meta">대표 한동훈 · 담당 김지수 · 63/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩11,480,000</strong> <span class="org-amount-danger">· 미납 ₩410,000</span></span>
+                <span class="org-amount-rate">회수 69%</span>
+              </div>
+            </button>
 
-          <button type="button" class="btn btn--sm btn--secondary" style="height: 30px; padding: 0 10px;"
-            data-node-id="22:728">로그아웃</button>
-        </div>
-      </header>
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="normal" data-org-name="우후죽순 강남점" data-org-ceo="박성민" data-org-manager="김지수"
+              data-org-channel="직영영업" data-org-date="2026-08-04 약정 집행" data-org-fee="0.85%"
+              data-org-overdue="" data-org-days="75일차 (정상 75일)"
+              data-org-collected="₩37,500,000" data-org-remaining="₩7,500,000">
+              <div class="org-item-top">
+                <span class="org-item-name">우후죽순 강남점</span>
+                <span class="org-status-pill org-status-pill--success">정상</span>
+              </div>
+              <div class="org-item-meta">대표 박성민 · 담당 김지수 · 75/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩7,500,000</strong></span>
+                <span class="org-amount-rate">회수 83%</span>
+              </div>
+            </button>
 
-      <!-- 정산 상세 본문 (14:539) -->
-      <main class="content-body" id="settlementDetailView" data-node-id="14:539" data-name="정산 상세 본문">
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="overdue" data-org-name="우후죽순 홍대점" data-org-ceo="이수진" data-org-manager="정우성"
+              data-org-channel="파트너 제휴" data-org-date="2026-10-12 약정 집행" data-org-fee="1.05%"
+              data-org-overdue="미납 · ₩640,000" data-org-days="38일차 (완료 36일 · 미납 2일)"
+              data-org-collected="₩11,520,000" data-org-remaining="₩17,280,000">
+              <div class="org-item-top">
+                <span class="org-item-name">우후죽순 홍대점</span>
+                <span class="org-status-pill org-status-pill--danger">미납</span>
+              </div>
+              <div class="org-item-meta">대표 이수진 · 담당 정우성 · 38/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩17,280,000</strong> <span class="org-amount-danger">· 미납 ₩640,000</span></span>
+                <span class="org-amount-rate">회수 40%</span>
+              </div>
+            </button>
+
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="normal" data-org-name="성수 로스터리 본점" data-org-ceo="최준호" data-org-manager="김지수"
+              data-org-channel="신탁영업 DB" data-org-date="2026-07-21 약정 집행" data-org-fee="0.80%"
+              data-org-overdue="" data-org-days="82일차 (정상 82일)"
+              data-org-collected="₩49,200,000" data-org-remaining="₩4,800,000">
+              <div class="org-item-top">
+                <span class="org-item-name">성수 로스터리 본점</span>
+                <span class="org-status-pill org-status-pill--success">정상</span>
+              </div>
+              <div class="org-item-meta">대표 최준호 · 담당 김지수 · 82/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩4,800,000</strong></span>
+                <span class="org-amount-rate">회수 91%</span>
+              </div>
+            </button>
+
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="normal" data-org-name="판교 테크노밸리점" data-org-ceo="윤서연" data-org-manager="정우성"
+              data-org-channel="직영영업" data-org-date="2026-10-01 약정 집행" data-org-fee="0.90%"
+              data-org-overdue="" data-org-days="49일차 (정상 49일)"
+              data-org-collected="₩22,050,000" data-org-remaining="₩18,450,000">
+              <div class="org-item-top">
+                <span class="org-item-name">판교 테크노밸리점</span>
+                <span class="org-status-pill org-status-pill--success">정상</span>
+              </div>
+              <div class="org-item-meta">대표 윤서연 · 담당 정우성 · 49/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩18,450,000</strong></span>
+                <span class="org-amount-rate">회수 54%</span>
+              </div>
+            </button>
+
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="normal" data-org-name="가로수길 브런치" data-org-ceo="강민지" data-org-manager="김지수"
+              data-org-channel="신탁영업 DB" data-org-date="2026-09-25 약정 집행" data-org-fee="0.95%"
+              data-org-overdue="" data-org-days="56일차 (정상 56일)"
+              data-org-collected="₩19,600,000" data-org-remaining="₩11,900,000">
+              <div class="org-item-top">
+                <span class="org-item-name">가로수길 브런치</span>
+                <span class="org-status-pill org-status-pill--success">정상</span>
+              </div>
+              <div class="org-item-meta">대표 강민지 · 담당 김지수 · 56/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩11,900,000</strong></span>
+                <span class="org-amount-rate">회수 62%</span>
+              </div>
+            </button>
+
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="normal" data-org-name="여의도 다이닝 2호점" data-org-ceo="정태현" data-org-manager="김지수"
+              data-org-channel="파트너 제휴" data-org-date="2026-11-02 약정 집행" data-org-fee="0.90%"
+              data-org-overdue="" data-org-days="19일차 (정상 19일)"
+              data-org-collected="₩8,550,000" data-org-remaining="₩31,950,000">
+              <div class="org-item-top">
+                <span class="org-item-name">여의도 다이닝 2호점</span>
+                <span class="org-status-pill org-status-pill--success">정상</span>
+              </div>
+              <div class="org-item-meta">대표 정태현 · 담당 김지수 · 19/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩31,950,000</strong></span>
+                <span class="org-amount-rate">회수 21%</span>
+              </div>
+            </button>
+
+            <button type="button" class="org-item" role="option" aria-selected="false"
+              data-org-status="done" data-org-name="한남동 와인바" data-org-ceo="오지훈" data-org-manager="김지수"
+              data-org-channel="직영영업" data-org-date="2026-06-15 약정 집행" data-org-fee="0.85%"
+              data-org-overdue="" data-org-days="90일차 (완납 완료)"
+              data-org-collected="₩36,000,000" data-org-remaining="₩0">
+              <div class="org-item-top">
+                <span class="org-item-name">한남동 와인바</span>
+                <span class="org-status-pill org-status-pill--neutral">완납</span>
+              </div>
+              <div class="org-item-meta">대표 오지훈 · 담당 김지수 · 90/90일차</div>
+              <div class="org-item-amounts">
+                <span class="org-amount-left">잔여 <strong>₩0</strong></span>
+                <span class="org-amount-rate">회수 100%</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="org-pane-footer" id="orgPaneFooter">
+            <span>전체 <strong id="orgStatTotal">8</strong></span>
+            <span>·</span>
+            <span>정상 <strong id="orgStatNormal">5</strong></span>
+            <span>·</span>
+            <span class="org-footer-danger">미납 <strong id="orgStatOverdue">2</strong></span>
+            <span>·</span>
+            <span>완납 <strong id="orgStatDone">1</strong></span>
+          </div>
+        </aside>
+
+        <!-- 우측 70%: 선택 기관 상세 & 정산 내역 -->
+        <div class="org-detail-pane" id="orgDetailPane">
         <!-- Section 1 & 2 통합: 가맹점 약정 헤더 + 상환 진행률 통합 카드 -->
         <div class="merchant-contract-unified-card">
           <section class="merchant-header" data-node-id="14:540" data-name="가맹점과 계약">
-            <div class="merchant-header-left" data-node-id="14:555" data-name="가맹점명과 상태">
-              <div class="branch-identity" data-node-id="26:303" data-name="CRM/Field/BranchSelect/Filled">
-                <div class="home-icon-box" data-node-id="26:307" data-name="홈 아이콘">
-                  <img src="assets/home.svg" alt="" />
+            <div class="merchant-header-main">
+              <div class="merchant-header-left" data-node-id="14:555" data-name="가맹점명과 상태">
+                <div class="branch-identity" data-node-id="26:303" data-name="CRM/Field/BranchSelect/Filled">
+                  <div class="branch-switcher-btn" style="cursor: default;">
+                    <svg class="branch-home-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M11.47 2.47a.75.75 0 011.06 0l8 8a.75.75 0 01-.53 1.28H19v7.5A1.75 1.75 0 0117.25 21h-3.5a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-2.5a.75.75 0 00-.75.75v4.5c0 .414-.336.75-.75.75h-3.5A1.75 1.75 0 013 19.25V11.75h-.75a.75.75 0 01-.53-1.28l8-8z"/>
+                    </svg>
+                    <h1 class="branch-select-name" data-node-id="26:304">우후죽순 신사점</h1>
+                    <!-- <span class="branch-switcher-chevron" data-node-id="26:305">
+                      <img src="assets/branch-chevron.svg" alt="" />
+                    </span> -->
+                  </div>
                 </div>
-                <button type="button" class="branch-switcher-btn" title="다른 가맹점으로 전환">
-                  <h1 class="branch-select-name" data-node-id="26:304">우후죽순 신사점</h1>
-                  <span class="branch-switcher-chevron" data-node-id="26:305">
-                    <img src="assets/branch-chevron.svg" alt="" />
-                  </span>
-                </button>
+
+                <!-- <span class="status-badge status-badge--neutral" style="height: 24px; padding: 0 9px;"
+                  data-node-id="14:557">2026-09-16 약정 집행</span> -->
               </div>
 
-              <span class="status-badge status-badge--brand" style="height: 26px; padding: 0 10px;"
-                data-node-id="14:557">2026-09-16 약정 집행</span>
-
-              <span class="header-v-divider" aria-hidden="true"></span>
-
-              <div class="merchant-meta-list" data-node-id="14:559">
+              <!-- <div class="merchant-meta-list" data-node-id="14:559">
                 <span class="meta-kv"><span class="meta-k">대표</span><strong class="meta-v">한동훈</strong></span>
                 <span class="meta-dot">·</span>
                 <span class="meta-kv"><span class="meta-k">담당</span><strong class="meta-v">김지수</strong></span>
@@ -300,20 +497,14 @@
                     <span>계정 수정</span>
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <div class="merchant-header-actions" data-node-id="24:1236">
-              <!-- 카드수수료율 셀렉트 드롭다운 버튼 (상환 버튼과 동일 디자인) -->
               <div class="repayment-select-wrap" id="cardFeeSelectWrap">
-                <button type="button" class="btn btn--md btn--secondary repayment-select-btn" id="cardFeeSelectBtn"
+                <button type="button" class="btn btn--sm repayment-select-btn" id="cardFeeSelectBtn"
                   aria-expanded="false" aria-haspopup="menu" data-node-id="24:1239">
                   <span>카드수수료율</span>
-                  <svg class="repayment-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
-                  </svg>
                 </button>
                 <div class="repayment-select-menu" id="cardFeeSelectMenu" role="menu" aria-label="카드수수료율 관리" hidden>
                   <button type="button" class="repayment-select-item" role="menuitem" data-fee-action="카드사별 수수료율 조회">
@@ -331,16 +522,10 @@
                 </div>
               </div>
 
-              <!-- 상환 셀렉트 드롭다운 버튼 (선납부 등록 / 조기상환 / 직접 상환등록) -->
               <div class="repayment-select-wrap" id="repaymentSelectWrap">
-                <button type="button" class="btn btn--md btn--secondary repayment-select-btn" id="repaymentSelectBtn"
+                <button type="button" class="btn btn--sm repayment-select-btn repayment-select-btn--primary" id="repaymentSelectBtn"
                   aria-expanded="false" aria-haspopup="menu">
                   <span>상환</span>
-                  <svg class="repayment-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
-                  </svg>
                 </button>
                 <div class="repayment-select-menu" id="repaymentSelectMenu" role="menu" aria-label="상환 방식 선택" hidden>
                   <button type="button" class="repayment-select-item" role="menuitem" data-repay-type="선납부 등록">
@@ -358,16 +543,10 @@
                 </div>
               </div>
 
-              <!-- 계약 관리 통합 드롭다운 (계약 수정 / 한도 증액 / 계약 연장 / 계약 종료) -->
               <div class="repayment-select-wrap" id="contractSelectWrap">
-                <button type="button" class="btn btn--md btn--secondary repayment-select-btn" id="contractSelectBtn"
+                <button type="button" class="btn btn--sm repayment-select-btn repayment-select-btn--sub-point" id="contractSelectBtn"
                   aria-expanded="false" aria-haspopup="menu">
                   <span>계약 관리</span>
-                  <svg class="repayment-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
-                  </svg>
                 </button>
                 <div class="repayment-select-menu" id="contractSelectMenu" role="menu" aria-label="계약 관리 메뉴" hidden>
                   <button type="button" class="repayment-select-item" role="menuitem" data-contract-action="계약 수정"
@@ -395,7 +574,10 @@
               </div>
             </div>
           </section>
+        </div>
 
+        <!-- ==================== [배포 임시 숨김] 우측 하단 영역: 상환 진행률, 정산 계산, 정산 내역 ==================== -->
+        <div id="orgDetailPendingSections" style="display: none !important;" aria-hidden="true">
           <!-- 선정산 약정 및 상환 현황 (14:541) -->
           <section class="repayment-card is-collapsed" id="repaymentCard" data-node-id="14:541" data-name="대출 및 상환 현황">
             <div class="repayment-title-row" data-node-id="14:607" data-name="진행률 제목">
@@ -479,7 +661,6 @@
               </div>
             </div>
           </section>
-        </div>
 
         <!-- Section 3: 정산 계산 (14:542) -->
         <section class="calc-card" id="calcCard" data-node-id="14:542" data-name="정산 계산 작업">
@@ -597,10 +778,10 @@
               <div class="control-group" data-name="미납 상환">
                 <span class="control-label">미납 상환 <small class="control-label-sub">(미납 1일)</small></span>
                 <div class="btn-group" data-group="overdue">
-                  <button type="button" class="btn btn--seg btn--seg-active" style="width: 58px;"
-                    data-value="미납 상환 안 함" data-overdue-days="0">안 함</button>
-                  <button type="button" class="btn btn--seg" style="width: 68px;"
-                    data-value="미납 상환 1일" data-overdue-days="1">1일 완납</button>
+                  <button type="button" class="btn btn--seg btn--seg-active" style="width: 58px;" data-value="미납 상환 안 함"
+                    data-overdue-days="0">안 함</button>
+                  <button type="button" class="btn btn--seg" style="width: 68px;" data-value="미납 상환 1일"
+                    data-overdue-days="1">1일 완납</button>
                 </div>
               </div>
 
@@ -845,7 +1026,8 @@
                   <span class="status-badge status-badge--success" style="width: 56px; height: 24px;">확정</span>
                 </div>
                 <div class="td-cell td-cell--actions" style="width: 140px;">
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
 
@@ -875,7 +1057,8 @@
                   <div class="lock-guard">
                     <button type="button" class="unlock-btn" data-action="unlock">해제</button>
                   </div>
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
 
@@ -908,7 +1091,8 @@
                   <div class="lock-guard">
                     <button type="button" class="unlock-btn" data-action="unlock">해제</button>
                   </div>
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
 
@@ -938,7 +1122,8 @@
                   <div class="lock-guard">
                     <button type="button" class="unlock-btn" data-action="unlock">해제</button>
                   </div>
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
 
@@ -967,7 +1152,8 @@
                   <div class="lock-guard">
                     <button type="button" class="unlock-btn" data-action="unlock">해제</button>
                   </div>
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
 
@@ -997,7 +1183,8 @@
                   <div class="lock-guard">
                     <button type="button" class="unlock-btn" data-action="unlock">해제</button>
                   </div>
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
 
@@ -1027,7 +1214,8 @@
                   <div class="lock-guard">
                     <button type="button" class="unlock-btn" data-action="unlock">해제</button>
                   </div>
-                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;" data-action="delete">삭제</button>
+                  <button type="button" class="btn btn--sm btn--danger-soft" style="width: 64px;"
+                    data-action="delete">삭제</button>
                 </div>
               </div>
             </div>
@@ -1048,22 +1236,660 @@
               발생하지 않은 항목</p>
           </div>
         </section>
+        </div><!-- /#orgDetailPendingSections -->
+        </div><!-- /#orgDetailPane -->
+      </main>
+
+      <!-- ==================== 운영자 관리 화면 ==================== -->
+      <main class="content-body" id="operatorManagementView" style="display: none;">
+        <!-- 상단 헤더 & 등록 버튼 -->
+        <div class="view-header-card">
+          <div class="view-header-left">
+            <div class="view-title-row">
+              <h1 class="view-main-title">운영자 계정 및 담당 관리</h1>
+              <span class="status-badge status-badge--brand">전사 24명</span>
+            </div>
+            <p class="view-header-desc">
+              festio 사내 영업자, 팀장, 관리자 계정을 등록하고 소속 지점/팀 및 취급 업무(팩토링·신탁·PG)와 DB 배정 상태를 관리합니다.
+            </p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn btn--md btn--secondary" id="exportOperatorsBtn">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 11.5V13.5H13.5V11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                <path d="M8 2.5V10.5M8 10.5L5 7.5M8 10.5L11 7.5" stroke="currentColor" stroke-width="1.4"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span>목록 다운로드</span>
+            </button>
+            <button type="button" class="btn btn--md btn--primary" id="openOperatorRegisterModalBtn">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 3.5V12.5M3.5 8H12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+              <span>신규 운영자 등록</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4개 요약 메트릭 카드 -->
+        <div class="op-metrics-grid">
+          <div class="op-metric-card">
+            <div class="op-metric-icon op-metric-icon--total">👥</div>
+            <div class="op-metric-info" style="flex: 1;">
+              <span class="op-metric-label">전체 운영자</span>
+              <strong class="op-metric-val">24<small>명</small></strong>
+              <div class="op-metric-progress-wrap">
+                <div class="op-metric-progress-bar">
+                  <div class="op-metric-progress-fill" style="width: 92%;"></div>
+                </div>
+                <div class="op-metric-progress-meta">
+                  <span>정상 근무율</span>
+                  <strong>92% (22/24)</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="op-metric-card">
+            <div class="op-metric-icon op-metric-icon--sales">💼</div>
+            <div class="op-metric-info" style="flex: 1;">
+              <span class="op-metric-label">영업 담당자</span>
+              <strong class="op-metric-val">16<small>명</small></strong>
+              <div class="op-metric-progress-wrap">
+                <div class="op-metric-progress-bar">
+                  <div class="op-metric-progress-fill op-metric-progress-fill--green" style="width: 88%;"></div>
+                </div>
+                <div class="op-metric-progress-meta">
+                  <span>DB 배정 활성</span>
+                  <strong>88% (14/16)</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="op-metric-card">
+            <div class="op-metric-icon op-metric-icon--lead">👔</div>
+            <div class="op-metric-info" style="flex: 1;">
+              <span class="op-metric-label">팀장 / 중간관리자</span>
+              <strong class="op-metric-val">5<small>명</small></strong>
+              <div class="op-metric-progress-wrap">
+                <div class="op-metric-progress-bar">
+                  <div class="op-metric-progress-fill op-metric-progress-fill--blue" style="width: 100%;"></div>
+                </div>
+                <div class="op-metric-progress-meta">
+                  <span>팀 가동률</span>
+                  <strong>100% (5개팀)</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="op-metric-card">
+            <div class="op-metric-icon op-metric-icon--admin">🛡️</div>
+            <div class="op-metric-info" style="flex: 1;">
+              <span class="op-metric-label">시스템 관리자</span>
+              <strong class="op-metric-val">3<small>명</small></strong>
+              <div class="op-metric-progress-wrap">
+                <div class="op-metric-progress-bar">
+                  <div class="op-metric-progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="op-metric-progress-meta">
+                  <span>보안 감사 기준</span>
+                  <strong>적합 (3/3)</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 테이블 카드 (필터 툴바 + 운영자 목록) -->
+        <div class="history-card" style="padding: 20px;">
+          <!-- 툴바 -->
+          <div class="history-toolbar">
+            <div class="history-toolbar-left">
+              <div class="period-tabs" id="operatorRoleTabs">
+                <button type="button" class="period-tab period-tab--active" data-op-role="all">전체 (24)</button>
+                <button type="button" class="period-tab" data-op-role="sales">영업자 (16)</button>
+                <button type="button" class="period-tab" data-op-role="lead">팀장 (5)</button>
+                <button type="button" class="period-tab" data-op-role="admin">관리자 (3)</button>
+              </div>
+
+              <div class="history-select-wrap">
+                <select class="history-filter-select" id="operatorDeptFilter" aria-label="소속 팀 필터">
+                  <option value="all">전체 소속팀</option>
+                  <option value="신탁영업 1팀">신탁영업 1팀</option>
+                  <option value="팩토링 2팀">팩토링 2팀</option>
+                  <option value="PG솔루션팀">PG솔루션팀</option>
+                  <option value="정산운영팀">정산운영팀</option>
+                </select>
+                <svg class="history-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <div class="history-select-wrap">
+                <select class="history-filter-select" id="operatorDbStatusFilter" aria-label="DB 배정 상태 필터">
+                  <option value="all">DB 배정 전체</option>
+                  <option value="active">배정 활성 (ON)</option>
+                  <option value="paused">배정 일시정지 (OFF)</option>
+                </select>
+                <svg class="history-select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="history-toolbar-right">
+              <div class="history-search-box">
+                <svg class="history-search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <circle cx="7.2" cy="7.2" r="4.8" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M10.8 10.8L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                <input type="text" class="history-search-input" id="operatorSearchInput" placeholder="이름·사번·연락처 검색"
+                  style="width: 170px;" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 운영자 테이블 -->
+          <div class="table-scroll-container">
+            <table class="op-data-table">
+              <thead>
+                <tr>
+                  <th style="width: 110px;">사번</th>
+                  <th style="width: 160px;">성명 / 직위</th>
+                  <th style="width: 180px;">소속 조직</th>
+                  <th style="width: 100px;">역할 등급</th>
+                  <th style="width: 150px;">취급 업무</th>
+                  <th style="width: 100px; text-align: center;">담당 고객 수</th>
+                  <th style="width: 140px;">알림톡 수신번호</th>
+                  <th style="width: 120px; text-align: center;">DB 자동배정</th>
+                  <th style="width: 140px; text-align: center;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="operatorTableBody">
+                <tr data-role="admin" data-dept="정산운영팀" data-db="active">
+                  <td><span class="code-badge">FES-2024-001</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--admin"></span>
+                      <div>
+                        <strong>김서연</strong>
+                        <span class="user-cell-role">선임 매니저</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>본사 · 정산운영팀</td>
+                  <td><span class="role-badge role-badge--admin">관리자</span></td>
+                  <td>
+                    <span class="product-tag">선정산</span>
+                    <span class="product-tag">신탁</span>
+                    <span class="product-tag">PG</span>
+                  </td>
+                  <td style="text-align: center;"><strong>전체 (12)</strong></td>
+                  <td>010-8765-4321</td>
+                  <td style="text-align: center;">
+                    <label class="toggle-switch" title="DB 자동 배정 활성 상태">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+
+                <tr data-role="lead" data-dept="신탁영업 1팀" data-db="active">
+                  <td><span class="code-badge">FES-2024-005</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--lead"></span>
+                      <div>
+                        <strong>박민우</strong>
+                        <span class="user-cell-role">팀장</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>영업본부 · 신탁영업 1팀</td>
+                  <td><span class="role-badge role-badge--lead">팀장</span></td>
+                  <td>
+                    <span class="product-tag">신탁영업</span>
+                    <span class="product-tag">선정산</span>
+                  </td>
+                  <td style="text-align: center;"><strong>팀 전체 28</strong></td>
+                  <td>010-3344-5566</td>
+                  <td style="text-align: center;">
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+
+                <tr data-role="sales" data-dept="신탁영업 1팀" data-db="active">
+                  <td><span class="code-badge">FES-2025-012</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--sales"></span>
+                      <div>
+                        <strong>김지수</strong>
+                        <span class="user-cell-role">선임 매니저</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>영업본부 · 신탁영업 1팀</td>
+                  <td><span class="role-badge role-badge--sales">영업자</span></td>
+                  <td>
+                    <span class="product-tag">신탁영업</span>
+                    <span class="product-tag">선정산</span>
+                  </td>
+                  <td style="text-align: center;"><strong>본인 12</strong></td>
+                  <td>010-5401-1280</td>
+                  <td style="text-align: center;">
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+
+                <tr data-role="lead" data-dept="팩토링 2팀" data-db="active">
+                  <td><span class="code-badge">FES-2025-022</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--lead"></span>
+                      <div>
+                        <strong>최예진</strong>
+                        <span class="user-cell-role">팀장</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>영업본부 · 팩토링 2팀</td>
+                  <td><span class="role-badge role-badge--lead">팀장</span></td>
+                  <td>
+                    <span class="product-tag">팩토링(선정산)</span>
+                  </td>
+                  <td style="text-align: center;"><strong>팀 전체 34</strong></td>
+                  <td>010-2233-4455</td>
+                  <td style="text-align: center;">
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+
+                <tr data-role="sales" data-dept="팩토링 2팀" data-db="active">
+                  <td><span class="code-badge">FES-2025-018</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--sales"></span>
+                      <div>
+                        <strong>이준호</strong>
+                        <span class="user-cell-role">매니저</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>영업본부 · 팩토링 2팀</td>
+                  <td><span class="role-badge role-badge--sales">영업자</span></td>
+                  <td>
+                    <span class="product-tag">팩토링(선정산)</span>
+                  </td>
+                  <td style="text-align: center;"><strong>본인 15</strong></td>
+                  <td>010-9988-7766</td>
+                  <td style="text-align: center;">
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+
+                <tr data-role="sales" data-dept="PG솔루션팀" data-db="paused">
+                  <td><span class="code-badge">FES-2026-031</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--sales"></span>
+                      <div>
+                        <strong>정다은</strong>
+                        <span class="user-cell-role">매니저</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>제휴사업본부 · PG솔루션팀</td>
+                  <td><span class="role-badge role-badge--sales">영업자</span></td>
+                  <td>
+                    <span class="product-tag">PG솔루션</span>
+                  </td>
+                  <td style="text-align: center;"><strong>본인 8</strong></td>
+                  <td>010-7766-5544</td>
+                  <td style="text-align: center;">
+                    <label class="toggle-switch" title="현재 배정 일시정지">
+                      <input type="checkbox" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+
+                <tr data-role="admin" data-dept="경영기획실" data-db="paused">
+                  <td><span class="code-badge">FES-2024-002</span></td>
+                  <td>
+                    <div class="user-cell">
+                      <span class="user-dot user-dot--admin"></span>
+                      <div>
+                        <strong>한동훈</strong>
+                        <span class="user-cell-role">총괄 본부장</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>경영기획실</td>
+                  <td><span class="role-badge role-badge--admin">관리자</span></td>
+                  <td>
+                    <span class="product-tag">전 사업총괄</span>
+                  </td>
+                  <td style="text-align: center;"><strong>전사 전체</strong></td>
+                  <td>010-1122-3344</td>
+                  <td style="text-align: center;">
+                    <span class="status-badge status-badge--neutral" style="font-size: 11px;">배정제외</span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+                    <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+
+      <!-- ==================== 권한 관리 화면 ==================== -->
+      <main class="content-body" id="permissionManagementView" style="display: none;">
+        <!-- 상단 헤더 & 저장 버튼 -->
+        <div class="view-header-card">
+          <div class="view-header-left">
+            <div class="view-title-row">
+              <h1 class="view-main-title">사용자 및 고객 조회 권한 관리</h1>
+              <span class="status-badge status-badge--brand">RBAC 2.0</span>
+            </div>
+            <p class="view-header-desc">
+              역할(Role)별 고객 데이터 조회 범위(본인/소속팀/전사)와 기능별 세부 권한(등록·수정·삭제·상태변경·정산)을 배정합니다.
+            </p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn btn--md btn--secondary" id="resetPermissionsBtn">기본값 복원</button>
+            <button type="button" class="btn btn--md btn--primary" id="savePermissionsBtn">권한 변경사항 저장</button>
+          </div>
+        </div>
+
+        <!-- Section 1: 3대 역할별 조회 범위 정책 (PRD 2번 완벽 시각화) -->
+        <div class="role-scope-grid">
+          <!-- 영업자 -->
+          <div class="role-scope-card">
+            <div class="role-scope-top">
+              <span class="role-pill role-pill--sales">영업자</span>
+              <span class="role-user-count">16명 배정</span>
+            </div>
+            <div class="role-scope-body">
+              <div class="scope-badge-box">
+                <span class="scope-icon">🔒</span>
+                <strong>본인 고객만 조회</strong>
+              </div>
+              <p class="role-scope-desc">
+                본인에게 배정된 고객만 열람 가능하며, 타 영업자의 고객 정보 및 상담 기록은 열람이 완전 차단됩니다.
+              </p>
+              <ul class="role-privilege-list">
+                <li>✓ 고객 기본정보 및 서류 첨부 등록</li>
+                <li>✓ 접수 / 자서요청 등 본인 담당 단계 변경</li>
+                <li>✓ 심사 결과 알림톡 자동 수신</li>
+                <li>✗ 타 영업자 건 열람 및 정산 전산 차감 불가</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 팀장 -->
+          <div class="role-scope-card">
+            <div class="role-scope-top">
+              <span class="role-pill role-pill--lead">팀장</span>
+              <span class="role-user-count">5명 배정</span>
+            </div>
+            <div class="role-scope-body">
+              <div class="scope-badge-box">
+                <span class="scope-icon">👥</span>
+                <strong>본인 및 소속 팀원 고객 조회</strong>
+              </div>
+              <p class="role-scope-desc">
+                본인 고객과 소속 팀원들이 유치/접수한 모든 고객 건을 통합 조회하고 팀 내에서 재배정할 수 있습니다.
+              </p>
+              <ul class="role-privilege-list">
+                <li>✓ 소속 팀 전체 고객 열람 및 서류 검토</li>
+                <li>✓ 팀 내 광고 DB 수동 재배분</li>
+                <li>✓ 서류 보완요청 및 심사 검토 승인</li>
+                <li>✗ 전사 수수료율 임의 변경 불가</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 관리자 -->
+          <div class="role-scope-card role-scope-card--admin">
+            <div class="role-scope-top">
+              <span class="role-pill role-pill--admin">관리자</span>
+              <span class="role-user-count">3명 배정</span>
+            </div>
+            <div class="role-scope-body">
+              <div class="scope-badge-box scope-badge-box--admin">
+                <span class="scope-icon">🌐</span>
+                <strong>전사 전체 고객 조회 (All)</strong>
+              </div>
+              <p class="role-scope-desc">
+                지점과 팀의 제한 없이 전사 모든 고객, 계약, 정산, 회계 데이터를 조회하고 사용자별 권한을 임의 배정합니다.
+              </p>
+              <ul class="role-privilege-list">
+                <li>✓ 사용자별 권한 및 조회 범위 임의 배정/변경</li>
+                <li>✓ 수수료 정책 변경 (소급금지 이력 관리)</li>
+                <li>✓ 정산 계산 실행, 수기 조정 및 정산 마감</li>
+                <li>✓ 미납/부분상환 회계 정합성 관리</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: 기능 권한 매트릭스 그리드 (Granular Permissions Table) -->
+        <div class="history-card" style="padding: 20px;">
+          <div class="history-title-row" style="margin-bottom: 14px;">
+            <div>
+              <h2 class="section-h3">기능 권한 매트릭스 (Role-Based Access Control)</h2>
+              <p class="calc-header-desc" style="margin-left: 0; margin-top: 4px;">체크박스를 클릭하여 각 역할별 실행 권한을 즉시 배정하고 저장할 수
+                있습니다.</p>
+            </div>
+          </div>
+
+          <div class="table-scroll-container">
+            <table class="perm-matrix-table">
+              <thead>
+                <tr>
+                  <th style="width: 140px;">기능 영역</th>
+                  <th style="width: 180px;">기능 항목</th>
+                  <th>상세 권한 및 실행 조건</th>
+                  <th style="width: 110px; text-align: center;">영업자</th>
+                  <th style="width: 110px; text-align: center;">팀장</th>
+                  <th style="width: 110px; text-align: center;">관리자</th>
+                </tr>
+              </thead>
+              <tbody id="permMatrixTableBody">
+                <!-- 1. 고객 CRM -->
+                <tr>
+                  <td rowspan="4" class="perm-cat-cell">고객 CRM</td>
+                  <td><strong>고객 기본정보 등록</strong></td>
+                  <td>고객 인적사항, 사업자번호, 상담 내용 및 접수 등록</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>고객 정보 수정</strong></td>
+                  <td>등록된 고객 기본정보 및 추가 상담 내역 수정</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>고객 삭제</strong></td>
+                  <td>전산 상 고객 레코드 및 이력 완전 삭제</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>담당자 변경 / 이관</strong></td>
+                  <td>고객 담당 영업자를 타 팀원 또는 타 지점으로 변경 이관</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+
+                <!-- 2. 고객 진행 상태 -->
+                <tr>
+                  <td rowspan="4" class="perm-cat-cell">고객 진행 상태</td>
+                  <td><strong>접수 단계 변경</strong></td>
+                  <td>대기중 ↔ 접수완료 단계 전환</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>심사 단계 변경</strong></td>
+                  <td>심사중 ↔ 심사서류보완요청 ↔ 심사완료 승인</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>자서 단계 변경</strong></td>
+                  <td>자서대기 ↔ 자서요청 ↔ 자서예정일 지정 ↔ 자서완료</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>신탁 단계 변경</strong></td>
+                  <td>신탁접수 ↔ 신탁중 ↔ 신탁완료 최종 집행</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+
+                <!-- 3. 서류 및 계약서 -->
+                <tr>
+                  <td rowspan="3" class="perm-cat-cell">서류 및 계약서</td>
+                  <td><strong>심사서류 첨부 / 업로드</strong></td>
+                  <td>사업자등록증, 신분증, 매출자료 등 고객별 서류 업로드</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>서류 보완요청 발송</strong></td>
+                  <td>서류 식별불가 시 담당 영업자에게 알림톡/전산 보완요청</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>계약서 자동 기입 및 인쇄</strong></td>
+                  <td>고객 정보를 계약서 양식에 자동 기입하여 원클릭 출력</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+
+                <!-- 4. 광고 DB 배정 관리 -->
+                <tr>
+                  <td rowspan="2" class="perm-cat-cell">광고 DB 배정</td>
+                  <td><strong>광고 DB 수동 배정 및 회수</strong></td>
+                  <td>인바운드 유입 DB를 특정 영업자에게 배정하거나 미처리 건 회수</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>DB 배분 지표 / 승인율 조회</strong></td>
+                  <td>팀별·영업자별 계약률, 미팅률, 승인율 지표 및 그래프 열람</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+
+                <!-- 5. 선정산 정산 전산 -->
+                <tr>
+                  <td rowspan="4" class="perm-cat-cell">선정산 정산 전산</td>
+                  <td><strong>가맹점 매출 수집 (VAN)</strong></td>
+                  <td>VAN 스크래핑을 통한 일일 카드매출 데이터 동기화</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>일일 정산 계산 실행 / 확정</strong></td>
+                  <td>수수료 차감, 일상환금 부분상환 및 미납 산출 확정</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>개별 정산 건 수기 수정</strong></td>
+                  <td>특정 일자의 정산수수료, 일상환금, 처리금액을 임의 수정</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+                <tr>
+                  <td><strong>기본 수수료율 변경 (소급금지)</strong></td>
+                  <td>전사/상품 기본 수수료율 변경 (기존 등록 건 불소급 이력 보관)</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+
+                <!-- 6. 시스템 관리 -->
+                <tr>
+                  <td class="perm-cat-cell">시스템 관리</td>
+                  <td><strong>운영자 등록 및 권한 배정</strong></td>
+                  <td>신규 운영자 계정 생성, 역할 부여, 개별 조회 범위 설정</td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" /></td>
+                  <td style="text-align: center;"><input type="checkbox" class="perm-check" checked disabled /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </main>
 
       <!-- 다른 메뉴 클릭 시 표시되는 준비중입니다 화면 -->
       <section class="coming-soon-view" id="comingSoonView" hidden>
-        <div class="coming-soon-card">
-          <div class="coming-soon-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
-            </svg>
-          </div>
-          <h2 class="coming-soon-title" id="comingSoonTitle">화면 준비중입니다</h2>
-          <p class="coming-soon-desc" id="comingSoonDesc">해당 메뉴 화면은 현재 준비중입니다. 정산·상환 현황 화면에서 가맹점별 정산 내역을 확인하실 수 있습니다.
-          </p>
-          <button type="button" class="btn btn--md btn--primary" id="backToSettlementBtn">정산·상환 현황으로 돌아가기</button>
+        <div class="coming-soon-simple">
+          <span class="coming-soon-simple-text" id="comingSoonTitle">준비중입니다</span>
         </div>
       </section>
     </div>
@@ -1206,7 +2032,429 @@
     </div>
   </div>
 
-  <script src="app.js?v=20261119-tds2"></script>
+  <!-- ==================== 신규 운영자 등록 모달 ==================== -->
+  <div class="modal-backdrop" id="operatorModalBackdrop" hidden>
+    <div class="account-modal" style="max-width: 600px;" role="dialog" aria-modal="true" aria-labelledby="opModalTitle">
+      <div class="account-modal-header">
+        <div>
+          <h2 class="account-modal-title" id="opModalTitle">신규 운영자 등록</h2>
+          <p class="account-modal-sub">영업자 CRM 및 정산 전산 계정을 생성하고 권한 및 담당을 배정합니다.</p>
+        </div>
+        <button type="button" class="account-modal-close" id="operatorModalCloseBtn" aria-label="닫기">×</button>
+      </div>
+
+      <form class="account-modal-body" id="operatorRegisterForm">
+        <div class="modal-form-grid">
+          <div class="modal-field">
+            <label class="modal-label" for="regOpName">성명 *</label>
+            <input type="text" class="modal-input" id="regOpName" placeholder="예: 홍길동" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="regOpCode">사번 *</label>
+            <input type="text" class="modal-input" id="regOpCode" value="FES-2026-025" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="regOpEmail">업무용 이메일 (로그인 ID) *</label>
+            <input type="email" class="modal-input" id="regOpEmail" placeholder="id@festio.co.kr" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="regOpPhone">휴대폰 번호 (알림톡 수신) *</label>
+            <input type="tel" class="modal-input" id="regOpPhone" placeholder="010-0000-0000" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="regOpDept">소속 본부 / 팀 *</label>
+            <select class="modal-input" id="regOpDept" required>
+              <option value="신탁영업 1팀">영업본부 · 신탁영업 1팀</option>
+              <option value="팩토링 2팀">영업본부 · 팩토링 2팀</option>
+              <option value="PG솔루션팀">제휴사업본부 · PG솔루션팀</option>
+              <option value="정산운영팀">본사 · 정산운영팀</option>
+              <option value="경영기획실">경영기획실</option>
+            </select>
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="regOpTitle">직급 / 직책</label>
+            <input type="text" class="modal-input" id="regOpTitle" placeholder="예: 매니저, 팀장" value="매니저" />
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <span class="modal-label" style="display: block; margin-bottom: 8px;">권한 등급 (Role) *</span>
+          <div class="role-select-cards">
+            <label class="role-radio-label">
+              <input type="radio" name="regRole" value="sales" checked />
+              <div class="role-radio-card">
+                <strong>영업자 (Sales Rep)</strong>
+                <span>본인 고객만 조회, 접수/심사 서류 첨부 및 알림톡 수신</span>
+              </div>
+            </label>
+            <label class="role-radio-label">
+              <input type="radio" name="regRole" value="lead" />
+              <div class="role-radio-card">
+                <strong>팀장 (Team Lead)</strong>
+                <span>소속 팀원 고객 전체 조회, 팀 내 DB 재배정 및 심사 검토</span>
+              </div>
+            </label>
+            <label class="role-radio-label">
+              <input type="radio" name="regRole" value="admin" />
+              <div class="role-radio-card">
+                <strong>관리자 (Admin)</strong>
+                <span>전사 전체 고객 조회, 사용자 권한 배정, 정산 전산 총괄</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <span class="modal-label" style="display: block; margin-bottom: 8px;">취급 상품 분야 (복수 선택)</span>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <label class="modal-check-row">
+              <input type="checkbox" id="regProdFactoring" checked />
+              <span>팩토링(선정산)</span>
+            </label>
+            <label class="modal-check-row">
+              <input type="checkbox" id="regProdTrust" checked />
+              <span>신탁영업</span>
+            </label>
+            <label class="modal-check-row">
+              <input type="checkbox" id="regProdPG" />
+              <span>PG 결제솔루션</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-notify-box" style="margin-top: 14px;">
+          <span class="modal-notify-title">광고 유입 DB 배정 설정</span>
+          <label class="modal-check-row">
+            <input type="checkbox" id="regDbActive" checked />
+            <span>광고 인바운드 유입 DB 자동 배정 풀(Pool)에 참여</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+            <span style="font-size: 12px; color: var(--grey-700);">일일 최대 배정 한도:</span>
+            <input type="number" class="modal-input" id="regDbLimit" value="5" min="1" max="50"
+              style="width: 70px; height: 32px; padding: 0 8px;" />
+            <span style="font-size: 12px; color: var(--grey-600);">건 / 일</span>
+          </div>
+        </div>
+
+        <div class="account-modal-footer">
+          <button type="button" class="btn btn--md btn--secondary" id="operatorModalCancelBtn">취소</button>
+          <button type="submit" class="btn btn--md btn--primary">운영자 계정 등록</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 플로팅 디자인 시스템 가이드 (D) ==================== -->
+  <button type="button" class="floating-design-btn" id="floatingDesignGuideBtn" aria-label="컬러 시스템 가이드 열기"
+    title="컬러 시스템 가이드 (D)">
+    D
+  </button>
+
+  <!-- 컬러 시스템 간결 문서형 드로어 -->
+  <div class="design-guide-backdrop" id="designGuideBackdrop" aria-hidden="true"></div>
+  <aside class="design-guide-drawer" id="designGuideDrawer" aria-label="컬러 디자인 시스템 가이드" role="dialog" aria-modal="true"
+    hidden>
+    <div class="design-guide-header">
+      <div class="design-guide-header-title">
+        <span class="design-guide-badge">TDS v7.0 Full Reference</span>
+        <h2 class="design-guide-h2">컬러 시스템 전체 가이드</h2>
+      </div>
+      <button type="button" class="design-guide-close-btn" id="designGuideCloseBtn" aria-label="가이드 닫기">×</button>
+    </div>
+
+    <!-- 검색 및 카테고리 필터 탭 -->
+    <div class="dg-search-bar">
+      <div class="dg-search-input-wrap">
+        <svg class="dg-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="dg-search-input" id="dgSearchInput" placeholder="토큰명, Hex, 용도 검색 (예: slate, blue, 50, border, dark)..." autocomplete="off" />
+      </div>
+      <div class="dg-nav-tabs">
+        <button type="button" class="dg-nav-tab is-active" data-dg-tab="all">전체 보기</button>
+        <button type="button" class="dg-nav-tab" data-dg-tab="tier1">Tier 1 프리미티브 (8개 색상군)</button>
+        <button type="button" class="dg-nav-tab" data-dg-tab="tier2-light">Tier 2 라이트 모드</button>
+        <button type="button" class="dg-nav-tab" data-dg-tab="tier2-dark">Tier 2 다크 모드</button>
+        <button type="button" class="dg-nav-tab" data-dg-tab="tokens">타이포·라디우스</button>
+        <button type="button" class="dg-nav-tab" data-dg-tab="rules">설계 원칙</button>
+      </div>
+    </div>
+
+    <div class="design-guide-body">
+      <div class="dg-callout" data-dg-section="rules">
+        <strong>원칙 요약:</strong> 파란색(Primary Brand)은 주요 CTA 및 핵심 액션에만 집중하여 절제감 있게 사용하며, 불필요한 스트로크를 지양하고 <strong>면(Surface)과 명도 대비</strong>로 위계를 명확히 구분합니다. (모든 칩 클릭 시 Hex 코드가 클립보드에 복사됩니다)
+      </div>
+
+      <!-- ==================== 1. TIER 1 COLOR PRIMITIVES (8개 스케일) ==================== -->
+      <section class="dg-section" data-dg-section="tier1">
+        <h3 class="dg-section-title">1. Tier 1 · 프리미티브 팔레트 (Primitives · 8개 스케일 92단계)</h3>
+
+        <!-- Slate -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Slate · 무채색 서피스, 텍스트, 보더 (15단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#FFFFFF"><span class="dg-swatch" style="background:#FFFFFF; border:1px solid #E2E8F0;"></span><span class="dg-name">slate-0</span><span class="dg-hex">#FFFFFF</span></div>
+            <div class="dg-chip" data-copy="#FCFDFF"><span class="dg-swatch" style="background:#FCFDFF; border:1px solid #E2E8F0;"></span><span class="dg-name">slate-25</span><span class="dg-hex">#FCFDFF</span></div>
+            <div class="dg-chip" data-copy="#F8FAFC"><span class="dg-swatch" style="background:#F8FAFC; border:1px solid #E2E8F0;"></span><span class="dg-name">slate-50</span><span class="dg-hex">#F8FAFC</span></div>
+            <div class="dg-chip" data-copy="#F1F5F9"><span class="dg-swatch" style="background:#F1F5F9; border:1px solid #CBD5E1;"></span><span class="dg-name">slate-75</span><span class="dg-hex">#F1F5F9</span></div>
+            <div class="dg-chip" data-copy="#E2E8F0"><span class="dg-swatch" style="background:#E2E8F0;"></span><span class="dg-name">slate-100</span><span class="dg-hex">#E2E8F0</span></div>
+            <div class="dg-chip" data-copy="#CBD5E1"><span class="dg-swatch" style="background:#CBD5E1;"></span><span class="dg-name">slate-150</span><span class="dg-hex">#CBD5E1</span></div>
+            <div class="dg-chip" data-copy="#94A3B8"><span class="dg-swatch" style="background:#94A3B8;"></span><span class="dg-name">slate-200</span><span class="dg-hex">#94A3B8</span></div>
+            <div class="dg-chip" data-copy="#64748B"><span class="dg-swatch" style="background:#64748B;"></span><span class="dg-name">slate-300</span><span class="dg-hex">#64748B</span></div>
+            <div class="dg-chip" data-copy="#475569"><span class="dg-swatch" style="background:#475569;"></span><span class="dg-name">slate-400</span><span class="dg-hex">#475569</span></div>
+            <div class="dg-chip" data-copy="#334155"><span class="dg-swatch" style="background:#334155;"></span><span class="dg-name">slate-500</span><span class="dg-hex">#334155</span></div>
+            <div class="dg-chip" data-copy="#1E293B"><span class="dg-swatch" style="background:#1E293B;"></span><span class="dg-name">slate-600</span><span class="dg-hex">#1E293B</span></div>
+            <div class="dg-chip" data-copy="#172033"><span class="dg-swatch" style="background:#172033;"></span><span class="dg-name">slate-700</span><span class="dg-hex">#172033</span></div>
+            <div class="dg-chip dg-chip--main" data-copy="#0F172A"><span class="dg-swatch" style="background:#0F172A;"></span><span class="dg-name">slate-800</span><span class="dg-hex">#0F172A</span></div>
+            <div class="dg-chip" data-copy="#090D16"><span class="dg-swatch" style="background:#090D16;"></span><span class="dg-name">slate-900</span><span class="dg-hex">#090D16</span></div>
+            <div class="dg-chip" data-copy="#030712"><span class="dg-swatch" style="background:#030712;"></span><span class="dg-name">slate-950</span><span class="dg-hex">#030712</span></div>
+          </div>
+        </div>
+
+        <!-- Royal Blue -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Royal Blue · 브랜드 주요 액션 &amp; 포인트 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#F5F8FF"><span class="dg-swatch" style="background:#F5F8FF; border:1px solid #DBE6FE;"></span><span class="dg-name">blue-25</span><span class="dg-hex">#F5F8FF</span></div>
+            <div class="dg-chip" data-copy="#EFF4FF"><span class="dg-swatch" style="background:#EFF4FF; border:1px solid #DBE6FE;"></span><span class="dg-name">blue-50</span><span class="dg-hex">#EFF4FF</span></div>
+            <div class="dg-chip" data-copy="#DBE6FE"><span class="dg-swatch" style="background:#DBE6FE;"></span><span class="dg-name">blue-100</span><span class="dg-hex">#DBE6FE</span></div>
+            <div class="dg-chip" data-copy="#BFCFFD"><span class="dg-swatch" style="background:#BFCFFD;"></span><span class="dg-name">blue-200</span><span class="dg-hex">#BFCFFD</span></div>
+            <div class="dg-chip" data-copy="#93B0FB"><span class="dg-swatch" style="background:#93B0FB;"></span><span class="dg-name">blue-300</span><span class="dg-hex">#93B0FB</span></div>
+            <div class="dg-chip" data-copy="#6089F7"><span class="dg-swatch" style="background:#6089F7;"></span><span class="dg-name">blue-400</span><span class="dg-hex">#6089F7</span></div>
+            <div class="dg-chip" data-copy="#3B66F1"><span class="dg-swatch" style="background:#3B66F1;"></span><span class="dg-name">blue-500</span><span class="dg-hex">#3B66F1</span></div>
+            <div class="dg-chip dg-chip--main" data-copy="#2550E5"><span class="dg-swatch" style="background:#2550E5;"></span><span class="dg-name">blue-600 (Main)</span><span class="dg-hex">#2550E5</span></div>
+            <div class="dg-chip" data-copy="#1D3EC7"><span class="dg-swatch" style="background:#1D3EC7;"></span><span class="dg-name">blue-700</span><span class="dg-hex">#1D3EC7</span></div>
+            <div class="dg-chip" data-copy="#1B33A1"><span class="dg-swatch" style="background:#1B33A1;"></span><span class="dg-name">blue-800</span><span class="dg-hex">#1B33A1</span></div>
+            <div class="dg-chip" data-copy="#1A2D7E"><span class="dg-swatch" style="background:#1A2D7E;"></span><span class="dg-name">blue-900</span><span class="dg-hex">#1A2D7E</span></div>
+          </div>
+        </div>
+
+        <!-- Indigo -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Indigo · 구조적 엑센트 &amp; 내비게이션 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#F7F7FF"><span class="dg-swatch" style="background:#F7F7FF; border:1px solid #E0E3FF;"></span><span class="dg-name">indigo-25</span><span class="dg-hex">#F7F7FF</span></div>
+            <div class="dg-chip" data-copy="#EEF0FF"><span class="dg-swatch" style="background:#EEF0FF; border:1px solid #E0E3FF;"></span><span class="dg-name">indigo-50</span><span class="dg-hex">#EEF0FF</span></div>
+            <div class="dg-chip" data-copy="#E0E3FF"><span class="dg-swatch" style="background:#E0E3FF;"></span><span class="dg-name">indigo-100</span><span class="dg-hex">#E0E3FF</span></div>
+            <div class="dg-chip" data-copy="#C7CCFE"><span class="dg-swatch" style="background:#C7CCFE;"></span><span class="dg-name">indigo-200</span><span class="dg-hex">#C7CCFE</span></div>
+            <div class="dg-chip" data-copy="#A4ACFC"><span class="dg-swatch" style="background:#A4ACFC;"></span><span class="dg-name">indigo-300</span><span class="dg-hex">#A4ACFC</span></div>
+            <div class="dg-chip" data-copy="#7E85F8"><span class="dg-swatch" style="background:#7E85F8;"></span><span class="dg-name">indigo-400</span><span class="dg-hex">#7E85F8</span></div>
+            <div class="dg-chip" data-copy="#5E5EF0"><span class="dg-swatch" style="background:#5E5EF0;"></span><span class="dg-name">indigo-500</span><span class="dg-hex">#5E5EF0</span></div>
+            <div class="dg-chip" data-copy="#4B43E2"><span class="dg-swatch" style="background:#4B43E2;"></span><span class="dg-name">indigo-600</span><span class="dg-hex">#4B43E2</span></div>
+            <div class="dg-chip" data-copy="#3E33C7"><span class="dg-swatch" style="background:#3E33C7;"></span><span class="dg-name">indigo-700</span><span class="dg-hex">#3E33C7</span></div>
+            <div class="dg-chip" data-copy="#332CA0"><span class="dg-swatch" style="background:#332CA0;"></span><span class="dg-name">indigo-800</span><span class="dg-hex">#332CA0</span></div>
+            <div class="dg-chip" data-copy="#2C297E"><span class="dg-swatch" style="background:#2C297E;"></span><span class="dg-name">indigo-900</span><span class="dg-hex">#2C297E</span></div>
+          </div>
+        </div>
+
+        <!-- Teal -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Teal · 보조 정밀 엑센트 &amp; 인터랙티브 뱃지 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#F4FEFC"><span class="dg-swatch" style="background:#F4FEFC; border:1px solid #CEF7EE;"></span><span class="dg-name">teal-25</span><span class="dg-hex">#F4FEFC</span></div>
+            <div class="dg-chip" data-copy="#ECFCF9"><span class="dg-swatch" style="background:#ECFCF9; border:1px solid #CEF7EE;"></span><span class="dg-name">teal-50</span><span class="dg-hex">#ECFCF9</span></div>
+            <div class="dg-chip" data-copy="#CEF7EE"><span class="dg-swatch" style="background:#CEF7EE;"></span><span class="dg-name">teal-100</span><span class="dg-hex">#CEF7EE</span></div>
+            <div class="dg-chip" data-copy="#9EEEDF"><span class="dg-swatch" style="background:#9EEEDF;"></span><span class="dg-name">teal-200</span><span class="dg-hex">#9EEEDF</span></div>
+            <div class="dg-chip" data-copy="#64DFCA"><span class="dg-swatch" style="background:#64DFCA;"></span><span class="dg-name">teal-300</span><span class="dg-hex">#64DFCA</span></div>
+            <div class="dg-chip" data-copy="#2EC6B0"><span class="dg-swatch" style="background:#2EC6B0;"></span><span class="dg-name">teal-400</span><span class="dg-hex">#2EC6B0</span></div>
+            <div class="dg-chip" data-copy="#15A894"><span class="dg-swatch" style="background:#15A894;"></span><span class="dg-name">teal-500</span><span class="dg-hex">#15A894</span></div>
+            <div class="dg-chip" data-copy="#0D8677"><span class="dg-swatch" style="background:#0D8677;"></span><span class="dg-name">teal-600</span><span class="dg-hex">#0D8677</span></div>
+            <div class="dg-chip" data-copy="#0F6B61"><span class="dg-swatch" style="background:#0F6B61;"></span><span class="dg-name">teal-700</span><span class="dg-hex">#0F6B61</span></div>
+            <div class="dg-chip" data-copy="#12554E"><span class="dg-swatch" style="background:#12554E;"></span><span class="dg-name">teal-800</span><span class="dg-hex">#12554E</span></div>
+            <div class="dg-chip" data-copy="#134742"><span class="dg-swatch" style="background:#134742;"></span><span class="dg-name">teal-900</span><span class="dg-hex">#134742</span></div>
+          </div>
+        </div>
+
+        <!-- Emerald -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Emerald · 정상, 상환 완료, 입금 성공 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#F4FDF8"><span class="dg-swatch" style="background:#F4FDF8; border:1px solid #D1FAE5;"></span><span class="dg-name">emerald-25</span><span class="dg-hex">#F4FDF8</span></div>
+            <div class="dg-chip" data-copy="#ECFDF5"><span class="dg-swatch" style="background:#ECFDF5; border:1px solid #D1FAE5;"></span><span class="dg-name">emerald-50</span><span class="dg-hex">#ECFDF5</span></div>
+            <div class="dg-chip" data-copy="#D1FAE5"><span class="dg-swatch" style="background:#D1FAE5;"></span><span class="dg-name">emerald-100</span><span class="dg-hex">#D1FAE5</span></div>
+            <div class="dg-chip" data-copy="#A7F3D0"><span class="dg-swatch" style="background:#A7F3D0;"></span><span class="dg-name">emerald-200</span><span class="dg-hex">#A7F3D0</span></div>
+            <div class="dg-chip" data-copy="#6EE7B7"><span class="dg-swatch" style="background:#6EE7B7;"></span><span class="dg-name">emerald-300</span><span class="dg-hex">#6EE7B7</span></div>
+            <div class="dg-chip" data-copy="#34D399"><span class="dg-swatch" style="background:#34D399;"></span><span class="dg-name">emerald-400</span><span class="dg-hex">#34D399</span></div>
+            <div class="dg-chip dg-chip--main" data-copy="#10B981"><span class="dg-swatch" style="background:#10B981;"></span><span class="dg-name">emerald-500</span><span class="dg-hex">#10B981</span></div>
+            <div class="dg-chip" data-copy="#059669"><span class="dg-swatch" style="background:#059669;"></span><span class="dg-name">emerald-600</span><span class="dg-hex">#059669</span></div>
+            <div class="dg-chip" data-copy="#047857"><span class="dg-swatch" style="background:#047857;"></span><span class="dg-name">emerald-700</span><span class="dg-hex">#047857</span></div>
+            <div class="dg-chip" data-copy="#065F46"><span class="dg-swatch" style="background:#065F46;"></span><span class="dg-name">emerald-800</span><span class="dg-hex">#065F46</span></div>
+            <div class="dg-chip" data-copy="#064E3B"><span class="dg-swatch" style="background:#064E3B;"></span><span class="dg-name">emerald-900</span><span class="dg-hex">#064E3B</span></div>
+          </div>
+        </div>
+
+        <!-- Amber -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Amber · 심사 대기, 주의, 검토 요망 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#FFFCF2"><span class="dg-swatch" style="background:#FFFCF2; border:1px solid #FEF3C7;"></span><span class="dg-name">amber-25</span><span class="dg-hex">#FFFCF2</span></div>
+            <div class="dg-chip" data-copy="#FFFBEB"><span class="dg-swatch" style="background:#FFFBEB; border:1px solid #FEF3C7;"></span><span class="dg-name">amber-50</span><span class="dg-hex">#FFFBEB</span></div>
+            <div class="dg-chip" data-copy="#FEF3C7"><span class="dg-swatch" style="background:#FEF3C7;"></span><span class="dg-name">amber-100</span><span class="dg-hex">#FEF3C7</span></div>
+            <div class="dg-chip" data-copy="#FDE68A"><span class="dg-swatch" style="background:#FDE68A;"></span><span class="dg-name">amber-200</span><span class="dg-hex">#FDE68A</span></div>
+            <div class="dg-chip" data-copy="#FCD34D"><span class="dg-swatch" style="background:#FCD34D;"></span><span class="dg-name">amber-300</span><span class="dg-hex">#FCD34D</span></div>
+            <div class="dg-chip" data-copy="#FBBF24"><span class="dg-swatch" style="background:#FBBF24;"></span><span class="dg-name">amber-400</span><span class="dg-hex">#FBBF24</span></div>
+            <div class="dg-chip dg-chip--main" data-copy="#F59E0B"><span class="dg-swatch" style="background:#F59E0B;"></span><span class="dg-name">amber-500</span><span class="dg-hex">#F59E0B</span></div>
+            <div class="dg-chip" data-copy="#D97706"><span class="dg-swatch" style="background:#D97706;"></span><span class="dg-name">amber-600</span><span class="dg-hex">#D97706</span></div>
+            <div class="dg-chip" data-copy="#B45309"><span class="dg-swatch" style="background:#B45309;"></span><span class="dg-name">amber-700</span><span class="dg-hex">#B45309</span></div>
+            <div class="dg-chip" data-copy="#92400E"><span class="dg-swatch" style="background:#92400E;"></span><span class="dg-name">amber-800</span><span class="dg-hex">#92400E</span></div>
+            <div class="dg-chip" data-copy="#78350F"><span class="dg-swatch" style="background:#78350F;"></span><span class="dg-name">amber-900</span><span class="dg-hex">#78350F</span></div>
+          </div>
+        </div>
+
+        <!-- Rose -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Rose · 미납, 연체 위험, 파기 및 삭제 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#FFF9FA"><span class="dg-swatch" style="background:#FFF9FA; border:1px solid #FFE4E6;"></span><span class="dg-name">rose-25</span><span class="dg-hex">#FFF9FA</span></div>
+            <div class="dg-chip" data-copy="#FFF1F2"><span class="dg-swatch" style="background:#FFF1F2; border:1px solid #FFE4E6;"></span><span class="dg-name">rose-50</span><span class="dg-hex">#FFF1F2</span></div>
+            <div class="dg-chip" data-copy="#FFE4E6"><span class="dg-swatch" style="background:#FFE4E6;"></span><span class="dg-name">rose-100</span><span class="dg-hex">#FFE4E6</span></div>
+            <div class="dg-chip" data-copy="#FECDD3"><span class="dg-swatch" style="background:#FECDD3;"></span><span class="dg-name">rose-200</span><span class="dg-hex">#FECDD3</span></div>
+            <div class="dg-chip" data-copy="#FDA4AF"><span class="dg-swatch" style="background:#FDA4AF;"></span><span class="dg-name">rose-300</span><span class="dg-hex">#FDA4AF</span></div>
+            <div class="dg-chip" data-copy="#FB7185"><span class="dg-swatch" style="background:#FB7185;"></span><span class="dg-name">rose-400</span><span class="dg-hex">#FB7185</span></div>
+            <div class="dg-chip" data-copy="#F43F5E"><span class="dg-swatch" style="background:#F43F5E;"></span><span class="dg-name">rose-500</span><span class="dg-hex">#F43F5E</span></div>
+            <div class="dg-chip dg-chip--main" data-copy="#E11D48"><span class="dg-swatch" style="background:#E11D48;"></span><span class="dg-name">rose-600</span><span class="dg-hex">#E11D48</span></div>
+            <div class="dg-chip" data-copy="#BE123C"><span class="dg-swatch" style="background:#BE123C;"></span><span class="dg-name">rose-700</span><span class="dg-hex">#BE123C</span></div>
+            <div class="dg-chip" data-copy="#9F1239"><span class="dg-swatch" style="background:#9F1239;"></span><span class="dg-name">rose-800</span><span class="dg-hex">#9F1239</span></div>
+            <div class="dg-chip" data-copy="#881337"><span class="dg-swatch" style="background:#881337;"></span><span class="dg-name">rose-900</span><span class="dg-hex">#881337</span></div>
+          </div>
+        </div>
+
+        <!-- Sky -->
+        <div class="dg-palette-group">
+          <div class="dg-group-label">Sky · 연동 정보, 시스템 동기화, 보조 링크 (11단계)</div>
+          <div class="dg-chips-grid">
+            <div class="dg-chip" data-copy="#F5FBFF"><span class="dg-swatch" style="background:#F5FBFF; border:1px solid #E0F2FE;"></span><span class="dg-name">sky-25</span><span class="dg-hex">#F5FBFF</span></div>
+            <div class="dg-chip" data-copy="#F0F9FF"><span class="dg-swatch" style="background:#F0F9FF; border:1px solid #E0F2FE;"></span><span class="dg-name">sky-50</span><span class="dg-hex">#F0F9FF</span></div>
+            <div class="dg-chip" data-copy="#E0F2FE"><span class="dg-swatch" style="background:#E0F2FE;"></span><span class="dg-name">sky-100</span><span class="dg-hex">#E0F2FE</span></div>
+            <div class="dg-chip" data-copy="#BAE6FD"><span class="dg-swatch" style="background:#BAE6FD;"></span><span class="dg-name">sky-200</span><span class="dg-hex">#BAE6FD</span></div>
+            <div class="dg-chip" data-copy="#7DD3FC"><span class="dg-swatch" style="background:#7DD3FC;"></span><span class="dg-name">sky-300</span><span class="dg-hex">#7DD3FC</span></div>
+            <div class="dg-chip" data-copy="#38BDF8"><span class="dg-swatch" style="background:#38BDF8;"></span><span class="dg-name">sky-400</span><span class="dg-hex">#38BDF8</span></div>
+            <div class="dg-chip" data-copy="#0EA5E9"><span class="dg-swatch" style="background:#0EA5E9;"></span><span class="dg-name">sky-500</span><span class="dg-hex">#0EA5E9</span></div>
+            <div class="dg-chip dg-chip--main" data-copy="#0284C7"><span class="dg-swatch" style="background:#0284C7;"></span><span class="dg-name">sky-600</span><span class="dg-hex">#0284C7</span></div>
+            <div class="dg-chip" data-copy="#0369A1"><span class="dg-swatch" style="background:#0369A1;"></span><span class="dg-name">sky-700</span><span class="dg-hex">#0369A1</span></div>
+            <div class="dg-chip" data-copy="#075985"><span class="dg-swatch" style="background:#075985;"></span><span class="dg-name">sky-800</span><span class="dg-hex">#075985</span></div>
+            <div class="dg-chip" data-copy="#0C4A6E"><span class="dg-swatch" style="background:#0C4A6E;"></span><span class="dg-name">sky-900</span><span class="dg-hex">#0C4A6E</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 2. TIER 2 LIGHT MODE SEMANTICS ==================== -->
+      <section class="dg-section" data-dg-section="tier2-light">
+        <h3 class="dg-section-title">2. Tier 2 · 시맨틱 토큰 매핑 (Light Mode · 기본 테마)</h3>
+        <table class="dg-table">
+          <thead>
+            <tr>
+              <th>카테고리</th>
+              <th>시맨틱 토큰</th>
+              <th>참조 프리미티브</th>
+              <th>매핑 색상 / 용도</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Backgrounds -->
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-canvas</code></td><td>slate-50</td><td><span class="dg-inline-swatch" style="background:#F8FAFC; border:1px solid #E2E8F0;"></span> #F8FAFC · 페이지 전체 바탕</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-surface</code></td><td>slate-0</td><td><span class="dg-inline-swatch" style="background:#FFFFFF; border:1px solid #E2E8F0;"></span> #FFFFFF · 카드, 메인 테이블</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-surface-subtle</code></td><td>slate-75</td><td><span class="dg-inline-swatch" style="background:#F1F5F9;"></span> #F1F5F9 · 뱃지, 검색창, 연한 영역</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-surface-elevated</code></td><td>slate-0</td><td><span class="dg-inline-swatch" style="background:#FFFFFF; border:1px solid #E2E8F0;"></span> #FFFFFF · 팝오버, 드롭다운</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-brand-subtle</code></td><td>blue-50</td><td><span class="dg-inline-swatch" style="background:#EFF4FF;"></span> #EFF4FF · 활성 내비 아이콘 뱃지</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-overlay</code></td><td>rgba</td><td><span class="dg-inline-swatch" style="background:rgba(15,23,42,0.5);"></span> rgba(15,23,42,0.50) · 모달 딤</td></tr>
+
+            <!-- Typography -->
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-primary</code></td><td>slate-800</td><td><span class="dg-inline-swatch" style="background:#0F172A;"></span> #0F172A · 본문 헤딩, 주요 수치</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-secondary</code></td><td>slate-400</td><td><span class="dg-inline-swatch" style="background:#475569;"></span> #475569 · 일반 메뉴 라벨, 부제목</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-tertiary</code></td><td>slate-300</td><td><span class="dg-inline-swatch" style="background:#64748B;"></span> #64748B · 건수(count), 안내 문구</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-disabled</code></td><td>slate-200</td><td><span class="dg-inline-swatch" style="background:#94A3B8;"></span> #94A3B8 · 비활성 텍스트</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-inverse</code></td><td>slate-0</td><td><span class="dg-inline-swatch" style="background:#FFFFFF; border:1px solid #E2E8F0;"></span> #FFFFFF · 다크 배경 위 텍스트</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-brand</code></td><td>blue-600</td><td><span class="dg-inline-swatch" style="background:#2550E5;"></span> #2550E5 · 브랜드 텍스트, 액센트</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-link</code></td><td>blue-700</td><td><span class="dg-inline-swatch" style="background:#1D3EC7;"></span> #1D3EC7 · 클릭 링크</td></tr>
+
+            <!-- Borders -->
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-subtle</code></td><td>slate-100</td><td><span class="dg-inline-swatch" style="background:#E2E8F0;"></span> #E2E8F0 · 1px 구분선, 카드 경계</td></tr>
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-default</code></td><td>slate-150</td><td><span class="dg-inline-swatch" style="background:#CBD5E1;"></span> #CBD5E1 · 인풋, 셀 경계선</td></tr>
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-strong</code></td><td>slate-200</td><td><span class="dg-inline-swatch" style="background:#94A3B8;"></span> #94A3B8 · 강조 테두리</td></tr>
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-focus</code></td><td>blue-600</td><td><span class="dg-inline-swatch" style="background:#2550E5;"></span> #2550E5 · 입력창 포커스 링</td></tr>
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-brand</code></td><td>blue-600</td><td><span class="dg-inline-swatch" style="background:#2550E5;"></span> #2550E5 · 브랜드 강조 테두리</td></tr>
+
+            <!-- Actions -->
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-primary-bg</code></td><td>blue-600</td><td><span class="dg-inline-swatch" style="background:#2550E5;"></span> #2550E5 · 주요 CTA 버튼 배경</td></tr>
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-primary-hover</code></td><td>blue-700</td><td><span class="dg-inline-swatch" style="background:#1D3EC7;"></span> #1D3EC7 · CTA 호버 배경</td></tr>
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-primary-active</code></td><td>blue-800</td><td><span class="dg-inline-swatch" style="background:#1B33A1;"></span> #1B33A1 · CTA 클릭 액티브 배경</td></tr>
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-secondary-bg</code></td><td>slate-0</td><td><span class="dg-inline-swatch" style="background:#FFFFFF; border:1px solid #E2E8F0;"></span> #FFFFFF · 보조 버튼 배경</td></tr>
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-danger-bg</code></td><td>rose-600</td><td><span class="dg-inline-swatch" style="background:#E11D48;"></span> #E11D48 · 삭제/파기 위험 액션</td></tr>
+
+            <!-- Status -->
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-success-bg/text</code></td><td>emerald-50/700</td><td><span class="dg-inline-swatch" style="background:#ECFDF5;"></span> #ECFDF5 / #047857 · 정상/상환완료</td></tr>
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-warning-bg/text</code></td><td>amber-50/700</td><td><span class="dg-inline-swatch" style="background:#FFFBEB;"></span> #FFFBEB / #B45309 · 심사대기/검토</td></tr>
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-danger-bg/text</code></td><td>rose-50/700</td><td><span class="dg-inline-swatch" style="background:#FFF1F2;"></span> #FFF1F2 / #BE123C · 미납/연체위험</td></tr>
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-info-bg/text</code></td><td>sky-50/700</td><td><span class="dg-inline-swatch" style="background:#F0F9FF;"></span> #F0F9FF / #0369A1 · 시스템 연동정보</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ==================== 3. TIER 2 DARK MODE SEMANTICS ==================== -->
+      <section class="dg-section" data-dg-section="tier2-dark">
+        <h3 class="dg-section-title">3. Tier 2 · 시맨틱 토큰 매핑 (Dark Mode · <code>[data-theme="dark"]</code>)</h3>
+        <table class="dg-table">
+          <thead>
+            <tr>
+              <th>카테고리</th>
+              <th>시맨틱 토큰</th>
+              <th>다크 프리미티브</th>
+              <th>매핑 값 / 다크 용도</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-canvas</code></td><td>slate-900</td><td><span class="dg-inline-swatch" style="background:#090D16;"></span> #090D16 · 다크 캔버스 바탕</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-surface</code></td><td>slate-800</td><td><span class="dg-inline-swatch" style="background:#0F172A;"></span> #0F172A · 다크 카드 서피스</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-surface-subtle</code></td><td>slate-700</td><td><span class="dg-inline-swatch" style="background:#172033;"></span> #172033 · 다크 뱃지, 입력창</td></tr>
+            <tr><td><strong>배경</strong></td><td><code>--semantic-bg-surface-elevated</code></td><td>slate-600</td><td><span class="dg-inline-swatch" style="background:#1E293B;"></span> #1E293B · 다크 팝오버, 드롭다운</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-primary</code></td><td>slate-50</td><td><span class="dg-inline-swatch" style="background:#F8FAFC;"></span> #F8FAFC · 다크 헤딩 및 본문</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-secondary</code></td><td>slate-200</td><td><span class="dg-inline-swatch" style="background:#94A3B8;"></span> #94A3B8 · 다크 보조 텍스트</td></tr>
+            <tr><td><strong>텍스트</strong></td><td><code>--semantic-text-brand</code></td><td>blue-400</td><td><span class="dg-inline-swatch" style="background:#6089F7;"></span> #6089F7 · 다크 브랜드 액센트</td></tr>
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-subtle</code></td><td>slate-600</td><td><span class="dg-inline-swatch" style="background:#1E293B;"></span> #1E293B · 다크 1px 구분선</td></tr>
+            <tr><td><strong>테두리</strong></td><td><code>--semantic-border-default</code></td><td>slate-500</td><td><span class="dg-inline-swatch" style="background:#334155;"></span> #334155 · 다크 폼 경계선</td></tr>
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-primary-bg</code></td><td>blue-500</td><td><span class="dg-inline-swatch" style="background:#3B66F1;"></span> #3B66F1 · 다크 CTA 버튼 (명도 보정)</td></tr>
+            <tr><td><strong>액션</strong></td><td><code>--semantic-action-primary-hover</code></td><td>blue-400</td><td><span class="dg-inline-swatch" style="background:#6089F7;"></span> #6089F7 · 다크 CTA 호버</td></tr>
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-success-bg/text</code></td><td>emerald-700/400</td><td><span class="dg-inline-swatch" style="background:rgba(16,185,129,0.14);"></span> rgba(16,185,129,0.14) / #34D399</td></tr>
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-warning-bg/text</code></td><td>amber-700/400</td><td><span class="dg-inline-swatch" style="background:rgba(245,158,11,0.14);"></span> rgba(245,158,11,0.14) / #FBBF24</td></tr>
+            <tr><td><strong>상태</strong></td><td><code>--semantic-status-danger-bg/text</code></td><td>rose-700/400</td><td><span class="dg-inline-swatch" style="background:rgba(244,63,94,0.14);"></span> rgba(244,63,94,0.14) / #FB7185</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ==================== 4. TYPOGRAPHY & RADIUS TOKENS ==================== -->
+      <section class="dg-section" data-dg-section="tokens">
+        <h3 class="dg-section-title">4. 서체 및 라운드 반경 (Typography &amp; Border Radius)</h3>
+        <table class="dg-table">
+          <thead>
+            <tr><th>분류</th><th>토큰명</th><th>속성 값</th><th>용도 가이드</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>서체</strong></td><td><code>--font-sans</code></td><td>"Pretendard Variable", Pretendard, sans-serif</td><td>서비스 전체 기본 고딕 서체 (본문, 헤더, 내비)</td></tr>
+            <tr><td><strong>서체</strong></td><td><code>--font-mono</code></td><td>"JetBrains Mono", monospace</td><td>계좌번호, 사업자번호, 금융 금액 수치 고정폭</td></tr>
+            <tr><td><strong>반경</strong></td><td><code>--radius-btn-sm</code></td><td>4px</td><td>작은 태그, 탭 칩, 작은 인풋</td></tr>
+            <tr><td><strong>반경</strong></td><td><code>--radius-btn-md</code></td><td>6px</td><td>기본 버튼, 폼 필드, 내비 아이콘 뱃지</td></tr>
+            <tr><td><strong>반경</strong></td><td><code>--radius-btn-lg</code></td><td>8px</td><td>중간 카드, 드롭다운 메뉴, 알림창</td></tr>
+            <tr><td><strong>반경</strong></td><td><code>--radius-btn-xl</code></td><td>12px</td><td>메인 위젯 카드, 가맹점 헤더 카드, 모달</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ==================== 5. DESIGN PRINCIPLES & GOVERNANCE ==================== -->
+      <section class="dg-section" data-dg-section="rules">
+        <h3 class="dg-section-title">5. 설계 원칙 및 거버넌스 규정 (Governance Rules)</h3>
+        <ul class="dg-rules-list">
+          <li><strong>절대 하드코딩 금지:</strong> 컴포넌트 스타일 작성 시 임의의 hex 값을 직접 쓰지 않고 반드시 <code>var(--semantic-...)</code> 또는 <code>var(--primitive-...)</code> 토큰만 참조합니다.</li>
+          <li><strong>스트로크(테두리) 최소화:</strong> 불필요한 박스 외곽선 대신 면의 명도차(Surface #FFFFFF vs Canvas #F8FAFC)와 섬세한 소프트 섀도우로 위계를 구분합니다.</li>
+          <li><strong>파란색(Primary Brand) 절제:</strong> 활성 탭 및 일반 라벨에 파란색을 남발하지 않고, 순수 검정(#0F172A)과 볼드 처리로 구분을 명확히 하며, 파란색은 핵심 CTA와 주요 인터랙션에 집중시킵니다.</li>
+          <li><strong>명도 대비 준수:</strong> 모든 텍스트는 배경과의 WCAG 2.2 AA (최소 4.5:1 이상) 명도 대비를 엄격히 보장합니다.</li>
+        </ul>
+      </section>
+    </div>
+  </aside>
+
+  <script src="app.js?v=20261121-teammanager1"></script>
 </body>
 
 </html>

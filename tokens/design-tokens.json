@@ -1,0 +1,123 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "name": "ALLRA Plum Design Tokens",
+  "version": "1.0.0",
+  "description": "올라(ALLRA) 브랜드 자주색(Plum / Berry Violet) 테마 디자인 토큰 시스템",
+  "color": {
+    "plum": {
+      "50": { "value": "#FDF4FF", "type": "color", "description": "가장 연한 소프트 플럼 배경" },
+      "100": { "value": "#FAE8FF", "type": "color", "description": "선택된 카드 및 칩 배경" },
+      "200": { "value": "#F5D0FE", "type": "color", "description": "연한 테두리 및 구분선" },
+      "300": { "value": "#F0ABFC", "type": "color", "description": "보조 액센트 및 하이라이트" },
+      "400": { "value": "#E879F9", "type": "color", "description": "밝은 그라디언트 하이라이트" },
+      "500": { "value": "#D946EF", "type": "color", "description": "비비드 마젠타" },
+      "600": { "value": "#C026D3", "type": "color", "description": "생동감 있는 보조 액션" },
+      "700": { "value": "#A21CAF", "type": "color", "description": "미드톤 자주 액센트" },
+      "800": { "value": "#86198F", "type": "color", "description": "올라 브랜드 주 색상 (Primary)" },
+      "900": { "value": "#701A75", "type": "color", "description": "호버 및 강조 상태" },
+      "950": { "value": "#4A044E", "type": "color", "description": "가장 깊은 다크 자주 (텍스트/헤드라인)" }
+    },
+    "neutral": {
+      "0": { "value": "#FFFFFF", "type": "color" },
+      "50": { "value": "#F9FAFB", "type": "color" },
+      "100": { "value": "#F3F4F6", "type": "color" },
+      "200": { "value": "#E5E7EB", "type": "color" },
+      "300": { "value": "#D1D5DB", "type": "color" },
+      "400": { "value": "#9CA3AF", "type": "color" },
+      "500": { "value": "#6B7280", "type": "color" },
+      "600": { "value": "#4B5563", "type": "color" },
+      "700": { "value": "#374151", "type": "color" },
+      "800": { "value": "#1F2937", "type": "color" },
+      "900": { "value": "#111827", "type": "color" },
+      "950": { "value": "#030712", "type": "color" }
+    },
+    "semantic": {
+      "primary": {
+        "default": { "value": "{color.plum.800}", "type": "color" },
+        "hover": { "value": "{color.plum.900}", "type": "color" },
+        "active": { "value": "{color.plum.950}", "type": "color" },
+        "subtle": { "value": "{color.plum.50}", "type": "color" },
+        "subtle-hover": { "value": "{color.plum.100}", "type": "color" },
+        "contrast": { "value": "#FFFFFF", "type": "color" }
+      },
+      "background": {
+        "default": { "value": "#FFFFFF", "type": "color" },
+        "subtle": { "value": "{color.plum.50}", "type": "color" },
+        "alternative": { "value": "#FAF5FF", "type": "color" },
+        "surface": { "value": "#FFFFFF", "type": "color" },
+        "inverse": { "value": "{color.plum.950}", "type": "color" }
+      },
+      "text": {
+        "primary": { "value": "{color.neutral.900}", "type": "color" },
+        "secondary": { "value": "{color.neutral.600}", "type": "color" },
+        "tertiary": { "value": "{color.neutral.400}", "type": "color" },
+        "brand": { "value": "{color.plum.800}", "type": "color" },
+        "inverse": { "value": "#FFFFFF", "type": "color" }
+      },
+      "border": {
+        "subtle": { "value": "{color.plum.100}", "type": "color" },
+        "default": { "value": "{color.plum.200}", "type": "color" },
+        "strong": { "value": "{color.plum.400}", "type": "color" },
+        "focus": { "value": "{color.plum.800}", "type": "color" }
+      },
+      "feedback": {
+        "success": { "value": "#059669", "type": "color" },
+        "success-subtle": { "value": "#ECFDF5", "type": "color" },
+        "warning": { "value": "#D97706", "type": "color" },
+        "warning-subtle": { "value": "#FFFBEB", "type": "color" },
+        "error": { "value": "#DC2626", "type": "color" },
+        "error-subtle": { "value": "#FEF2F2", "type": "color" },
+        "info": { "value": "{color.plum.700}", "type": "color" }
+      }
+    }
+  },
+  "spacing": {
+    "1": { "value": "4px", "type": "spacing" },
+    "2": { "value": "8px", "type": "spacing" },
+    "3": { "value": "12px", "type": "spacing" },
+    "4": { "value": "16px", "type": "spacing" },
+    "5": { "value": "20px", "type": "spacing" },
+    "6": { "value": "24px", "type": "spacing" },
+    "8": { "value": "32px", "type": "spacing" },
+    "10": { "value": "40px", "type": "spacing" },
+    "12": { "value": "48px", "type": "spacing" },
+    "16": { "value": "64px", "type": "spacing" },
+    "20": { "value": "80px", "type": "spacing" },
+    "24": { "value": "96px", "type": "spacing" },
+    "32": { "value": "128px", "type": "spacing" }
+  },
+  "borderRadius": {
+    "sm": { "value": "6px", "type": "borderRadius" },
+    "md": { "value": "10px", "type": "borderRadius" },
+    "lg": { "value": "16px", "type": "borderRadius" },
+    "xl": { "value": "24px", "type": "borderRadius" },
+    "2xl": { "value": "32px", "type": "borderRadius" },
+    "full": { "value": "9999px", "type": "borderRadius" }
+  },
+  "boxShadow": {
+    "sm": { "value": "0 1px 3px rgba(74, 4, 78, 0.05)", "type": "boxShadow" },
+    "md": { "value": "0 4px 16px rgba(74, 4, 78, 0.08)", "type": "boxShadow" },
+    "lg": { "value": "0 12px 32px rgba(74, 4, 78, 0.12)", "type": "boxShadow" },
+    "xl": { "value": "0 24px 60px rgba(74, 4, 78, 0.16)", "type": "boxShadow" },
+    "primary": { "value": "0 8px 24px rgba(134, 25, 143, 0.28)", "type": "boxShadow" }
+  },
+  "typography": {
+    "fontFamily": {
+      "sans": { "value": "'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif", "type": "fontFamily" },
+      "brand": { "value": "'Pretendard', sans-serif", "type": "fontFamily" }
+    },
+    "fontSize": {
+      "caption-2": { "value": "11px", "type": "fontSize" },
+      "caption-1": { "value": "12px", "type": "fontSize" },
+      "body-3": { "value": "14px", "type": "fontSize" },
+      "body-2": { "value": "15px", "type": "fontSize" },
+      "body-1": { "value": "16px", "type": "fontSize" },
+      "title-4": { "value": "18px", "type": "fontSize" },
+      "title-3": { "value": "20px", "type": "fontSize" },
+      "title-2": { "value": "26px", "type": "fontSize" },
+      "title-1": { "value": "32px", "type": "fontSize" },
+      "display-2": { "value": "40px", "type": "fontSize" },
+      "display-1": { "value": "48px", "type": "fontSize" }
+    }
+  }
+}

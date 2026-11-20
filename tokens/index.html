@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DESIGN SYSTEM — Color Primitive & Semantic Tokens</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="/tokens/tokens.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--semantic-bg-surface);
+      color: var(--semantic-text-primary);
+      padding: 48px 60px 140px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    @media (max-width: 768px) {
+      body { padding: 28px 20px 100px; }
+    }
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+
+    /* Top Meta Header */
+    .top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--semantic-border-subtle);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--semantic-text-tertiary);
+      text-transform: uppercase;
+    }
+
+    /* Theme Toggle */
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--semantic-bg-surface-subtle);
+      border: 1px solid var(--semantic-border-subtle);
+      padding: 3px;
+      border-radius: 6px;
+    }
+    .theme-btn {
+      border: none;
+      background: transparent;
+      color: var(--semantic-text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .theme-btn.active {
+      background: var(--semantic-bg-surface);
+      color: var(--semantic-text-primary);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+
+    /* View Switcher Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 28px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .nav-tab {
+      background: var(--semantic-bg-surface-subtle);
+      border: 1px solid var(--semantic-border-subtle);
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--semantic-text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .nav-tab.active, .nav-tab:hover {
+      background: var(--semantic-action-primary-bg);
+      color: var(--semantic-action-primary-text);
+      border-color: var(--semantic-action-primary-bg);
+    }
+
+    /* Main Section Header */
+    .title-group {
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--semantic-text-primary);
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 13.5px;
+      color: var(--semantic-text-secondary);
+      letter-spacing: -0.01em;
+      max-width: 780px;
+    }
+
+    /* Palette Rows */
+    .palette-row {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 36px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--semantic-border-subtle);
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .palette-row { grid-template-columns: 1fr; gap: 16px; }
+    }
+    .palette-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Left Info Column */
+    .row-meta .color-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--semantic-text-primary);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .role-chip {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--semantic-bg-brand-subtle);
+      color: var(--semantic-text-brand);
+    }
+    .row-meta .step-count {
+      font-size: 11px;
+      color: var(--semantic-text-tertiary);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+    .row-meta .color-desc {
+      font-size: 11.5px;
+      color: var(--semantic-text-secondary);
+      line-height: 1.45;
+      margin-top: 6px;
+      max-width: 210px;
+    }
+
+    /* Right Swatch Strip */
+    .swatch-strip {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+    .swatch-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      min-width: 0;
+    }
+    .swatch-box {
+      width: 100%;
+      height: 52px;
+      border-radius: 6px;
+      border: 1px solid rgba(128, 128, 128, 0.14);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .swatch-col:hover .swatch-box {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+    }
+    .step-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--semantic-text-tertiary);
+      letter-spacing: -0.01em;
+    }
+    .swatch-col:hover .step-label {
+      color: var(--semantic-text-primary);
+    }
+
+    /* Special Wide Swatches for White & Black */
+    .swatch-strip-wide {
+      width: 100%;
+      cursor: pointer;
+    }
+    .swatch-box-wide {
+      width: 100%;
+      height: 52px;
+      border-radius: 6px;
+      border: 1px solid var(--semantic-border-default);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .swatch-strip-wide:hover .swatch-box-wide {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    }
+    .label-center {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Semantic Table View */
+    .semantic-view { display: none; }
+    .semantic-card {
+      border: 1px solid var(--semantic-border-subtle);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      background: var(--semantic-bg-surface);
+    }
+    .semantic-card-header {
+      background: var(--semantic-bg-surface-subtle);
+      padding: 13px 20px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--semantic-text-primary);
+      border-bottom: 1px solid var(--semantic-border-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .table-scroll { overflow-x: auto; }
+    .semantic-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    .semantic-table th {
+      background: var(--semantic-bg-surface);
+      color: var(--semantic-text-tertiary);
+      font-weight: 700;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--semantic-border-subtle);
+      text-align: left;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .semantic-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--semantic-border-subtle);
+      color: var(--semantic-text-primary);
+      vertical-align: middle;
+    }
+    .semantic-table tr:last-child td { border-bottom: none; }
+    .semantic-table tr:hover td {
+      background: var(--semantic-bg-surface-subtle);
+    }
+    .token-preview {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid rgba(128,128,128,0.22);
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    .token-name-code {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--semantic-text-primary);
+    }
+    .prim-reference {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--semantic-bg-surface-subtle);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--semantic-text-secondary);
+      border: 1px solid var(--semantic-border-subtle);
+      white-space: nowrap;
+    }
+    .wcag-pill {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--semantic-bg-surface-subtle);
+      color: var(--semantic-text-primary);
+      border: 1px solid var(--semantic-border-subtle);
+      white-space: nowrap;
+    }
+
+    /* Code Export View */
+    .export-view { display: none; }
+    .export-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .export-subtabs {
+      display: flex;
+      gap: 6px;
+    }
+    .export-subtab {
+      background: var(--semantic-bg-surface-subtle);
+      border: 1px solid var(--semantic-border-subtle);
+      color: var(--semantic-text-secondary);
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .export-subtab.active {
+      background: var(--semantic-text-primary);
+      color: var(--semantic-text-inverse);
+      border-color: var(--semantic-text-primary);
+    }
+    .btn-copy-code {
+      background: var(--semantic-action-primary-bg);
+      color: var(--semantic-action-primary-text);
+      border: none;
+      padding: 7px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-copy-code:hover {
+      background: var(--semantic-action-primary-hover);
+    }
+    .code-box {
+      background: #0F172A;
+      color: #E2E8F0;
+      padding: 24px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-x: auto;
+      max-height: 540px;
+      border: 1px solid var(--semantic-border-subtle);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--semantic-text-primary);
+      color: var(--semantic-text-inverse);
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 9999;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Top Metadata Header (JUNE 2026 Removed) -->
+    <div class="top-meta">
+      <div>DESIGN SYSTEM</div>
+      <div class="theme-switch" role="group" aria-label="Theme Switch">
+        <button class="theme-btn active" id="btn-light" onclick="setTheme('light')">Light</button>
+        <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')">Dark</button>
+      </div>
+    </div>
+
+    <!-- Navigation Switcher -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchView('primitives', this)">Color Primitive</button>
+      <button class="nav-tab" onclick="switchView('semantics', this)">Semantic Color</button>
+      <button class="nav-tab" onclick="switchView('export', this)">Code Export</button>
+    </div>
+
+    <!-- =================================================================
+         VIEW 1: COLOR PRIMITIVES
+         ================================================================= -->
+    <div id="view-primitives">
+      <div class="title-group">
+        <h1>Color Primitive</h1>
+        <p class="subtitle">
+          원시 색상 토큰 — 특정 UI 의미나 용도에 종속되지 않은 순수 색상 값(Color Palette)으로, Light/Dark Semantic Color의 기반이 됩니다.
+        </p>
+      </div>
+
+      <!-- 1. Slate (15 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Slate <span class="role-chip">Neutral</span></div>
+          <div class="step-count">15 steps</div>
+          <div class="color-desc">Cool-tinted neutral foundation for backgrounds, surfaces, borders, and typography.</div>
+        </div>
+        <div class="swatch-strip" id="strip-slate"></div>
+      </div>
+
+      <!-- 2. Royal Blue (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Royal Blue <span class="role-chip">Primary</span></div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Primary brand scale conveying trust, precision, and clarity for key CTAs and focus states.</div>
+        </div>
+        <div class="swatch-strip" id="strip-blue"></div>
+      </div>
+
+      <!-- 3. Indigo (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Indigo</div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Deep structural accent for active navigation anchors and high-priority tags.</div>
+        </div>
+        <div class="swatch-strip" id="strip-indigo"></div>
+      </div>
+
+      <!-- 4. Teal (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Teal <span class="role-chip">Secondary</span></div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Secondary precision accent for supplementary highlights and interactive indicators.</div>
+        </div>
+        <div class="swatch-strip" id="strip-teal"></div>
+      </div>
+
+      <!-- 5. Emerald (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Emerald</div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Success states, positive financial inflow, and verification feedback.</div>
+        </div>
+        <div class="swatch-strip" id="strip-emerald"></div>
+      </div>
+
+      <!-- 6. Amber (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Amber</div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Warning states, pending reviews, and attention-grabbing highlights.</div>
+        </div>
+        <div class="swatch-strip" id="strip-amber"></div>
+      </div>
+
+      <!-- 7. Rose (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Rose</div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Danger states, destructive actions, and critical system alerts.</div>
+        </div>
+        <div class="swatch-strip" id="strip-rose"></div>
+      </div>
+
+      <!-- 8. Sky (11 steps) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Sky</div>
+          <div class="step-count">11 steps</div>
+          <div class="color-desc">Informational states, system notices, and data synchronization indicators.</div>
+        </div>
+        <div class="swatch-strip" id="strip-sky"></div>
+      </div>
+
+      <!-- 9. White (1 step) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">White</div>
+          <div class="step-count">1 step</div>
+          <div class="color-desc">Pure white — elevated light surfaces and inverse foreground text.</div>
+        </div>
+        <div class="swatch-strip-wide" onclick="copyHex('#FFFFFF')">
+          <div class="swatch-box-wide" style="background: #FFFFFF;"></div>
+          <div class="label-center step-label">0</div>
+        </div>
+      </div>
+
+      <!-- 10. Black (1 step) -->
+      <div class="palette-row">
+        <div class="row-meta">
+          <div class="color-name">Black</div>
+          <div class="step-count">1 step</div>
+          <div class="color-desc">Pure black — high-contrast anchors and deep scrim foundations.</div>
+        </div>
+        <div class="swatch-strip-wide" onclick="copyHex('#000000')">
+          <div class="swatch-box-wide" style="background: #000000; border-color: #000000;"></div>
+          <div class="label-center step-label">1000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================
+         VIEW 2: SEMANTIC COLOR SYSTEM (LIGHT + DARK + WCAG CONTRAST)
+         ================================================================= -->
+    <div id="view-semantics" class="semantic-view">
+      <div class="title-group">
+        <h1>Semantic Color</h1>
+        <p class="subtitle">
+          문맥적 색상 토큰 — 배경, 텍스트, 테두리, 액션, 상태의 5대 계층으로 역할을 분리하고, Light/Dark 테마 확장과 WCAG 명도 대비를 보장합니다.
+        </p>
+      </div>
+
+      <div id="semantic-tables-container"></div>
+    </div>
+
+    <!-- =================================================================
+         VIEW 3: CODE EXPORT
+         ================================================================= -->
+    <div id="view-export" class="export-view">
+      <div class="title-group">
+        <h1>Code Export</h1>
+        <p class="subtitle">
+          Light/Dark 모드를 지원하는 CSS Custom Properties, TypeScript, W3C DTCG JSON 토큰 명세를 복사하여 바로 적용할 수 있습니다.
+        </p>
+      </div>
+
+      <div class="export-bar">
+        <div class="export-subtabs">
+          <button class="export-subtab active" onclick="switchExport('css', this)">tokens.css</button>
+          <button class="export-subtab" onclick="switchExport('ts', this)">tokens.ts</button>
+          <button class="export-subtab" onclick="switchExport('json', this)">enterprise-tokens.json</button>
+        </div>
+        <button class="btn-copy-code" onclick="copyExportCode()">코드 복사</button>
+      </div>
+
+      <pre class="code-box" id="export-code-box"></pre>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast">복사되었습니다.</div>
+
+  <script>
+    const palettes = {
+      slate: {
+        steps: ['0', '25', '50', '75', '100', '150', '200', '300', '400', '500', '600', '700', '800', '900', '950'],
+        hexes: ['#FFFFFF', '#FCFDFF', '#F8FAFC', '#F1F5F9', '#E2E8F0', '#CBD5E1', '#94A3B8', '#64748B', '#475569', '#334155', '#1E293B', '#172033', '#0F172A', '#090D16', '#030712']
+      },
+      blue: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#F5F8FF', '#EFF4FF', '#DBE6FE', '#BFCFFD', '#93B0FB', '#6089F7', '#3B66F1', '#2550E5', '#1D3EC7', '#1B33A1', '#1A2D7E']
+      },
+      indigo: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#F7F7FF', '#EEF0FF', '#E0E3FF', '#C7CCFE', '#A4ACFC', '#7E85F8', '#5E5EF0', '#4B43E2', '#3E33C7', '#332CA0', '#2C297E']
+      },
+      teal: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#F4FEFC', '#ECFCF9', '#CEF7EE', '#9EEEDF', '#64DFCA', '#2EC6B0', '#15A894', '#0D8677', '#0F6B61', '#12554E', '#134742']
+      },
+      emerald: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#F4FDF8', '#ECFDF5', '#D1FAE5', '#A7F3D0', '#6EE7B7', '#34D399', '#10B981', '#059669', '#047857', '#065F46', '#064E3B']
+      },
+      amber: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#FFFCF2', '#FFFBEB', '#FEF3C7', '#FDE68A', '#FCD34D', '#FBBF24', '#F59E0B', '#D97706', '#B45309', '#92400E', '#78350F']
+      },
+      rose: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#FFF9FA', '#FFF1F2', '#FFE4E6', '#FECDD3', '#FDA4AF', '#FB7185', '#F43F5E', '#E11D48', '#BE123C', '#9F1239', '#881337']
+      },
+      sky: {
+        steps: ['25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+        hexes: ['#F5FBFF', '#F0F9FF', '#E0F2FE', '#BAE6FD', '#7DD3FC', '#38BDF8', '#0EA5E9', '#0284C7', '#0369A1', '#075985', '#0C4A6E']
+      }
+    };
+
+    // Render Color Primitives
+    Object.keys(palettes).forEach(id => {
+      const el = document.getElementById('strip-' + id);
+      if (!el) return;
+      const data = palettes[id];
+      el.innerHTML = data.steps.map((step, idx) => {
+        const hex = data.hexes[idx];
+        return `
+          <div class="swatch-col" onclick="copyHex('${hex}')" title="${id}-${step}: ${hex}">
+            <div class="swatch-box" style="background: ${hex};"></div>
+            <div class="step-label">${step}</div>
+          </div>
+        `;
+      }).join('');
+    });
+
+    // WCAG Contrast Calculator
+    function getLuminance(hex) {
+      const h = hex.replace('#', '');
+      const rgb = [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16) / 255);
+      const lin = rgb.map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+      return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    }
+    function getContrast(hex1, hex2) {
+      const l1 = getLuminance(hex1);
+      const l2 = getLuminance(hex2);
+      const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+      return ratio.toFixed(2);
+    }
+
+    const semanticCategories = [
+      {
+        title: '1. Background & Surface (배경 및 계층)',
+        rows: [
+          { name: '--semantic-bg-canvas', lightRef: 'slate-50', lightHex: '#F8FAFC', darkRef: 'slate-900', darkHex: '#090D16', contrastPair: null, role: 'L0 전체 페이지 캔버스 배경 (장시간 눈부심 완화)' },
+          { name: '--semantic-bg-surface', lightRef: 'slate-0', lightHex: '#FFFFFF', darkRef: 'slate-800', darkHex: '#0F172A', contrastPair: null, role: 'L1 기본 카드, 테이블, 컨테이너 서피스' },
+          { name: '--semantic-bg-surface-subtle', lightRef: 'slate-75', lightHex: '#F1F5F9', darkRef: 'slate-700', darkHex: '#172033', contrastPair: null, role: '테이블 헤더, 필터 바, 보조 서피스' },
+          { name: '--semantic-bg-surface-elevated', lightRef: 'slate-0', lightHex: '#FFFFFF', darkRef: 'slate-600', darkHex: '#1E293B', contrastPair: null, role: 'L2 드롭다운, 팝오버, 모달 등 상위 레이어' },
+          { name: '--semantic-bg-brand-subtle', lightRef: 'blue-50', lightHex: '#EFF4FF', darkRef: 'blue-500/14%', darkHex: '#172549', contrastPair: null, role: '선택된 행, 활성 내비게이션 배지 배경' },
+        ]
+      },
+      {
+        title: '2. Typography (텍스트 및 위계)',
+        rows: [
+          { name: '--semantic-text-primary', lightRef: 'slate-800', lightHex: '#0F172A', darkRef: 'slate-50', darkHex: '#F8FAFC', contrastPair: ['#0F172A', '#FFFFFF', '#F8FAFC', '#0F172A'], role: '최상위 제목, 본문 핵심 수치 및 데이터' },
+          { name: '--semantic-text-secondary', lightRef: 'slate-400', lightHex: '#475569', darkRef: 'slate-200', darkHex: '#94A3B8', contrastPair: ['#475569', '#FFFFFF', '#94A3B8', '#0F172A'], role: '보조 본문, 폼 레이블, 컬럼 헤더' },
+          { name: '--semantic-text-tertiary', lightRef: 'slate-300', lightHex: '#64748B', darkRef: 'slate-300', darkHex: '#64748B', contrastPair: ['#64748B', '#FFFFFF', '#64748B', '#0F172A'], role: '타임스탬프, 캡션, 플레이스홀더(대비 검증)' },
+          { name: '--semantic-text-brand', lightRef: 'blue-600', lightHex: '#2550E5', darkRef: 'blue-400', darkHex: '#6089F7', contrastPair: ['#2550E5', '#FFFFFF', '#6089F7', '#0F172A'], role: '브랜드 키워드 강조, 활성 탭 텍스트' },
+        ]
+      },
+      {
+        title: '3. Border & Divider (테두리 및 구분선)',
+        rows: [
+          { name: '--semantic-border-subtle', lightRef: 'slate-100', lightHex: '#E2E8F0', darkRef: 'slate-600', darkHex: '#1E293B', contrastPair: null, role: '테이블 그리드 라인, 카드 외곽 헤어라인' },
+          { name: '--semantic-border-default', lightRef: 'slate-150', lightHex: '#CBD5E1', darkRef: 'slate-500', darkHex: '#334155', contrastPair: null, role: '기본 입력 필드(Input), 선택 박스 테두리' },
+          { name: '--semantic-border-focus', lightRef: 'blue-600', lightHex: '#2550E5', darkRef: 'blue-400', darkHex: '#6089F7', contrastPair: null, role: '키보드 포커스 링 및 활성 입력 상태' },
+        ]
+      },
+      {
+        title: '4. Interactive Action (버튼 및 액션)',
+        rows: [
+          { name: '--semantic-action-primary-bg', lightRef: 'blue-600', lightHex: '#2550E5', darkRef: 'blue-500', darkHex: '#3B66F1', contrastPair: ['#FFFFFF', '#2550E5', '#FFFFFF', '#3B66F1'], role: '최상위 핵심 실행 버튼 (Primary CTA)' },
+          { name: '--semantic-action-primary-hover', lightRef: 'blue-700', lightHex: '#1D3EC7', darkRef: 'blue-400', darkHex: '#6089F7', contrastPair: ['#FFFFFF', '#1D3EC7', '#0F172A', '#6089F7'], role: 'Primary CTA 호버 상태' },
+          { name: '--semantic-action-danger-bg', lightRef: 'rose-600', lightHex: '#E11D48', darkRef: 'rose-500', darkHex: '#F43F5E', contrastPair: ['#FFFFFF', '#E11D48', '#FFFFFF', '#F43F5E'], role: '삭제, 해지 등 파괴적(Destructive) 액션' },
+        ]
+      },
+      {
+        title: '5. Status & Feedback (시스템 상태)',
+        rows: [
+          { name: '--semantic-status-success-text', lightRef: 'emerald-700', lightHex: '#047857', darkRef: 'emerald-400', darkHex: '#34D399', contrastPair: ['#047857', '#ECFDF5', '#34D399', '#0F172A'], role: '완료, 정상 처리, 입금 확인 상태' },
+          { name: '--semantic-status-warning-text', lightRef: 'amber-700', lightHex: '#B45309', darkRef: 'amber-400', darkHex: '#FBBF24', contrastPair: ['#B45309', '#FFFBEB', '#FBBF24', '#0F172A'], role: '주의, 심사 대기, 확인 요망 상태' },
+          { name: '--semantic-status-danger-text', lightRef: 'rose-700', lightHex: '#BE123C', darkRef: 'rose-400', darkHex: '#FB7185', contrastPair: ['#BE123C', '#FFF1F2', '#FB7185', '#0F172A'], role: '오류, 실패, 임계 경고 상태' },
+          { name: '--semantic-status-info-text', lightRef: 'sky-700', lightHex: '#0369A1', darkRef: 'sky-400', darkHex: '#38BDF8', contrastPair: ['#0369A1', '#F0F9FF', '#38BDF8', '#0F172A'], role: '안내, 동기화 진행, 공지 상태' },
+        ]
+      }
+    ];
+
+    const semContainer = document.getElementById('semantic-tables-container');
+    semContainer.innerHTML = semanticCategories.map(cat => {
+      const rowsHtml = cat.rows.map(r => {
+        let wcagHtml = '<span style="color: var(--semantic-text-tertiary); font-size: 11px;">Structural</span>';
+        if (r.contrastPair) {
+          const lCR = getContrast(r.contrastPair[0], r.contrastPair[1]);
+          const dCR = getContrast(r.contrastPair[2], r.contrastPair[3]);
+          const lLevel = lCR >= 7 ? 'AAA' : (lCR >= 4.5 ? 'AA' : 'AA+');
+          const dLevel = dCR >= 7 ? 'AAA' : (dCR >= 4.5 ? 'AA' : 'AA+');
+          wcagHtml = `<span class="wcag-pill">L ${lCR}:1 (${lLevel})</span> <span class="wcag-pill">D ${dCR}:1 (${dLevel})</span>`;
+        }
+        return `
+          <tr>
+            <td class="token-name-code">${r.name}</td>
+            <td>
+              <span class="token-preview" style="background:${r.lightHex};" onclick="copyHex('${r.lightHex}')"></span>
+              <span class="prim-reference">${r.lightRef} (${r.lightHex})</span>
+            </td>
+            <td>
+              <span class="token-preview" style="background:${r.darkHex};" onclick="copyHex('${r.darkHex}')"></span>
+              <span class="prim-reference">${r.darkRef} (${r.darkHex})</span>
+            </td>
+            <td>${wcagHtml}</td>
+            <td style="color: var(--semantic-text-secondary);">${r.role}</td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <div class="semantic-card">
+          <div class="semantic-card-header">${cat.title}</div>
+          <div class="table-scroll">
+            <table class="semantic-table">
+              <thead>
+                <tr>
+                  <th>시맨틱 토큰</th>
+                  <th>Light Mode 매핑</th>
+                  <th>Dark Mode 매핑</th>
+                  <th>WCAG 대비율</th>
+                  <th>역할 및 사용 목적</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Code Export Snippets
+    const exportsMap = {
+      css: `/* Commercial Web Service 2-Tier Color System (tokens.css) */
+:root {
+  --primitive-slate-0: #FFFFFF;  --primitive-slate-50: #F8FAFC;
+  --primitive-slate-75: #F1F5F9; --primitive-slate-100: #E2E8F0;
+  --primitive-slate-150: #CBD5E1;--primitive-slate-200: #94A3B8;
+  --primitive-slate-300: #64748B;--primitive-slate-400: #475569;
+  --primitive-slate-600: #1E293B;--primitive-slate-700: #172033;
+  --primitive-slate-800: #0F172A;--primitive-slate-900: #090D16;
+
+  --primitive-blue-50: #EFF4FF;  --primitive-blue-400: #6089F7;
+  --primitive-blue-500: #3B66F1; --primitive-blue-600: #2550E5;
+  --primitive-blue-700: #1D3EC7;
+}
+
+:root, [data-theme="light"] {
+  --semantic-bg-canvas:        var(--primitive-slate-50);
+  --semantic-bg-surface:       var(--primitive-slate-0);
+  --semantic-text-primary:     var(--primitive-slate-800);
+  --semantic-text-secondary:   var(--primitive-slate-400);
+  --semantic-border-subtle:    var(--primitive-slate-100);
+  --semantic-action-primary:   var(--primitive-blue-600);
+}
+
+[data-theme="dark"] {
+  --semantic-bg-canvas:        var(--primitive-slate-900);
+  --semantic-bg-surface:       var(--primitive-slate-800);
+  --semantic-text-primary:     var(--primitive-slate-50);
+  --semantic-text-secondary:   var(--primitive-slate-200);
+  --semantic-border-subtle:    var(--primitive-slate-600);
+  --semantic-action-primary:   var(--primitive-blue-500);
+}`,
+      ts: `// tokens.ts (Light & Dark Semantic Mapping)
+export const SEMANTIC_TOKENS = {
+  light: {
+    bg:     { canvas: '#F8FAFC', surface: '#FFFFFF', subtle: '#F1F5F9' },
+    text:   { primary: '#0F172A', secondary: '#475569', brand: '#2550E5' },
+    border: { subtle: '#E2E8F0', default: '#CBD5E1', focus: '#2550E5' },
+    action: { primaryBg: '#2550E5', primaryHover: '#1D3EC7' },
+  },
+  dark: {
+    bg:     { canvas: '#090D16', surface: '#0F172A', subtle: '#172033' },
+    text:   { primary: '#F8FAFC', secondary: '#94A3B8', brand: '#6089F7' },
+    border: { subtle: '#1E293B', default: '#334155', focus: '#6089F7' },
+    action: { primaryBg: '#3B66F1', primaryHover: '#6089F7' },
+  },
+} as const;`,
+      json: `{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "semantic": {
+    "light": {
+      "bg": { "canvas": { "$value": "{primitive.slate.50}" }, "surface": { "$value": "{primitive.slate.0}" } },
+      "text": { "primary": { "$value": "{primitive.slate.800}" }, "brand": { "$value": "{primitive.blue.600}" } },
+      "action": { "primaryBg": { "$value": "{primitive.blue.600}" } }
+    },
+    "dark": {
+      "bg": { "canvas": { "$value": "{primitive.slate.900}" }, "surface": { "$value": "{primitive.slate.800}" } },
+      "text": { "primary": { "$value": "{primitive.slate.50}" }, "brand": { "$value": "{primitive.blue.400}" } },
+      "action": { "primaryBg": { "$value": "{primitive.blue.500}" } }
+    }
+  }
+}`
+    };
+
+    let currentExport = 'css';
+    document.getElementById('export-code-box').textContent = exportsMap.css;
+
+    function switchExport(type, btn) {
+      currentExport = type;
+      document.querySelectorAll('.export-subtab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('export-code-box').textContent = exportsMap[type];
+    }
+
+    function copyExportCode() {
+      navigator.clipboard.writeText(exportsMap[currentExport]);
+      showToast('코드가 복사되었습니다.');
+    }
+
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex);
+      showToast(hex + ' 복사되었습니다.');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1500);
+    }
+
+    function switchView(view, btn) {
+      document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('view-primitives').style.display = view === 'primitives' ? 'block' : 'none';
+      document.getElementById('view-semantics').style.display = view === 'semantics' ? 'block' : 'none';
+      document.getElementById('view-export').style.display = view === 'export' ? 'block' : 'none';
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+      document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+    }
+  </script>
+</body>
+</html>

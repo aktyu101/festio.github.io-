@@ -14,9 +14,9 @@
       return Math.round(a + (b - a) * t);
     }
 
-    // Toss Design System (TDS) Primary Blue (#3182f6) for completed repayment segments
+    // Commercial Web Service Token Scale: Primary Royal Blue (#2550E5 = --primitive-blue-600)
     function getCompletedColor(index, count) {
-      return '#3182f6';
+      return '#2550E5';
     }
 
     const fragment = document.createDocumentFragment();
@@ -152,11 +152,28 @@
 
     syncSidebarHighlight(tabId);
 
+    const operatorManagementView = document.getElementById('operatorManagementView');
+    const permissionManagementView = document.getElementById('permissionManagementView');
+
     if (tabId === 'settlement-status') {
       if (settlementDetailView) settlementDetailView.style.display = 'flex';
+      if (operatorManagementView) operatorManagementView.style.display = 'none';
+      if (permissionManagementView) permissionManagementView.style.display = 'none';
+      if (comingSoonView) comingSoonView.hidden = true;
+    } else if (tabId === 'menu-operators') {
+      if (settlementDetailView) settlementDetailView.style.display = 'none';
+      if (operatorManagementView) operatorManagementView.style.display = 'flex';
+      if (permissionManagementView) permissionManagementView.style.display = 'none';
+      if (comingSoonView) comingSoonView.hidden = true;
+    } else if (tabId === 'menu-permissions') {
+      if (settlementDetailView) settlementDetailView.style.display = 'none';
+      if (operatorManagementView) operatorManagementView.style.display = 'none';
+      if (permissionManagementView) permissionManagementView.style.display = 'flex';
       if (comingSoonView) comingSoonView.hidden = true;
     } else {
       if (settlementDetailView) settlementDetailView.style.display = 'none';
+      if (operatorManagementView) operatorManagementView.style.display = 'none';
+      if (permissionManagementView) permissionManagementView.style.display = 'none';
       if (comingSoonView) comingSoonView.hidden = false;
       if (comingSoonTitle) comingSoonTitle.textContent = `${menuTitle} · 준비중입니다`;
     }
@@ -250,6 +267,7 @@
   if (appSidebar && sidebarCollapseBtn) {
     sidebarCollapseBtn.addEventListener('click', () => {
       appSidebar.classList.toggle('is-collapsed');
+      document.body.classList.toggle('sidebar-collapsed');
     });
 
     const searchBox = appSidebar.querySelector('.sidebar-search');
@@ -299,17 +317,43 @@
     });
   });
 
-  const sidebarSearchInput = document.getElementById('sidebarSearchInput');
-  if (sidebarSearchInput) {
+  // 4. Header Menu Search & Live Sidebar Filter + Quick Dropdown
+  const headerSearchInput = document.getElementById('headerSearchInput');
+  const headerSearchDropdown = document.getElementById('headerSearchDropdown');
+  const headerSearchResults = document.getElementById('headerSearchResults');
+
+  const searchableMenuItems = [
+    { id: 'menu-dashboard', title: '대시보드', category: '업무 메뉴' },
+    { id: 'settlement-status', title: '정산·상환 현황', category: '선정산 관리' },
+    { id: 'menu-limit', title: '한도·심사 관리', category: '선정산 관리' },
+    { id: 'menu-execution', title: '선지급 실행 관리', category: '선정산 관리' },
+    { id: 'menu-overdue', title: '회수·미납 관리', category: '선정산 관리' },
+    { id: 'menu-pipeline', title: '가맹점 파이프라인', category: '영업' },
+    { id: 'menu-calendar', title: '정산 캘린더 · 일정', category: '활동 및 일정' },
+    { id: 'menu-report', title: '정산 리포트', category: '통계' },
+    { id: 'menu-operators', title: '운영자 관리', category: '시스템 관리' },
+    { id: 'menu-permissions', title: '권한 관리', category: '시스템 관리' },
+    { id: 'menu-settings', title: '환경 설정', category: '시스템 관리' },
+    { id: 'menu-help', title: '도움말', category: '지원' },
+  ];
+
+  if (headerSearchInput) {
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        sidebarSearchInput.focus();
+        headerSearchInput.focus();
+        headerSearchInput.select();
+      }
+      if (e.key === 'Escape' && headerSearchDropdown && !headerSearchDropdown.hidden) {
+        headerSearchDropdown.hidden = true;
+        headerSearchInput.blur();
       }
     });
 
-    sidebarSearchInput.addEventListener('input', () => {
-      const q = sidebarSearchInput.value.trim().toLowerCase();
+    headerSearchInput.addEventListener('input', () => {
+      const q = headerSearchInput.value.trim().toLowerCase();
+
+      // 1) Filter sidebar items
       document.querySelectorAll('.sidebar .nav-item, .sidebar .nav-subitem').forEach((item) => {
         const text = item.textContent.toLowerCase();
         const row = item.closest('.nav-item-row') || item;
@@ -317,6 +361,54 @@
       });
       if (q && loanSubMenu) {
         loanSubMenu.style.display = 'flex';
+      }
+
+      // 2) Populate quick results dropdown
+      if (!q) {
+        if (headerSearchDropdown) headerSearchDropdown.hidden = true;
+        return;
+      }
+
+      const matches = searchableMenuItems.filter((m) =>
+        m.title.toLowerCase().includes(q) || m.category.toLowerCase().includes(q)
+      );
+
+      if (headerSearchResults && headerSearchDropdown) {
+        headerSearchResults.innerHTML = '';
+        if (matches.length === 0) {
+          headerSearchResults.innerHTML = '<div class="header-search-empty">일치하는 메뉴가 없습니다</div>';
+        } else {
+          matches.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'header-search-item';
+            btn.innerHTML = `<span><strong>${item.title}</strong></span><span class="header-search-item-badge">${item.category}</span>`;
+            btn.addEventListener('click', () => {
+              openOrFocusMenuTab(item.id, item.title);
+              headerSearchDropdown.hidden = true;
+              headerSearchInput.value = '';
+              // reset sidebar
+              document.querySelectorAll('.sidebar .nav-item, .sidebar .nav-subitem').forEach((it) => {
+                const row = it.closest('.nav-item-row') || it;
+                row.style.display = '';
+              });
+            });
+            headerSearchResults.appendChild(btn);
+          });
+        }
+        headerSearchDropdown.hidden = false;
+      }
+    });
+
+    headerSearchInput.addEventListener('focus', () => {
+      if (headerSearchInput.value.trim() && headerSearchDropdown) {
+        headerSearchDropdown.hidden = false;
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#headerSearchWrap') && headerSearchDropdown) {
+        headerSearchDropdown.hidden = true;
       }
     });
   }
@@ -348,25 +440,48 @@
 
   function computePreviewNumbers() {
     const baseDeposit = selectionState.baseDays === 3 ? 2647898 : 965206;
-    const fee = Math.floor(baseDeposit * 0.009);
-    const totalRepayDays = selectionState.baseDays + selectionState.extraDays;
-    const repayAmount = totalRepayDays * 410000;
-    const overdueAmount = selectionState.overdueDays * 410000;
+    const fee = Math.floor(baseDeposit * 0.009); // 정산수수료 (0.90%)
     const bondFee = parseInt(String(bondFeeInput ? bondFeeInput.value : '0').replace(/[^0-9]/g, ''), 10) || 0;
-    const payout = Math.max(0, baseDeposit - fee - repayAmount - overdueAmount - bondFee);
+
+    // PRD 9번 수수료 차감 및 부분 상환·미납 회계 엔진
+    // 1단계: 수수료 차감 후 상환 가능금액 산출
+    const availableForRepayment = Math.max(0, baseDeposit - fee - bondFee);
+
+    // 2단계: 당일 상환 예정금액 산출 (일 상환금 + 기존 미납 완납 선택분)
+    const totalRepayDays = selectionState.baseDays + selectionState.extraDays;
+    const scheduledRepayAmount = totalRepayDays * 410000;
+    const existingOverdueAmount = selectionState.overdueDays * 410000;
+    const targetRepayTotal = scheduledRepayAmount + existingOverdueAmount;
+
+    // 3단계: 실제 상환 처리금액 및 신규 미납 발생액 분리 (회계 정합성: 실제상환 + 미납 = 예정액)
+    const actualRepayAmount = Math.min(targetRepayTotal, availableForRepayment);
+    const newOverdueAmount = Math.max(0, targetRepayTotal - availableForRepayment);
+
+    // 4단계: 차감 후 가맹점 지급액 (보낼 돈)
+    const payout = Math.max(0, availableForRepayment - targetRepayTotal);
 
     if (previewDepositVal) previewDepositVal.textContent = formatKRW(baseDeposit);
     if (previewFeeVal) previewFeeVal.textContent = formatKRW(fee);
     if (previewRepayLabel) previewRepayLabel.textContent = `일 상환금(${totalRepayDays}일)`;
-    if (previewRepayVal) previewRepayVal.textContent = formatKRW(repayAmount);
+    if (previewRepayVal) previewRepayVal.textContent = formatKRW(actualRepayAmount);
     if (previewOverdueVal) {
-      previewOverdueVal.textContent = formatKRW(overdueAmount);
-      previewOverdueVal.classList.toggle('term-val--danger', overdueAmount > 0);
+      previewOverdueVal.textContent = formatKRW(existingOverdueAmount);
+      previewOverdueVal.classList.toggle('term-val--danger', existingOverdueAmount > 0);
     }
     if (previewBondVal) previewBondVal.textContent = formatKRW(bondFee);
     if (previewPayoutVal) previewPayoutVal.textContent = formatKRW(payout);
 
-    return { baseDeposit, fee, totalRepayDays, repayAmount, overdueAmount, bondFee, payout };
+    return {
+      baseDeposit,
+      fee,
+      totalRepayDays,
+      scheduledRepayAmount,
+      actualRepayAmount,
+      newOverdueAmount,
+      existingOverdueAmount,
+      bondFee,
+      payout
+    };
   }
 
   function updateSelectionBanner() {
@@ -515,7 +630,15 @@
     if (!tableBody) return;
     const firstRow = tableBody.querySelector('.tr-row');
     if (!firstRow) return;
-    const { baseDeposit, fee, repayAmount, overdueAmount, bondFee, payout } = computePreviewNumbers();
+    const {
+      baseDeposit,
+      fee,
+      actualRepayAmount,
+      newOverdueAmount,
+      existingOverdueAmount,
+      bondFee,
+      payout
+    } = computePreviewNumbers();
     const cells = firstRow.querySelectorAll('.td-cell');
     // 12-Column indices:
     // 0: 정산일/유형, 1: 매출일, 2: 카드매출, 3: (+)실입금, 4: (-)정산수수료, 5: (-)일상환금, 6: (-)채권수수료, 7: (-)기존미납, 8: 신규미납, 9: (=)지급액(보낼돈), 10: 상태, 11: 정산 삭제
@@ -523,13 +646,26 @@
       const depEl = cells[3].querySelector('.deposit-amount');
       if (depEl) depEl.textContent = formatKRW(baseDeposit);
       cells[4].textContent = `-${formatKRW(fee)}`;
-      cells[5].textContent = `-${formatKRW(repayAmount)}`;
+      cells[5].textContent = actualRepayAmount > 0 ? `-${formatKRW(actualRepayAmount)}` : '—';
       cells[6].textContent = bondFee > 0 ? `-${formatKRW(bondFee)}` : '—';
       cells[6].classList.toggle('td-cell--muted', bondFee <= 0);
       cells[6].classList.toggle('td-cell--deduct', bondFee > 0);
-      cells[7].textContent = overdueAmount > 0 ? `-${formatKRW(overdueAmount)}` : '—';
-      cells[7].classList.toggle('td-cell--muted', overdueAmount <= 0);
-      cells[7].classList.toggle('td-cell--deduct', overdueAmount > 0);
+      cells[7].textContent = existingOverdueAmount > 0 ? `-${formatKRW(existingOverdueAmount)}` : '—';
+      cells[7].classList.toggle('td-cell--muted', existingOverdueAmount <= 0);
+      cells[7].classList.toggle('td-cell--deduct', existingOverdueAmount > 0);
+
+      // 8: 신규미납 (부족분만 정밀 기록)
+      if (cells[8]) {
+        if (newOverdueAmount > 0) {
+          cells[8].textContent = formatKRW(newOverdueAmount);
+          cells[8].className = 'td-cell td-cell--right td-cell--danger td-cell--bold';
+        } else {
+          cells[8].textContent = '—';
+          cells[8].className = 'td-cell td-cell--right td-cell--muted';
+        }
+      }
+
+      // 9: 지급액 (보낼 돈)
       cells[9].textContent = formatKRW(payout);
       firstRow.setAttribute('data-deposit', String(baseDeposit));
       firstRow.setAttribute('data-payout', String(payout));
@@ -1065,6 +1201,18 @@
     });
 
     userProfileMenu.addEventListener('click', (e) => {
+      const opBtn = e.target.closest('#userMenuOperatorsBtn');
+      if (opBtn) {
+        closeUserDropdown();
+        openOrFocusMenuTab('menu-operators', '운영자 관리');
+        return;
+      }
+      const permBtn = e.target.closest('#userMenuPermissionsBtn');
+      if (permBtn) {
+        closeUserDropdown();
+        openOrFocusMenuTab('menu-permissions', '권한 관리');
+        return;
+      }
       const item = e.target.closest('.user-dropdown-item[data-profile-tab]');
       if (!item) return;
       openAccountModal(item.getAttribute('data-profile-tab'));
@@ -1073,6 +1221,15 @@
     document.addEventListener('click', (e) => {
       if (userProfileWrap && !userProfileWrap.contains(e.target)) {
         closeUserDropdown();
+      }
+    });
+  }
+
+  const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
+  if (topbarLogoutBtn) {
+    topbarLogoutBtn.addEventListener('click', () => {
+      if (confirm('정말 로그아웃하시겠습니까?')) {
+        showToast('안전하게 로그아웃되었습니다.');
       }
     });
   }
@@ -1234,5 +1391,500 @@
       closeRepaymentSelect();
       closeContractSelect();
     }
+  });
+  // ==========================================================================
+  // 6. Operator Registration & Permission Management System (PRD 2, 5, 10)
+  // ==========================================================================
+  const operatorModalBackdrop = document.getElementById('operatorModalBackdrop');
+  const openOperatorRegisterModalBtn = document.getElementById('openOperatorRegisterModalBtn');
+  const operatorModalCloseBtn = document.getElementById('operatorModalCloseBtn');
+  const operatorModalCancelBtn = document.getElementById('operatorModalCancelBtn');
+  const operatorRegisterForm = document.getElementById('operatorRegisterForm');
+  const opModalTitle = document.getElementById('opModalTitle');
+  const operatorTableBody = document.getElementById('operatorTableBody');
+  const operatorRoleTabs = document.getElementById('operatorRoleTabs');
+  const operatorDeptFilter = document.getElementById('operatorDeptFilter');
+  const operatorDbStatusFilter = document.getElementById('operatorDbStatusFilter');
+  const operatorSearchInput = document.getElementById('operatorSearchInput');
+  const savePermissionsBtn = document.getElementById('savePermissionsBtn');
+  const resetPermissionsBtn = document.getElementById('resetPermissionsBtn');
+  const exportOperatorsBtn = document.getElementById('exportOperatorsBtn');
+  let editingOpRow = null;
+
+  function showNotificationToast(msg) {
+    let toast = document.getElementById('systemNotificationToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'systemNotificationToast';
+      toast.className = 'system-notification-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('is-visible');
+    setTimeout(() => {
+      toast.classList.remove('is-visible');
+    }, 2800);
+  }
+
+  function openOperatorModal(editTargetRow = null) {
+    if (!operatorModalBackdrop) return;
+    editingOpRow = editTargetRow;
+    if (editingOpRow) {
+      if (opModalTitle) opModalTitle.textContent = '운영자 정보 수정';
+      const submitBtn = operatorRegisterForm ? operatorRegisterForm.querySelector('button[type="submit"]') : null;
+      if (submitBtn) submitBtn.textContent = '변경사항 저장';
+
+      const strongEl = editingOpRow.querySelector('.user-cell strong');
+      const name = strongEl ? strongEl.textContent.trim() : '';
+      const codeBadge = editingOpRow.querySelector('.code-badge');
+      const code = codeBadge ? codeBadge.textContent.trim() : '';
+      const role = editingOpRow.getAttribute('data-role') || 'sales';
+      const dept = editingOpRow.getAttribute('data-dept') || '신탁영업 1팀';
+      const phoneCell = editingOpRow.children[6];
+      const phone = phoneCell ? phoneCell.textContent.trim() : '';
+      const titleEl = editingOpRow.querySelector('.user-cell-role');
+      const title = titleEl ? titleEl.textContent.trim() : '';
+
+      const nameInput = document.getElementById('regOpName');
+      const codeInput = document.getElementById('regOpCode');
+      const deptInput = document.getElementById('regOpDept');
+      const titleInput = document.getElementById('regOpTitle');
+      const phoneInput = document.getElementById('regOpPhone');
+      const emailInput = document.getElementById('regOpEmail');
+
+      if (nameInput) nameInput.value = name;
+      if (codeInput) codeInput.value = code;
+      if (deptInput) deptInput.value = dept;
+      if (titleInput) titleInput.value = title;
+      if (phoneInput) phoneInput.value = phone;
+      if (emailInput) emailInput.value = `${name.toLowerCase()}@festio.co.kr`;
+
+      if (operatorRegisterForm) {
+        const radio = operatorRegisterForm.querySelector(`input[name="regRole"][value="${role}"]`);
+        if (radio) radio.checked = true;
+      }
+    } else {
+      if (opModalTitle) opModalTitle.textContent = '신규 운영자 등록';
+      const submitBtn = operatorRegisterForm ? operatorRegisterForm.querySelector('button[type="submit"]') : null;
+      if (submitBtn) submitBtn.textContent = '운영자 계정 등록';
+      if (operatorRegisterForm) operatorRegisterForm.reset();
+      const codeInput = document.getElementById('regOpCode');
+      if (codeInput) {
+        const nextNum = Math.floor(25 + Math.random() * 20);
+        codeInput.value = `FES-2026-0${nextNum}`;
+      }
+    }
+    operatorModalBackdrop.hidden = false;
+  }
+
+  function closeOperatorModal() {
+    if (operatorModalBackdrop) operatorModalBackdrop.hidden = true;
+    editingOpRow = null;
+  }
+
+  if (openOperatorRegisterModalBtn) {
+    openOperatorRegisterModalBtn.addEventListener('click', () => openOperatorModal(null));
+  }
+  if (operatorModalCloseBtn) {
+    operatorModalCloseBtn.addEventListener('click', closeOperatorModal);
+  }
+  if (operatorModalCancelBtn) {
+    operatorModalCancelBtn.addEventListener('click', closeOperatorModal);
+  }
+  if (operatorModalBackdrop) {
+    operatorModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === operatorModalBackdrop) closeOperatorModal();
+    });
+  }
+
+  if (operatorRegisterForm) {
+    operatorRegisterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regOpName').value.trim();
+      const code = document.getElementById('regOpCode').value.trim();
+      const email = document.getElementById('regOpEmail').value.trim();
+      const phone = document.getElementById('regOpPhone').value.trim();
+      const dept = document.getElementById('regOpDept').value;
+      const title = document.getElementById('regOpTitle').value.trim() || '매니저';
+      const roleRadio = operatorRegisterForm.querySelector('input[name="regRole"]:checked');
+      const role = roleRadio ? roleRadio.value : 'sales';
+      const dbActive = document.getElementById('regDbActive') ? document.getElementById('regDbActive').checked : true;
+
+      const roleBadgeClass = role === 'admin' ? 'role-badge--admin' : (role === 'lead' ? 'role-badge--lead' : 'role-badge--sales');
+      const roleBadgeLabel = role === 'admin' ? '관리자' : (role === 'lead' ? '팀장' : '영업자');
+      const userDotClass = role === 'admin' ? 'user-dot--admin' : (role === 'lead' ? 'user-dot--lead' : 'user-dot--sales');
+      const custScope = role === 'admin' ? '전사 전체' : (role === 'lead' ? '팀 전체' : '본인 배정');
+
+      if (editingOpRow) {
+        editingOpRow.setAttribute('data-role', role);
+        editingOpRow.setAttribute('data-dept', dept);
+        editingOpRow.setAttribute('data-db', dbActive ? 'active' : 'paused');
+        editingOpRow.children[0].innerHTML = `<span class="code-badge">${code}</span>`;
+        editingOpRow.children[1].innerHTML = `
+          <div class="user-cell">
+            <span class="user-dot ${userDotClass}"></span>
+            <div>
+              <strong>${name}</strong>
+              <span class="user-cell-role">${title}</span>
+            </div>
+          </div>
+        `;
+        editingOpRow.children[2].textContent = dept;
+        editingOpRow.children[3].innerHTML = `<span class="role-badge ${roleBadgeClass}">${roleBadgeLabel}</span>`;
+        editingOpRow.children[6].textContent = phone;
+        const toggleInput = editingOpRow.querySelector('.toggle-switch input');
+        if (toggleInput) toggleInput.checked = dbActive;
+
+        showNotificationToast(`운영자 [${name}] 님의 정보가 수정되었습니다.`);
+      } else {
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-role', role);
+        tr.setAttribute('data-dept', dept);
+        tr.setAttribute('data-db', dbActive ? 'active' : 'paused');
+        tr.innerHTML = `
+          <td><span class="code-badge">${code}</span></td>
+          <td>
+            <div class="user-cell">
+              <span class="user-dot ${userDotClass}"></span>
+              <div>
+                <strong>${name}</strong>
+                <span class="user-cell-role">${title}</span>
+              </div>
+            </div>
+          </td>
+          <td>${dept}</td>
+          <td><span class="role-badge ${roleBadgeClass}">${roleBadgeLabel}</span></td>
+          <td>
+            <span class="product-tag">선정산</span>
+            <span class="product-tag">신탁</span>
+          </td>
+          <td style="text-align: center;"><strong>${custScope} (신규)</strong></td>
+          <td>${phone}</td>
+          <td style="text-align: center;">
+            <label class="toggle-switch" title="DB 자동 배정 활성 상태">
+              <input type="checkbox" ${dbActive ? 'checked' : ''} />
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
+          <td style="text-align: center;">
+            <button type="button" class="btn btn--sm btn--secondary edit-op-btn">수정</button>
+            <button type="button" class="btn btn--sm btn--secondary perm-op-btn">권한</button>
+          </td>
+        `;
+        if (operatorTableBody) {
+          operatorTableBody.prepend(tr);
+        }
+        showNotificationToast(`신규 운영자 [${name}] 님이 성공적으로 등록되었습니다.`);
+      }
+      closeOperatorModal();
+      filterOperatorTable();
+    });
+  }
+
+  function filterOperatorTable() {
+    if (!operatorTableBody) return;
+    const activeTab = operatorRoleTabs ? operatorRoleTabs.querySelector('.period-tab--active') : null;
+    const selectedRole = activeTab ? activeTab.getAttribute('data-op-role') : 'all';
+    const selectedDept = operatorDeptFilter ? operatorDeptFilter.value : 'all';
+    const selectedDb = operatorDbStatusFilter ? operatorDbStatusFilter.value : 'all';
+    const query = operatorSearchInput ? operatorSearchInput.value.trim().toLowerCase() : '';
+
+    const rows = operatorTableBody.querySelectorAll('tr');
+    rows.forEach((row) => {
+      const rowRole = row.getAttribute('data-role');
+      const rowDept = row.getAttribute('data-dept');
+      const rowDb = row.getAttribute('data-db');
+      const text = row.textContent.toLowerCase();
+
+      const matchRole = selectedRole === 'all' || rowRole === selectedRole;
+      const matchDept = selectedDept === 'all' || (rowDept && rowDept.includes(selectedDept));
+      const matchDb = selectedDb === 'all' || rowDb === selectedDb;
+      const matchQuery = !query || text.includes(query);
+
+      row.style.display = (matchRole && matchDept && matchDb && matchQuery) ? '' : 'none';
+    });
+  }
+
+  if (operatorRoleTabs) {
+    operatorRoleTabs.querySelectorAll('.period-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        operatorRoleTabs.querySelectorAll('.period-tab').forEach((t) => t.classList.remove('period-tab--active'));
+        tab.classList.add('period-tab--active');
+        filterOperatorTable();
+      });
+    });
+  }
+  if (operatorDeptFilter) operatorDeptFilter.addEventListener('change', filterOperatorTable);
+  if (operatorDbStatusFilter) operatorDbStatusFilter.addEventListener('change', filterOperatorTable);
+  if (operatorSearchInput) operatorSearchInput.addEventListener('input', filterOperatorTable);
+
+  if (operatorTableBody) {
+    operatorTableBody.addEventListener('click', (e) => {
+      const editBtn = e.target.closest('.edit-op-btn');
+      if (editBtn) {
+        const row = editBtn.closest('tr');
+        openOperatorModal(row);
+        return;
+      }
+      const permBtn = e.target.closest('.perm-op-btn');
+      if (permBtn) {
+        openOrFocusMenuTab('menu-permissions', '권한 관리');
+        return;
+      }
+    });
+  }
+
+  if (savePermissionsBtn) {
+    savePermissionsBtn.addEventListener('click', () => {
+      showNotificationToast('역할별 세부 권한 변경사항이 안전하게 저장되었습니다.');
+    });
+  }
+
+  if (resetPermissionsBtn) {
+    resetPermissionsBtn.addEventListener('click', () => {
+      if (window.confirm('모든 역할 권한을 시스템 표준 기본값으로 초기화하시겠습니까?')) {
+        showNotificationToast('권한 설정이 표준 기본값으로 복원되었습니다.');
+      }
+    });
+  }
+
+  if (exportOperatorsBtn) {
+    exportOperatorsBtn.addEventListener('click', () => {
+      showNotificationToast('전체 운영자 목록(24명) CSV 다운로드가 완료되었습니다.');
+    });
+  }
+
+  // Floating Design System Color Guide Drawer
+  const floatingDesignGuideBtn = document.getElementById('floatingDesignGuideBtn');
+  const designGuideDrawer = document.getElementById('designGuideDrawer');
+  const designGuideBackdrop = document.getElementById('designGuideBackdrop');
+  const designGuideCloseBtn = document.getElementById('designGuideCloseBtn');
+
+  function openDesignGuide() {
+    if (designGuideDrawer && designGuideBackdrop) {
+      designGuideDrawer.hidden = false;
+      designGuideBackdrop.hidden = false;
+      requestAnimationFrame(() => {
+        designGuideDrawer.classList.add('is-open');
+        designGuideBackdrop.classList.add('is-open');
+      });
+    }
+  }
+
+  function closeDesignGuide() {
+    if (designGuideDrawer && designGuideBackdrop) {
+      designGuideDrawer.classList.remove('is-open');
+      designGuideBackdrop.classList.remove('is-open');
+      setTimeout(() => {
+        designGuideDrawer.hidden = true;
+        designGuideBackdrop.hidden = true;
+      }, 250);
+    }
+  }
+
+  if (floatingDesignGuideBtn) {
+    floatingDesignGuideBtn.addEventListener('click', openDesignGuide);
+  }
+  if (designGuideCloseBtn) {
+    designGuideCloseBtn.addEventListener('click', closeDesignGuide);
+  }
+  if (designGuideBackdrop) {
+    designGuideBackdrop.addEventListener('click', closeDesignGuide);
+  }
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && designGuideDrawer && !designGuideDrawer.hidden) {
+      closeDesignGuide();
+    }
+  });
+
+  // Color chips copy to clipboard
+  document.querySelectorAll('.dg-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const code = chip.getAttribute('data-copy');
+      if (code && navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+          showNotificationToast(`클립보드에 복사되었습니다: ${code}`);
+        }).catch(() => {});
+      }
+    });
+  });
+
+  // Design Guide Tabs Switching
+  const dgTabs = document.querySelectorAll('.dg-nav-tab');
+  const dgSections = document.querySelectorAll('.design-guide-body [data-dg-section]');
+  dgTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      dgTabs.forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      const target = tab.getAttribute('data-dg-tab');
+      dgSections.forEach((sec) => {
+        if (target === 'all' || sec.getAttribute('data-dg-section') === target) {
+          sec.style.display = '';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Design Guide Live Search
+  const dgSearchInput = document.getElementById('dgSearchInput');
+  if (dgSearchInput) {
+    dgSearchInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const chips = document.querySelectorAll('.dg-chip');
+      const rows = document.querySelectorAll('.dg-table tbody tr');
+      if (!q) {
+        chips.forEach(c => c.style.display = '');
+        rows.forEach(r => r.style.display = '');
+        return;
+      }
+      chips.forEach((c) => {
+        const text = c.textContent.toLowerCase();
+        c.style.display = text.includes(q) ? '' : 'none';
+      });
+      rows.forEach((r) => {
+        const text = r.textContent.toLowerCase();
+        r.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+  }
+
+  // 3:7 Master-Detail Organization List Switching & Filtering
+  const orgSearchInput = document.getElementById('orgSearchInput');
+  const orgManagerFilter = document.getElementById('orgManagerFilter');
+  const orgFilterTabs = document.querySelectorAll('.org-filter-tab');
+  const orgItems = document.querySelectorAll('.org-item');
+  const orgPaneCount = document.getElementById('orgPaneCount');
+  const orgStatTotal = document.getElementById('orgStatTotal');
+  const orgStatNormal = document.getElementById('orgStatNormal');
+  const orgStatOverdue = document.getElementById('orgStatOverdue');
+  const orgStatDone = document.getElementById('orgStatDone');
+  let activeOrgFilter = 'all';
+  let activeManagerFilter = 'all';
+
+  function applyOrgFilters() {
+    const q = orgSearchInput ? orgSearchInput.value.trim().toLowerCase() : '';
+    let visibleCount = 0;
+    let totalForManager = 0;
+    let normalForManager = 0;
+    let overdueForManager = 0;
+    let doneForManager = 0;
+    let firstVisible = null;
+    let activeIsHidden = false;
+
+    orgItems.forEach((item) => {
+      const status = item.getAttribute('data-org-status') || '';
+      const manager = item.getAttribute('data-org-manager') || '';
+      const text = item.textContent.toLowerCase();
+      const matchManager = activeManagerFilter === 'all' || manager === activeManagerFilter;
+      const matchSearch = !q || text.includes(q);
+
+      if (matchManager && matchSearch) {
+        totalForManager += 1;
+        if (status === 'normal') normalForManager += 1;
+        else if (status === 'overdue') overdueForManager += 1;
+        else if (status === 'done') doneForManager += 1;
+      }
+
+      const matchFilter = activeOrgFilter === 'all' || status === activeOrgFilter;
+      const show = matchManager && matchFilter && matchSearch;
+      item.style.display = show ? '' : 'none';
+      if (show) {
+        visibleCount += 1;
+        if (!firstVisible) firstVisible = item;
+      } else if (item.classList.contains('is-active')) {
+        activeIsHidden = true;
+      }
+    });
+
+    if (orgPaneCount) orgPaneCount.textContent = `(${visibleCount})`;
+    if (orgStatTotal) orgStatTotal.textContent = String(totalForManager);
+    if (orgStatNormal) orgStatNormal.textContent = String(normalForManager);
+    if (orgStatOverdue) orgStatOverdue.textContent = String(overdueForManager);
+    if (orgStatDone) orgStatDone.textContent = String(doneForManager);
+
+    if (activeIsHidden && firstVisible) {
+      firstVisible.click();
+    }
+  }
+
+  if (orgSearchInput) {
+    orgSearchInput.addEventListener('input', applyOrgFilters);
+  }
+
+  if (orgManagerFilter) {
+    orgManagerFilter.addEventListener('change', (e) => {
+      activeManagerFilter = e.target.value || 'all';
+      applyOrgFilters();
+    });
+  }
+
+  orgFilterTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      orgFilterTabs.forEach((t) => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      activeOrgFilter = tab.getAttribute('data-org-filter') || 'all';
+      applyOrgFilters();
+    });
+  });
+
+  orgItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      orgItems.forEach((el) => {
+        el.classList.remove('is-active');
+        el.setAttribute('aria-selected', 'false');
+      });
+      item.classList.add('is-active');
+      item.setAttribute('aria-selected', 'true');
+
+      const name = item.getAttribute('data-org-name');
+      const ceo = item.getAttribute('data-org-ceo');
+      const manager = item.getAttribute('data-org-manager');
+      const channel = item.getAttribute('data-org-channel');
+      const dateStr = item.getAttribute('data-org-date');
+      const fee = item.getAttribute('data-org-fee');
+      const overdue = item.getAttribute('data-org-overdue');
+      const days = item.getAttribute('data-org-days');
+      const collected = item.getAttribute('data-org-collected');
+      const remaining = item.getAttribute('data-org-remaining');
+
+      const mainBranchName = document.querySelector('.branch-select-name');
+      if (mainBranchName && name) mainBranchName.textContent = name;
+
+      const dateBadge = document.querySelector('.merchant-header-left .status-badge');
+      if (dateBadge && dateStr) dateBadge.textContent = dateStr;
+
+      const metaVals = document.querySelectorAll('.merchant-meta-list .meta-v');
+      if (metaVals.length >= 3) {
+        if (ceo) metaVals[0].textContent = ceo;
+        if (manager) metaVals[1].textContent = manager;
+        if (channel) metaVals[2].textContent = channel;
+      }
+
+      const feeTag = document.querySelector('.fee-rate-tag');
+      if (feeTag && fee) feeTag.textContent = `수수료율 ${fee}`;
+
+      const overdueTag = document.getElementById('topOverdueStatusTag');
+      if (overdueTag) {
+        if (overdue) {
+          overdueTag.style.display = '';
+          overdueTag.innerHTML = `<span class="overdue-dot" aria-hidden="true"></span>${overdue}`;
+        } else {
+          overdueTag.style.display = 'none';
+        }
+      }
+
+      const summarySpans = document.querySelectorAll('.repayment-collapsed-summary span');
+      if (summarySpans.length >= 5) {
+        if (days) summarySpans[0].textContent = days;
+        if (collected) summarySpans[2].innerHTML = `회수 <strong>${collected}</strong>`;
+        if (remaining) summarySpans[4].innerHTML = `잔여 <strong>${remaining}</strong>`;
+      }
+
+      if (typeof showNotificationToast === 'function' && name) {
+        showNotificationToast(`기관 선택: ${name}`);
+      }
+    });
   });
 })();
